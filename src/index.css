@@ -31,3 +31,9 @@ time, mark, audio, video {
     font-size: 100%;
     vertical-align: baseline;
 }
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0; 
+}

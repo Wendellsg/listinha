@@ -28,7 +28,7 @@ export default function Lists(){
 
 
     return <div className="ListsContainer">
-        <Header/>
+        <Header name='Listinhas'/>
         <NewList/>
         <br/>
         <h2 className='subtitle'>Listinhas criadas</h2>
