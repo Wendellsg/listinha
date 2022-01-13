@@ -1,0 +1,10 @@
+.ListsContainer{
+    display: flex;
+    height: 375px;
+    align-items: center;
+    justify-content: center;
+}
+
+.subtitle{
+    margin-top: 20px;
+}

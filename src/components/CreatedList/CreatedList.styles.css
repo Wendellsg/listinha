@@ -1,0 +1,45 @@
+.CreatedListContainer{
+        transition: 300ms;
+        display: flex;
+        width: 340px;
+        height: 48px;
+        background: linear-gradient(264.89deg, #FFD29F 0%, #FFA843 100%);
+        box-shadow: 0px 4px 4px #FFD29F;
+        border-radius: 21px;
+        justify-content: space-between;
+        align-items: center;
+        color: #FFF;
+        margin: 10px;
+        padding: 0px 15px;
+        cursor: pointer;
+}
+.CreatedListContainer:hover{
+    transition: 300ms;
+    transform: scale(1.1);
+}
+
+.bin{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 35%;
+    height: 40px;
+    width: 40px;
+}
+
+.bin img{
+    height: 60%;
+    width: 60%;
+}
+
+.bin:active{
+    background-color: #FFA843;
+    transition: 300ms;
+    transform: scale(0.9);
+}
+
+.bin:hover{
+    background-color: #FFA843;
+    transition: 300ms;
+    transform: scale(1.1);
+}
