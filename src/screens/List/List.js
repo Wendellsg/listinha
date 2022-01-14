@@ -2,7 +2,9 @@ import {useState, useEffect} from 'react'
 import Header from "../../components/header/header";
 import Plus from '../../assets/plus.png'
 import './List.styles.css'
-
+import DeleteIcon from '../../assets/deleteicon.png'
+import CheckIcon from '../../assets/check.png'
+import Categories from '../../data/categories';
 
 export default function List(){
 
@@ -10,18 +12,23 @@ export default function List(){
     const [itemQuantity, setItemQuantity] = useState(0)
     const [itemCategory, setItemCategory] = useState('Limpenza')
     const [itemMessury, setItemMessury] = useState('Unidade(s)')
-
     const [itens, setItens] = useState([])
+    const [update, setUpdate] = useState(0)
 
 
   
-      const SaveItemList = async(Lista)=>{
-          return localStorage.setItem("Lista", JSON.stringify(Lista))
+      const StorageNewItem = (NewList)=>{
+          return localStorage.setItem("Lista", JSON.stringify(NewList))
+      }
+
+      const getListStoraged = ()=>{
+        const ListStorage = JSON.parse(localStorage.getItem("Lista"))
+        return ListStorage
       }
   
       function AdicionarItem(){
           
-          const newitem =   {   
+        const newitem =   {   
               itemId: parseInt(Date.now()*98/5000),
               itemName: itemName,
               quantity: `${itemQuantity} ${itemMessury}`,
@@ -32,34 +39,45 @@ export default function List(){
           }
   
           let newList = [...itens, newitem]
-          setItens(newList)
-  
-          SaveItemList(itens)
-  
+          StorageNewItem(newList)
+        
         }
+
+    function HandleAdditem(){
+        AdicionarItem()
+        setUpdate(Date.now)
+    }    
+
           
       
   
-
-
-    const [ItemList, setItemList] = useState([{}])
-
-
     const Lista = {
         id: 2,
         name: 'Churras',
-        itens: ItemList,
+        itens: itens,
     }
-
-    const listinha = ItemList.map((item)=>
-    <div key={item.itemId} style={{display: 'flex'}}>
-        <h1>{item.itemName}</h1>
-        <h1>{item.quantity}</h1>
-        <h1>{item.category}</h1>
-    </div>
+    const CategorieOptions = Categories.map((category)=>
+        <option key={Categories.index} value={category}>{category}</option>
     )
 
+    const listinha = itens.map((item)=>
+    <li key={item.index} className='ListItem'>
+        <h1 className='ItemName'>{item.itemName}</h1>
+        <h1 className='ItemQuantity'>{item.quantity}</h1>
+        <div style={{display: 'flex'}}>
+        <div className='ItemIcons'>
+            <img src={DeleteIcon} alt='deletar'/>
+        </div>
+        <div className='ItemIcons'>
+            <img src={CheckIcon} alt='comprado'/>
+        </div>
+        </div>
+    </li>
+    )
 
+    useEffect(()=>{
+        setItens(getListStoraged())
+    },[update])
     return(
             <div>
                 <Header name={Lista.name}/>
@@ -85,9 +103,7 @@ export default function List(){
                           Categoria
                           </h2>
                           <select value={itemCategory} onChange={(e)=>setItemCategory(e.target.value)} className='NewItemSelect'>
-                              <option className='NewItemSelect' value='Limpeza'>Limpeza</option>
-                              <option value='Carnes'>Carnes</option>
-                              <option value='Higiênie'>Higiênie</option>
+                              {CategorieOptions}
                           </select> 
                       </div>
                       <div style={{marginTop: '10px'}}>
@@ -105,11 +121,12 @@ export default function List(){
                   
                  
               </div>
-              <div onClick={()=>AdicionarItem()} className='NewItemplusicon'>
+              <div onClick={()=>HandleAdditem()} className='NewItemplusicon'>
                   <img src={Plus} alt="adicionar"/>
               </div>            
-          </div>
-        
+                </div>
+            <h1 style={{fontSize: '24px', margin: '15px'}}>Itens</h1>
+            {listinha}
        
     </div>)
 }

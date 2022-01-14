@@ -1,6 +1,6 @@
-.NewListContainer{
+.NewItemContainer{
     width: 340px;
-    height: 93px;
+    height: 120px;
     background: linear-gradient(264.89deg, #86E4FD 0%, #47C8EC 100%);
     box-shadow: 0px 3px 7px 2px rgba(71, 200, 236, 0.5);
     border-radius: 21px;
@@ -13,36 +13,94 @@
     margin-top: 20px;
 }
 
-.newListForm{
+.NewItemForm{
     height: 100%;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     text-align: left;
-    justify-content: space-evenly;
+    justify-content: space-between;
+    font-size: 14px;
 }
-.Newlistplusicon{
+
+.NewItemplusicon{
+    
     transition: 300ms;
     height: 44px;
     width: 44px;
+    cursor: pointer;
 }
-.Newlistplusicon:active{
+.Newitemplusicon:active{
     transition: 300ms;
     transform: scale(0.9);
 }
-.Newlistplusicon:hover{
+.NewItemplusicon:hover{
     transition: 300ms;
     transform: scale(1.1);
 }
-.Newlistplusicon img{
+.NewItemplusicon img{
     height: 100%;
     width: 100%;
 }
-.NewlistInput{
-    width: 180px;
+.NewItemInput{
+    margin-top: 5px;
+    width: 100px;
     height: 32px;
     border: 1px solid #30A4AB;
     box-sizing: border-box;
     border-radius: 7px;
     outline: #444; 
     padding: 10px; 
+}
+
+.NewItemSelect{
+    background-color: #FFF;
+    margin-top: 5px;
+    width: 100px;
+    height: 32px;
+    border: 1px solid #30A4AB;
+    box-sizing: border-box;
+    border-radius: 7px;
+    padding-left: 5px ;
+    font-weight: 500;
+}
+
+
+/* Estilização da lista de itens */
+
+.ListItem{
+    display: flex;
+    width: 340px;
+    padding: 5px 15px;
+    text-align: left;
+    border-bottom: dotted 1px #47C8EC;
+    margin: 10px;
+    justify-content: space-between;
+}
+
+.ItemName{
+    font-family: 'Raleway';
+    width: 150px;
+    font-weight: 700;
+    font-size: 18px;
+
+}
+.ItemQuantity{
+    text-align: left;
+    width: 100px;
+}
+.ItemIcons{
+    transition: 300ms;
+    cursor: pointer;
+    margin: auto 5px;
+}
+
+.ItemIcon:hover{
+    transition: 300ms;
+    transform: scale(1.1);
+
+}
+
+.ItemIcon:active{
+    transition: 300ms;
+    transform: scale(0.9);
 }

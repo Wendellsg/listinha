@@ -23,7 +23,7 @@ export default function Lists(){
         },
     ]
     const ListsCreateds = ListsData.map((createdlist)=>
-        <CreatedList listname={createdlist.Nome} listdate={createdlist.Data} listitens={createdlist.Itens}/>
+        <CreatedList key={createdlist.index} listname={createdlist.Nome} listdate={createdlist.Data} listitens={createdlist.Itens}/>
     )
 
 
