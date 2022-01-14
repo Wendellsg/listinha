@@ -2,38 +2,16 @@ import Header from '../../components/header/header'
 import NewList from "../../components/NewList/NewList";
 import CreatedList from '../../components/CreatedList/CreatedList';
 import { useEffect, useState } from 'react';
-import { useNavigate } from "react-router-dom";
+
 
 export default function Lists(){
 
     const [listsData, setListsData] = useState([])
     const [update, setUpdate] = useState(0)
-    const navigate = useNavigate();
-    
-    
-    
-    /* [
-        {
-        id: 1,
-        Nome: 'Jantar Romantico',
-        Data: '15/02/2021',
-        Itens: '15'
-        },
-        {
-            id: 1,
-            Nome: 'Churras',
-            Data: '03/01/2022',
-            Itens: '18'
-        },
-        {
-            id: 1,
-            Nome: 'Compras do mês',
-            Data: '05/03/2021',
-            Itens: '36'
-        },
-    ] */
+
+
     const ListsCreateds = listsData.map((createdlist)=>
-        <CreatedList onClick={()=> navigate(`/lista/${createdlist.id}`)} key={createdlist.index} listname={createdlist.name} listdate={createdlist.created} /* listitens={createdlist.Itens} *//>
+        <CreatedList  key={createdlist.index} listname={createdlist.name} listdate={createdlist.created} id={createdlist.id}/* listitens={createdlist.Itens} *//>
     )
 
     function getLocalLists(){
