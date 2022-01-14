@@ -1,8 +1,18 @@
 import Header from '../../components/header/header'
 import NewList from "../../components/NewList/NewList";
 import CreatedList from '../../components/CreatedList/CreatedList';
+import { useEffect, useState } from 'react';
+import { useNavigate } from "react-router-dom";
+
 export default function Lists(){
-    const ListsData = [
+
+    const [listsData, setListsData] = useState([])
+    const [update, setUpdate] = useState(0)
+    const navigate = useNavigate();
+    
+    
+    
+    /* [
         {
         id: 1,
         Nome: 'Jantar Romantico',
@@ -21,15 +31,29 @@ export default function Lists(){
             Data: '05/03/2021',
             Itens: '36'
         },
-    ]
-    const ListsCreateds = ListsData.map((createdlist)=>
-        <CreatedList key={createdlist.index} listname={createdlist.Nome} listdate={createdlist.Data} listitens={createdlist.Itens}/>
+    ] */
+    const ListsCreateds = listsData.map((createdlist)=>
+        <CreatedList onClick={()=> navigate(`/lista/${createdlist.id}`)} key={createdlist.index} listname={createdlist.name} listdate={createdlist.created} /* listitens={createdlist.Itens} *//>
     )
+
+    function getLocalLists(){
+      const listdata = localStorage.getItem('Listas')
+    if(listdata!= null){
+      setListsData(JSON.parse(listdata))}
+      else{
+        setListsData([])
+      }
+    }
+
+    useEffect(()=>{
+        getLocalLists()
+    },[update])
+
 
 
     return <div className="ListsContainer">
         <Header name='Listinhas'/>
-        <NewList/>
+        <NewList setUpdate={setUpdate}/>
         <br/>
         <h2 className='subtitle'>Listinhas criadas</h2>
         <div>

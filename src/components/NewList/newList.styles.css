@@ -21,6 +21,7 @@
     justify-content: space-evenly;
 }
 .Newlistplusicon{
+    cursor: pointer;
     transition: 300ms;
     height: 44px;
     width: 44px;
@@ -38,6 +39,7 @@
     width: 100%;
 }
 .NewlistInput{
+    
     width: 180px;
     height: 32px;
     border: 1px solid #30A4AB;

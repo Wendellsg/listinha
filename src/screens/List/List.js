@@ -7,6 +7,7 @@ import CheckIcon from '../../assets/check.png'
 import Categories from '../../data/categories';
 import { useParams } from 'react-router-dom';
 
+
 export default function List(){
 
     const [itemName, setItemName] = useState('')
