@@ -5,6 +5,7 @@ import './List.styles.css'
 import DeleteIcon from '../../assets/deleteicon.png'
 import CheckIcon from '../../assets/check.png'
 import Categories from '../../data/categories';
+import { useParams } from 'react-router-dom';
 
 export default function List(){
 
@@ -14,6 +15,7 @@ export default function List(){
     const [itemMessury, setItemMessury] = useState('Unidade(s)')
     const [itens, setItens] = useState([])
     const [update, setUpdate] = useState(0)
+    const {id} = useParams()
 
 
   

@@ -2,7 +2,6 @@ import './newList.styles.css'
 import { Link } from 'react-router-dom'
 import Plus from '../../assets/plus.png'
 import { useState } from 'react'
-import { useEffect } from 'react/cjs/react.development'
 
 
 
@@ -12,37 +11,33 @@ export default function NewList(){
 const [listName, setListName] = useState('')
 const [lists, setLists] = useState('')
 
-function SaveLocalList(listname, List){
-    return localStorage.setItem(listname, JSON.stringify(List))
+function SaveLocalList(List){
+    return localStorage.setItem('Listas', JSON.stringify(List))
 }
 
-function getLocalLists(){
-   const localLists =  localStorage.getItem('Listas')
-   setLists(JSON.parse(localLists))
+function getLocalList(){
+    const localLists =  localStorage.setItem('Listas')
+    setLists(JSON.parse(localLists)) 
 }
 
-function SaveListofList(newListofList){
-    return localStorage.setItem('Listas', newListofList)
+const Lista = {
+    id: parseInt(Date.now()*5/350),
+    name: listName,
+    created:  Date(),
 }
 
 function handleCreateList(){
+    
+    getLocalList()
 
-    const Lista = {
-        id: parseInt(Date.now()*5/350),
-        name: listName,
-        created:  Date(),
-        itens: [],
-    }
+    
 
-    let newListofList = [...lists, Lista.id]
+    let newList = [...lists, Lista]
 
-    SaveListofList(newListofList)
-    SaveLocalList(Lista.id, Lista)
+    SaveLocalList(newList)
+    console.log(newList)
 }
 
-useEffect(()=>{
-    getLocalLists()
-},[])
 
     return(
         <div className='NewListContainer'>
@@ -52,7 +47,7 @@ useEffect(()=>{
                 </h2>
                 <input value={listName} onChange={(e)=>setListName(e.target.value)} placeholder='Nome da listinha' className='NewlistInput' type='text'/>
             </div>
-            <Link onClick={()=>handleCreateList()} to="#">
+            <Link onClick={()=>handleCreateList()} to={`/lista/${Lista.id}`}>
             <div className='Newlistplusicon'>
                 <img src={Plus} alt="adicionar"/>
             </div>

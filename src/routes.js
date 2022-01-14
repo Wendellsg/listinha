@@ -13,8 +13,9 @@ export default function Router(){
     <BrowserRouter>
         <Routes>
             <Route path="/" element={<Home />}/>
-            <Route path="/listas" element={<Lists />}/>
-            <Route path="/lista" element={<List />} />
+            <Route path="listas" element={<Lists />}/>
+            <Route path="/lista/:id" element={<List />} />
+            
         </Routes>
     </BrowserRouter>
 )
