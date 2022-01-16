@@ -5,7 +5,6 @@ import './List.styles.css'
 import DeleteIcon from '../../assets/deleteicon.png'
 import CheckIcon from '../../assets/check.png'
 import Categories from '../../data/categories';
-import { useParams } from 'react-router-dom';
 
 
 export default function List(){
@@ -27,29 +26,34 @@ export default function List(){
     const [itemCategory, setItemCategory] = useState('Limpenza')
     const [itemMessury, setItemMessury] = useState('Unidade(s)')
     const [update, setUpdate] = useState(0)
-    const {id} = useParams()
     const [listdata, setListsData] = useState(inicialLists)
     const [listIndex, setListIndex] = useState(0)
     const [listofPage, setListofPage] = useState(incialdata)
 
 
+    
 
     useEffect(()=>{
+        function getpagedata(){
+            var url_atual = window.location.href;
+            var pageid = /\/lista\/(\d+)/.exec(url_atual)    
+            const storaged = localStorage.getItem('Listas')
+            if(storaged!= null || undefined){
+            const parsed = JSON.parse(storaged)
+            setListsData(parsed)
+            //console.log(parsed)
+            const index = parsed.findIndex(list => list.id === parseInt(pageid[1]))
+            //console.log(index)
+            setListIndex(index)
+            const pagelist = parsed[index]
+            setListofPage(pagelist)
+            }
+            else{
+              setListsData([])
+            }
+        }
         
-        const storaged = localStorage.getItem('Listas')
-        if(storaged!= null || undefined){
-        const parsed = JSON.parse(storaged)
-        setListsData(parsed)
-        //console.log(parsed)
-        const index = parsed.findIndex(list => list.id === parseInt(id))
-        //console.log(index)
-        setListIndex(index)
-        const pagelist = parsed[index]
-        setListofPage(pagelist)
-        }
-        else{
-          setListsData([])
-        }
+        getpagedata()
       
              
     },[update])
