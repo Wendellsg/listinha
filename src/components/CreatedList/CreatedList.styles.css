@@ -1,3 +1,4 @@
+
 .CreatedListContainer{
         transition: 300ms;
         display: flex;
@@ -16,6 +17,15 @@
 .CreatedListContainer:hover{
     transition: 300ms;
     transform: scale(1.1);
+}
+
+.listLinkContainer{
+    display: flex;
+    width: 80%; 
+    height: 100%;
+    text-align: left;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .bin{

@@ -10,9 +10,7 @@ export default function Lists(){
     const [update, setUpdate] = useState(0)
 
 
-    const ListsCreateds = listsData.map((createdlist)=>
-        <CreatedList  key={createdlist.id} listname={createdlist.name} listdate={createdlist.created} id={createdlist.id}/* listitens={createdlist.Itens} *//>
-    )
+
 
     function getLocalLists(){
       const listdata = localStorage.getItem('Listas')
@@ -23,12 +21,32 @@ export default function Lists(){
       }
     }
 
+    function SaveLocalList(){
+      localStorage.setItem('Listas', JSON.stringify(listsData))
+      const listupdate = localStorage.getItem('Listas')
+      setListsData(JSON.parse(listupdate))
+  }
+
+    const RemoveList = (listID)=>{
+      //console.log('Vou remover a lista: ' + listID )
+      const index = listsData.findIndex(list => list.id === parseInt(listID))
+      let novoarray = listsData
+      novoarray.splice(index,1);
+      setListsData(novoarray)      
+      SaveLocalList()
+      setUpdate(Date.now)
+    }
+
+    const ListsCreateds = listsData.map((createdlist)=>
+    <CreatedList  key={createdlist.id} removefunction={RemoveList} listname={createdlist.name} listdate={createdlist.created} id={createdlist.id} listitens={createdlist}/>
+)
+
     useEffect(()=>{
         getLocalLists()
     },[update])
 
     const Verification = ()=>{
-      if(listsData!== undefined)
+      if(listsData!== undefined||null)
       {
         return ListsCreateds
       
