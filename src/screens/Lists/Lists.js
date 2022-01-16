@@ -11,7 +11,7 @@ export default function Lists(){
 
 
     const ListsCreateds = listsData.map((createdlist)=>
-        <CreatedList  key={createdlist.index} listname={createdlist.name} listdate={createdlist.created} id={createdlist.id}/* listitens={createdlist.Itens} *//>
+        <CreatedList  key={createdlist.id} listname={createdlist.name} listdate={createdlist.created} id={createdlist.id}/* listitens={createdlist.Itens} *//>
     )
 
     function getLocalLists(){

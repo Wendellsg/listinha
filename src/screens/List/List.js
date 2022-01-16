@@ -88,7 +88,7 @@ export default function List(){
           
     //
     const CategorieOptions = Categories.map((category)=>
-        <option key={Categories.category} value={category}>{category}</option>
+        <option key={category.id} value={category.name}>{category.name}</option>
     )
 
     const ItemList = ()=>{
