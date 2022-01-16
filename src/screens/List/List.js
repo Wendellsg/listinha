@@ -10,23 +10,54 @@ import { useParams } from 'react-router-dom';
 
 export default function List(){
 
+    const incialdata = {
+        id: 0,
+        name: 'Listinha',
+        created: 'Today',
+        itens: []
+    }
+
+    const inicialLists = [
+        {id:'0000'},
+        {id:'0000'}
+    ]
+
     const [itemName, setItemName] = useState('')
     const [itemQuantity, setItemQuantity] = useState(0)
     const [itemCategory, setItemCategory] = useState('Limpenza')
     const [itemMessury, setItemMessury] = useState('Unidade(s)')
-    const [itens, setItens] = useState([])
     const [update, setUpdate] = useState(0)
     const {id} = useParams()
+    const [listdata, setListsData] = useState(inicialLists)
+    const [listIndex, setListIndex] = useState(0)
+    const [listofPage, setListofPage] = useState(incialdata)
 
 
-  
-      const StorageNewItem = (NewList)=>{
-          return localStorage.setItem("Lista", JSON.stringify(NewList))
-      }
 
-      const getListStoraged = ()=>{
-        const ListStorage = JSON.parse(localStorage.getItem("Lista"))
-        return ListStorage
+    useEffect(()=>{
+        
+        const storaged = localStorage.getItem('Listas')
+        if(storaged!= null || undefined){
+        const parsed = JSON.parse(storaged)
+        setListsData(parsed)
+        //console.log(parsed)
+        const index = parsed.findIndex(list => list.id === parseInt(id))
+        //console.log(index)
+        setListIndex(index)
+        const pagelist = parsed[index]
+        setListofPage(pagelist)
+        }
+        else{
+          setListsData([])
+        }
+      
+             
+    },[update])
+
+      const StorageNewItem = async ()=>{
+            const updateindex = listdata
+            updateindex[listIndex] = listofPage
+            localStorage.setItem("Listas", JSON.stringify(updateindex))
       }
   
       function AdicionarItem(){
@@ -41,8 +72,11 @@ export default function List(){
   
           }
   
-          let newList = [...itens, newitem]
-          StorageNewItem(newList)
+          let newList = [...listofPage.itens, newitem]
+
+          listofPage.itens = newList
+
+          StorageNewItem()
         
         }
 
@@ -52,38 +86,33 @@ export default function List(){
     }    
 
           
-      
-  
-    const Lista = {
-        id: 2,
-        name: 'Churras',
-        itens: itens,
-    }
+    //
     const CategorieOptions = Categories.map((category)=>
-        <option key={Categories.index} value={category}>{category}</option>
+        <option key={category.id} value={category.name}>{category.name}</option>
     )
 
-    const listinha = itens.map((item)=>
-    <li key={item.index} className='ListItem'>
-        <h1 className='ItemName'>{item.itemName}</h1>
-        <h1 className='ItemQuantity'>{item.quantity}</h1>
-        <div style={{display: 'flex'}}>
-        <div className='ItemIcons'>
-            <img src={DeleteIcon} alt='deletar'/>
-        </div>
-        <div className='ItemIcons'>
-            <img src={CheckIcon} alt='comprado'/>
-        </div>
-        </div>
-    </li>
-    )
-
-    useEffect(()=>{
-        setItens(getListStoraged())
-    },[update])
+    const ItemList = ()=>{
+        if(listofPage.itens!==null||undefined){
+            return listofPage.itens.map((item)=>
+            <li key={item.itemId} className='ListItem'>
+                <h1 className='ItemName'>{item.itemName}</h1>
+                <h1 className='ItemQuantity'>{item.quantity}</h1>
+                <div style={{display: 'flex'}}>
+                <div className='ItemIcons'>
+                    <img src={DeleteIcon} alt='deletar'/>
+                </div>
+                <div className='ItemIcons'>
+                    <img src={CheckIcon} alt='comprado'/>
+                </div>
+                </div>
+            </li>
+            )}else{
+               return <h2>Adicione algum item</h2>
+            }
+    }
     return(
             <div>
-                <Header name={Lista.name}/>
+                <Header name={listofPage.name}/>
                 <div className='NewItemContainer'>
                 <div className='NewItemForm'>
                   <div  style={{flexDirection: 'column', marginRight: '20px'}}>
@@ -129,7 +158,9 @@ export default function List(){
               </div>            
                 </div>
             <h1 style={{fontSize: '24px', margin: '15px'}}>Itens</h1>
-            {listinha}
+            <ItemList/>
+            
+            
        
     </div>)
 }

@@ -11,12 +11,12 @@ export default function Lists(){
 
 
     const ListsCreateds = listsData.map((createdlist)=>
-        <CreatedList  key={createdlist.index} listname={createdlist.name} listdate={createdlist.created} id={createdlist.id}/* listitens={createdlist.Itens} *//>
+        <CreatedList  key={createdlist.id} listname={createdlist.name} listdate={createdlist.created} id={createdlist.id}/* listitens={createdlist.Itens} *//>
     )
 
     function getLocalLists(){
       const listdata = localStorage.getItem('Listas')
-    if(listdata!= null){
+    if(listdata!= null || undefined){
       setListsData(JSON.parse(listdata))}
       else{
         setListsData([])
@@ -27,7 +27,15 @@ export default function Lists(){
         getLocalLists()
     },[update])
 
-
+    const Verification = ()=>{
+      if(listsData!== undefined)
+      {
+        return ListsCreateds
+      
+      }else{
+        return <h2 className='subtitle'>Você ainda não criou nenhuma lista</h2>
+      }
+    }
 
     return <div className="ListsContainer">
         <Header name='Listinhas'/>
@@ -35,7 +43,7 @@ export default function Lists(){
         <br/>
         <h2 className='subtitle'>Listinhas criadas</h2>
         <div>
-            {ListsCreateds}
+            {Verification()}
         </div>
     </div>
 }
