@@ -8,7 +8,7 @@ import Categories from '../../data/categories';
 import { useParams } from 'react-router-dom';
 
 
-export default function List(){
+export default function List({}){
 
     const [itemName, setItemName] = useState('')
     const [itemQuantity, setItemQuantity] = useState(0)
@@ -17,16 +17,28 @@ export default function List(){
     const [itens, setItens] = useState([])
     const [update, setUpdate] = useState(0)
     const {id} = useParams()
+    const [listadapagina, setListaDaPagina] = useState({})
+    const listid = id
 
-
+    const getListStoraged = ()=>{
+        const ListStorage = JSON.parse(localStorage.getItem("Listas"))
+        const findItemsbyID = ListStorage.find(list => list.id === parseInt(listid))  
+        setListaDaPagina(findItemsbyID)
+        if(listadapagina.itens!=null||undefined){
+        setItens(listadapagina.itens)
+        }else{
+            setItens([])
+        }
+      }
   
       const StorageNewItem = (NewList)=>{
-          return localStorage.setItem("Lista", JSON.stringify(NewList))
-      }
-
-      const getListStoraged = ()=>{
-        const ListStorage = JSON.parse(localStorage.getItem("Lista"))
-        return ListStorage
+        const ListStorage = JSON.parse(localStorage.getItem("Listas"))
+        const newListaStorage = ListStorage.forEach((element, index) => {
+            if(element.id === listid) {
+                element[index] = NewList;
+            }
+        });
+          return localStorage.setItem("Listas", JSON.stringify(newListaStorage))
       }
   
       function AdicionarItem(){
@@ -42,7 +54,15 @@ export default function List(){
           }
   
           let newList = [...itens, newitem]
-          StorageNewItem(newList)
+          setItens(newList)
+
+          let newListadaPagina = {
+            id: listadapagina.id,
+            name: listadapagina.name,
+            created: listadapagina.created,
+            itens: itens
+          }
+          StorageNewItem(newListadaPagina)
         
         }
 
@@ -52,11 +72,11 @@ export default function List(){
     }    
 
           
-      
+    //
   
     const Lista = {
         id: 2,
-        name: 'Churras',
+        name: 'Listinha',
         itens: itens,
     }
     const CategorieOptions = Categories.map((category)=>
@@ -77,13 +97,13 @@ export default function List(){
         </div>
     </li>
     )
-
+    
     useEffect(()=>{
-        setItens(getListStoraged())
+        getListStoraged()
     },[update])
     return(
             <div>
-                <Header name={Lista.name}/>
+                <Header name={listadapagina.name}/>
                 <div className='NewItemContainer'>
                 <div className='NewItemForm'>
                   <div  style={{flexDirection: 'column', marginRight: '20px'}}>

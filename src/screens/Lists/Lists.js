@@ -16,7 +16,7 @@ export default function Lists(){
 
     function getLocalLists(){
       const listdata = localStorage.getItem('Listas')
-    if(listdata!= null){
+    if(listdata!= null || undefined){
       setListsData(JSON.parse(listdata))}
       else{
         setListsData([])
