@@ -152,6 +152,8 @@ export default function List(){
                               <option value='Unidade(s)'>Unidade(s)</option>
                               <option value='Kg(s)'>Kg(s)</option>
                               <option value='Pacote(s)'>Pacote(s)</option>
+                              <option value='Litro(s)'>Litro(s)</option>
+                              <option value='Metro(s)'>Metro(s)</option>
                           </select>  
                       </div>
                   </div>
