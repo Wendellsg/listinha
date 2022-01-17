@@ -2,9 +2,8 @@ import {useState, useEffect} from 'react'
 import Header from "../../components/header/header";
 import Plus from '../../assets/plus.png'
 import './List.styles.css'
-import DeleteIcon from '../../assets/deleteicon.png'
-import CheckIcon from '../../assets/check.png'
 import Categories from '../../data/categories';
+import CreatedItens from '../../components/CreatedItens/Createditens';
 
 
 export default function List(){
@@ -62,6 +61,8 @@ export default function List(){
             const updateindex = listdata
             updateindex[listIndex] = listofPage
             localStorage.setItem("Listas", JSON.stringify(updateindex))
+            setUpdate(Date.now)
+
       }
   
       function AdicionarItem(){
@@ -87,7 +88,27 @@ export default function List(){
     function HandleAdditem(){
         AdicionarItem()
         setUpdate(Date.now)
-    }    
+    }
+    
+    const HandleRemoveItem = (itemId)=>{
+        const index = listofPage.itens.findIndex(item => item.itemId === parseInt(itemId))
+        let novoarray = listofPage.itens
+        novoarray.splice(index,1);
+
+        listofPage.itens = novoarray
+
+        StorageNewItem()
+    }
+
+    const HandleSetBuyedItem = (itemId)=>{
+        console.log("Comprei o item: "+ itemId)
+        const index = listofPage.itens.findIndex(item => item.itemId === parseInt(itemId))
+        let novoarray = listofPage.itens
+        novoarray[index].buyed = true
+        listofPage.itens = novoarray
+
+        StorageNewItem()
+    }
 
           
     //
@@ -95,25 +116,6 @@ export default function List(){
         <option key={category.id} value={category.name}>{category.name}</option>
     )
 
-    const ItemList = ()=>{
-        if(listofPage.itens!==null||undefined){
-            return listofPage.itens.map((item)=>
-            <li key={item.itemId} className='ListItem'>
-                <h1 className='ItemName'>{item.itemName}</h1>
-                <h1 className='ItemQuantity'>{item.quantity}</h1>
-                <div style={{display: 'flex'}}>
-                <div className='ItemIcons'>
-                    <img src={DeleteIcon} alt='deletar'/>
-                </div>
-                <div className='ItemIcons'>
-                    <img src={CheckIcon} alt='comprado'/>
-                </div>
-                </div>
-            </li>
-            )}else{
-               return <h2>Adicione algum item</h2>
-            }
-    }
     return(
             <div>
                 <Header name={listofPage.name}/>
@@ -162,7 +164,7 @@ export default function List(){
               </div>            
                 </div>
             <h1 style={{fontSize: '24px', margin: '15px'}}>Itens</h1>
-            <ItemList/>
+            <CreatedItens itens={listofPage.itens} HandleRemoveItem={HandleRemoveItem} HandleSetBuyedItem={HandleSetBuyedItem}/>
             
             
        
