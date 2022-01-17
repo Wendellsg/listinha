@@ -42,6 +42,11 @@ function handleCreateList(){
     setUpdate(Math.random())
 }
 
+const handleKeyPress = (e) => {
+    if(e.key === 'Enter'){
+        handleCreateList()
+    }
+  }
 
 useEffect(()=>{
     getLocalList()
@@ -52,7 +57,7 @@ useEffect(()=>{
                 <h2>
                     Criar nova listinha
                 </h2>
-                <input value={listName} onChange={(e)=>setListName(e.target.value)} placeholder='Nome da listinha' className='NewlistInput' type='text'/>
+                <input onKeyPress={(e) => handleKeyPress(e)} value={listName} onChange={(e)=>setListName(e.target.value)} placeholder='Nome da listinha' className='NewlistInput' type='text'/>
             </div>
             <div onClick={()=>handleCreateList()}>
             <div className='Newlistplusicon'>

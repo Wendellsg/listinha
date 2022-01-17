@@ -1,0 +1,58 @@
+
+.ListItem{
+    display: flex;
+    width: 340px;
+    padding: 5px 15px;
+    text-align: left;
+    border-bottom: dotted 1px #47C8EC;
+    margin: 10px;
+    justify-content: space-between;
+}
+
+.ItemName{
+    font-family: 'Raleway';
+    font-weight: 700;
+    font-size: 18px;
+    white-space: nowrap;
+
+}
+.ItemQuantity{
+    text-align: left;
+    width: 100px;
+    white-space: nowrap;
+}
+.ItemIcons{
+    transition: 300ms;
+    cursor: pointer;
+    margin: auto 5px;
+}
+
+.ItemIcons:hover{
+    transition: 300ms;
+    transform: scale(1.1);
+
+}
+
+.ItemIcon:active{
+    transition: 300ms;
+    transform: scale(0.9);
+}
+
+.itembuyed{
+    display: flex;
+    font-size: 10px;
+    font-weight: 700;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+}
+
+.itembuyed p{
+    white-space: nowrap;
+}
+
+.itembuyed img{
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;
+}

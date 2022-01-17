@@ -4,14 +4,29 @@ import { useNavigate } from "react-router-dom";
 
 
 export default function CreatedList(props){
+
+
+    const Quantity = props.listitens.itens.length
+    const Plural = ()=> {
+        if(Quantity<=1){
+            return 'Item'
+        }else{
+            return 'Itens'
+        }
+    }
+
+
     const navigate = useNavigate();
     return(
-        <div onClick={()=> navigate(`/lista/${props.id}`)} className='CreatedListContainer'>
-            <h3 style={{width: '150px', textAlign: 'left'}}>{props.listname}</h3>
-            {/* <h3>{props.listdate}</h3> */}
-             {/* <h3>{props.listitens}</h3> */}
+        <div className='CreatedListContainer'>
+            <div onClick={()=> navigate(`/lista/${props.id}`)} className='listLinkContainer'>
+            <h3   >{props.listname}</h3>
+                 <h3>{props.listdate.substring(0,10)}</h3>
+              <h3>{`${Quantity} ${Plural()}`}</h3> 
+            </div>
+            
             <div className='bin'>
-                <img src={Bin} alt='apagar'/>
+                <img src={Bin} alt='apagar' onClick={()=>props.removefunction(props.id)}/>
             </div>
         </div>
     )
