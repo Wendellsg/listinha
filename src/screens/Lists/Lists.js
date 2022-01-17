@@ -25,6 +25,7 @@ export default function Lists(){
       localStorage.setItem('Listas', JSON.stringify(listsData))
       const listupdate = localStorage.getItem('Listas')
       setListsData(JSON.parse(listupdate))
+      setUpdate(Date.now)
   }
 
     const RemoveList = (listID)=>{
@@ -34,7 +35,7 @@ export default function Lists(){
       novoarray.splice(index,1);
       setListsData(novoarray)      
       SaveLocalList()
-      setUpdate(Date.now)
+      
     }
 
     const ListsCreateds = listsData.map((createdlist)=>
@@ -57,7 +58,7 @@ export default function Lists(){
 
     return <div className="ListsContainer">
         <Header name='Listinhas'/>
-        <NewList setUpdate={setUpdate}/>
+        <NewList setUpdate={setUpdate} update={update}/>
         <br/>
         <h2 className='subtitle'>Listinhas criadas</h2>
         <div>

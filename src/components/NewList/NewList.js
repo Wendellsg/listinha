@@ -2,7 +2,7 @@ import './newList.styles.css'
 import Plus from '../../assets/plus.png'
 import { useState, useEffect } from 'react'
 
-export default function NewList({setUpdate}){
+export default function NewList(props){
 
 
 const [listName, setListName] = useState('')
@@ -39,7 +39,7 @@ function handleCreateList(){
     SaveLocalList(newList)
     console.log(newList)
     getLocalList()
-    setUpdate(Math.random())
+    props.setUpdate(Math.random())
 }
 
 const handleKeyPress = (e) => {
@@ -50,7 +50,7 @@ const handleKeyPress = (e) => {
 
 useEffect(()=>{
     getLocalList()
-},[])
+},[props.update])
     return(
         <div className='NewListContainer'>
             <div className='newListForm'>
