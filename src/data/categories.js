@@ -21,7 +21,7 @@
    },
     {  id: "5",
       name:'Frios/Laticínios',
-      image: 'https://cdn-icons-png.flaticon.com/512/992/992710.png'
+      image: 'https://image.flaticon.com/icons/png/512/1236/1236976.png'
    },
     {  id: "6",
       name:'Hortifruti',
@@ -33,11 +33,11 @@
    },
     {  id: "8",
       name:'Diversos',
-      image: 'https://cdn.icon-icons.com/icons2/587/PNG/512/aa-battery_icon-icons.com_55330.png'
+      image: 'https://image.flaticon.com/icons/png/512/1255/1255745.png'
    },
    {  id: "9",
       name:'Higiêne',
-      image: 'https://cdn.icon-icons.com/icons2/2222/PNG/512/hygiene_toilet_paper_icon_134410.png'
+      image: 'https://image.flaticon.com/icons/png/512/1254/1254689.png'
    },
  ]
 
