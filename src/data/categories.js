@@ -1,31 +1,44 @@
  const Categories = [
     {  id: "0",
-       name:'Limpeza'
+       name:'Limpeza',
+       image: 'https://img.icons8.com/external-vitaliy-gorbachev-lineal-color-vitaly-gorbachev/60/000000/external-cleaning-labour-day-vitaliy-gorbachev-lineal-color-vitaly-gorbachev.png'
       },
     {  id: "1",
-       name:'Padaria'
+       name:'Padaria',
+       image: 'https://cdn-icons-png.flaticon.com/512/992/992710.png'
       },
     {  id: "2",
-      name:'Mercearia'
+      name:'Mercearia',
+      image: 'https://img.icons8.com/doodle/344/wheat--v1.png'
    },
     {  id: "3",
-      name:'Bebidas'
+      name:'Bebidas',
+      image: 'https://cdn.icon-icons.com/icons2/709/PNG/512/Drinks-33_icon-icons.com_61965.png'
    },
     {  id: "4",
-      name:'Carnes'
+      name:'Carnes',
+      image: 'https://cdn.icon-icons.com/icons2/1447/PNG/512/32380cutofmeat_98860.png'
    },
     {  id: "5",
-      name:'Frios/Laticínios'
+      name:'Frios/Laticínios',
+      image: 'https://cdn-icons-png.flaticon.com/512/992/992710.png'
    },
     {  id: "6",
-      name:'Hortifruti'
+      name:'Hortifruti',
+      image: 'https://cdn.icon-icons.com/icons2/2879/PNG/512/watermelon_food_fruit_icon_182567.png'
    },
     {  id: "7",
-      name:'Pet'
+      name:'Pet',
+      image: 'https://cdn.icon-icons.com/icons2/1465/PNG/512/441dogface_100527.png'
    },
     {  id: "8",
-      name:'Diversos'
-   }
+      name:'Diversos',
+      image: 'https://cdn.icon-icons.com/icons2/587/PNG/512/aa-battery_icon-icons.com_55330.png'
+   },
+   {  id: "9",
+      name:'Higiêne',
+      image: 'https://cdn.icon-icons.com/icons2/2222/PNG/512/hygiene_toilet_paper_icon_134410.png'
+   },
  ]
 
  export default Categories;

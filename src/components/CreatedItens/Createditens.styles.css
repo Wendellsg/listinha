@@ -4,7 +4,6 @@
     width: 340px;
     padding: 5px 15px;
     text-align: left;
-    border-bottom: dotted 1px #47C8EC;
     margin: 10px;
     justify-content: space-between;
 }
@@ -55,6 +54,25 @@
     width: 16px;
     height: 16px;
     margin-right: 5px;
+}
+
+.Categoryheader{
+    font-family: 'Raleway';
+    font-weight: 800;
+    text-align: left;
+    font-size: 20px;
+    line-height: 28px;
+
+}
+
+.CategoryImage{
+    margin-right: 10px;
+    margin-left: 10px;
+    height: 40px;
+    width: 40px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    
 }
 
 
