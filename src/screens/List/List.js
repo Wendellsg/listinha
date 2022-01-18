@@ -6,6 +6,7 @@ import Categories from '../../data/categories';
 import CreatedItens from '../../components/CreatedItens/Createditens';
 
 
+
 export default function List(){
 
     const incialdata = {
@@ -115,6 +116,10 @@ export default function List(){
     const CategorieOptions = Categories.map((category)=>
         <option key={category.id} value={category.name}>{category.name}</option>
     )
+
+
+
+ 
 
     return(
             <div>
