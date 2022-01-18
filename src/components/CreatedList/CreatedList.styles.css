@@ -53,3 +53,16 @@
     transition: 300ms;
     transform: scale(1.1);
 }
+
+
+
+@media (max-width: 320px)
+{
+.CreatedListContainer
+   {
+    max-width: 250px;;
+   }
+  .Listdate{
+      display: none;
+  } 
+}

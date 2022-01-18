@@ -126,7 +126,7 @@ export default function List(){
                           <h2>
                               Nome do item
                           </h2>
-                          <input value={itemName} onChange={(e)=>setItemName(e.target.value)} style={{width: '120px'}} placeholder='Nome do item' className='NewItemInput' type='text'/>   
+                          <input value={itemName} onChange={(e)=>setItemName(e.target.value)}  placeholder='Nome do item' className='NewItemInput NewItemNameinput' type='text'/>   
                       </div>
                       <div style={{marginTop: '10px'}}>
                           <h2>

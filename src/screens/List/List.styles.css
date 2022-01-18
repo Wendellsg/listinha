@@ -22,6 +22,8 @@
     font-size: 14px;
 }
 
+
+
 .NewItemplusicon{
     
     transition: 300ms;
@@ -52,6 +54,10 @@
     padding: 10px; 
 }
 
+.NewItemNameinput{
+    width: 120px;
+}
+
 .NewItemSelect{
     background-color: #FFF;
     margin-top: 5px;
@@ -65,4 +71,22 @@
 }
 
 
-/* Estilização da lista de itens */
+
+
+@media (max-width: 320px)
+{
+    .NewItemContainer
+   {
+    max-width: 250px;;
+   }
+   .NewItemNameinput{
+        width: 80px;
+    }
+    .NewItemInput{
+        width: 80px; 
+    }
+    .NewItemSelect{
+        width: 80px; 
+    }
+}
+

@@ -1,10 +1,13 @@
 .ListsContainer{
     display: flex;
-    height: 375px;
-    align-items: center;
+    height: 90%;
     justify-content: center;
+    flex-direction: column;
 }
 
 .subtitle{
-    margin-top: 20px;
+    margin-top: 40px;
 }
+
+
+@m

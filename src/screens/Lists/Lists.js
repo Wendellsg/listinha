@@ -2,6 +2,7 @@ import Header from '../../components/header/header'
 import NewList from "../../components/NewList/NewList";
 import CreatedList from '../../components/CreatedList/CreatedList';
 import { useEffect, useState } from 'react';
+import './Lists.styles.css'
 
 
 export default function Lists(){
@@ -47,7 +48,7 @@ export default function Lists(){
     },[update])
 
     const Verification = ()=>{
-      if(listsData!== undefined||null)
+      if(listsData.length>=1)
       {
         return ListsCreateds
       

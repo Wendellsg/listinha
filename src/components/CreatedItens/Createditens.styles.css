@@ -56,3 +56,17 @@
     height: 16px;
     margin-right: 5px;
 }
+
+
+@media (max-width: 320px)
+{
+    .ListItem
+   {
+    max-width: 250px;;
+   }
+   .ItemName, .itembuyed p, .ItemQuantity
+   {
+    white-space: pre-wrap
+   }
+
+}
