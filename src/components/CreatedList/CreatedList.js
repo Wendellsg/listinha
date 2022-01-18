@@ -20,7 +20,7 @@ export default function CreatedList(props){
     return(
         <div className='CreatedListContainer'> 
             <div onClick={()=> navigate(`/lista/${props.id}`)} className='listLinkContainer'>
-            <h3   >{props.listname}</h3>
+            <h3  className='CreateListName'>{props.listname}</h3>
                  <h3 className='Listdate'>{props.listdate.substring(0,10)}</h3>
               <h3>{`${Quantity} ${Plural()}`}</h3> 
             </div>

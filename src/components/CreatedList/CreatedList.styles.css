@@ -19,6 +19,10 @@
     transform: scale(1.1);
 }
 
+.CreateListName{
+    white-space: normal
+}
+
 .listLinkContainer{
     display: flex;
     width: 80%; 

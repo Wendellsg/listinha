@@ -18,7 +18,7 @@ export default function CreatedItens(props){
 
 
     const ItemList = ()=>{
-        if(itens!==null||undefined){
+        if(itens.length>=1){
             return itens.map((item)=>
             <li key={item.itemId} className='ListItem'>
                 <h1 className='ItemName' style={TextDecoration(item.buyed)}>{item.itemName}</h1>
