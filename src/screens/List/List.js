@@ -8,6 +8,7 @@ import CreatedItens from '../../components/CreatedItens/Createditens';
 
 
 export default function List(){
+    const inicialcategoty = 'Limpeza'
 
     const incialdata = {
         id: 0,
@@ -23,7 +24,7 @@ export default function List(){
 
     const [itemName, setItemName] = useState('')
     const [itemQuantity, setItemQuantity] = useState(0)
-    const [itemCategory, setItemCategory] = useState('Limpenza')
+    const [itemCategory, setItemCategory] = useState(inicialcategoty)
     const [itemMessury, setItemMessury] = useState('Unidade(s)')
     const [update, setUpdate] = useState(0)
     const [listdata, setListsData] = useState(inicialLists)
