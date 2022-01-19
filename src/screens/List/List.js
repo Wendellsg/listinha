@@ -173,7 +173,10 @@ export default function List(){
               </div>            
                 </div>
             <h1 style={{fontSize: '24px', margin: '15px'}}>Itens</h1>
-            <CreatedItens itens={listofPage.itens} HandleRemoveItem={HandleRemoveItem} HandleSetBuyedItem={HandleSetBuyedItem}/>
+            <div style={{minHeight: '65vh'}}>
+            <CreatedItens  className="ItensScrollList" itens={listofPage.itens} HandleRemoveItem={HandleRemoveItem} HandleSetBuyedItem={HandleSetBuyedItem}/>
+            </div>
+            
             
             
        

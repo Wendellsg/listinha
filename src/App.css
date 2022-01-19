@@ -3,6 +3,22 @@
   max-width: 375px;
   text-align: center;
   align-items: center;
+  flex-direction: column;
+}
+
+.creditos{
+  font-weight: bold;
+  position: relative;
+  bottom: 10px;
+}
+
+.creditos a:visited{
+  text-decoration: none;
+}
+
+.creditos a{
+  text-decoration: none;
+  color: #000;
 }
 
 

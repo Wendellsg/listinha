@@ -62,7 +62,7 @@ export default function Lists(){
         <NewList setUpdate={setUpdate} update={update}/>
         <br/>
         <h2 className='subtitle'>Listinhas criadas</h2>
-        <div>
+        <div style={{minHeight: '60vh'}}>
             {Verification()}
         </div>
     </div>
