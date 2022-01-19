@@ -10,6 +10,8 @@ import CreatedItens from '../../components/CreatedItens/Createditens';
 export default function List(){
     const inicialcategoty = 'Limpeza'
 
+    const inicialcategoty = 'Limpeza'
+
     const incialdata = {
         id: 0,
         name: 'Listinha',
@@ -172,7 +174,10 @@ export default function List(){
               </div>            
                 </div>
             <h1 style={{fontSize: '24px', margin: '15px'}}>Itens</h1>
-            <CreatedItens itens={listofPage.itens} HandleRemoveItem={HandleRemoveItem} HandleSetBuyedItem={HandleSetBuyedItem}/>
+            <div style={{minHeight: '65vh'}}>
+            <CreatedItens  className="ItensScrollList" itens={listofPage.itens} HandleRemoveItem={HandleRemoveItem} HandleSetBuyedItem={HandleSetBuyedItem}/>
+            </div>
+            
             
             
        

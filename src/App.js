@@ -4,7 +4,8 @@ import Router from './routes';
 function App() {
   return (
     <div className="App">
-      <Router/>
+      <Router />
+      <p className='creditos'>Feito com ❤️ por <a href='https://github.com/Wendellsg'>Wendell Guimarães 🤓</a></p>
     </div>
   );
 }
