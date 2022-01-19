@@ -8,7 +8,6 @@ import CreatedItens from '../../components/CreatedItens/Createditens';
 
 
 export default function List(){
-    const inicialcategoty = 'Limpeza'
 
     const inicialcategoty = 'Limpeza'
 
