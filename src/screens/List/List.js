@@ -4,7 +4,12 @@ import Plus from "../../assets/plus.png";
 import "./List.styles.css";
 import Categories from "../../data/categories";
 import CreatedItens from "../../components/CreatedItens/Createditens";
-import { GetList, AddNewItem, removeItem } from "../../api/MarketListApi";
+import {
+  GetList,
+  AddNewItem,
+  removeItem,
+  UpdateItemBuyed,
+} from "../../api/MarketListApi";
 
 export default function List() {
   const [itemName, setItemName] = useState("");
@@ -20,7 +25,7 @@ export default function List() {
     GetList(pageid[1]).then((res) => setListofPage(res));
   }, [update]);
 
- async function HandleAdditem() {
+  async function HandleAdditem() {
     const newitem = {
       _id: listofPage._id,
       name: itemName,
@@ -31,32 +36,33 @@ export default function List() {
     };
 
     await AddNewItem(newitem);
-    
-    setItemName('')
-    setItemQuantity(0)
-    setItemCategory(Categories[0])
-    setItemMessury("Unidade(s)")
+
+    setItemName("");
+    setItemQuantity(0);
+    setItemCategory(Categories[0]);
+    setItemMessury("Unidade(s)");
 
     setUpdate(Date.now());
   }
 
-  const  HandleRemoveItem = async (itemId) => {
+  const HandleRemoveItem = async (itemId) => {
     let itemToRemove = {
       _id: listofPage._id,
       itemId: itemId,
     };
-   await removeItem(itemToRemove);
+    await removeItem(itemToRemove);
     setUpdate(Date.now());
   };
 
-  const HandleSetBuyedItem = (itemId) => {
+  const HandleSetBuyedItem = async (itemId, state) => {
     console.log("Comprei o item: " + itemId);
-    const index = listofPage.itens.findIndex(
-      (item) => item.itemId === parseInt(itemId)
-    );
-    let novoarray = listofPage.itens;
-    novoarray[index].buyed = true;
-    listofPage.itens = novoarray;
+    let itemToUpdate = {
+      _id: listofPage._id,
+      itemId: itemId,
+      state: state,
+    };
+   await UpdateItemBuyed(itemToUpdate);
+   setUpdate(Date.now());
   };
 
   //
