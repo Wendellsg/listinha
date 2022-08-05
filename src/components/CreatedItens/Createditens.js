@@ -19,15 +19,15 @@ export default function CreatedItens(props){
 
     const ItemList = ()=>{
         if(itens!==null||undefined){
-            return itens.map((item)=>
+            return itens?.map((item)=>
             <li key={item.itemId} className='ListItem'>
-                <h1 className='ItemName' style={TextDecoration(item.buyed)}>{item.itemName}</h1>
+                <h1 className='ItemName' style={TextDecoration(item.buyed)}>{item.name}</h1>
                 <h1 className='ItemQuantity'style={TextDecoration(item.buyed)}>{item.quantity}</h1>
                 <div style={item.buyed?({display: 'none'}):({display: 'flex'})}>
-                    <div onClick={()=>props.HandleRemoveItem(item.itemId)} className='ItemIcons'>
+                    <div onClick={()=>props.HandleRemoveItem(item.id)} className='ItemIcons'>
                         <img src={DeleteIcon} alt='deletar' />
                     </div>
-                    <div onClick={()=>props.HandleSetBuyedItem(item.itemId)} className='ItemIcons'>
+                    <div onClick={()=>props.HandleSetBuyedItem(item.id)} className='ItemIcons'>
                         <img src={CheckIcon} alt='comprado'/>
                     </div>
                 </div>
