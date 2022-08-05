@@ -4,7 +4,7 @@ import Plus from "../../assets/plus.png";
 import "./List.styles.css";
 import Categories from "../../data/categories";
 import CreatedItens from "../../components/CreatedItens/Createditens";
-import { GetList } from "../../api/MarketListApi";
+import { GetList, AddNewItem, removeItem } from "../../api/MarketListApi";
 
 export default function List() {
   const [itemName, setItemName] = useState("");
@@ -16,39 +16,37 @@ export default function List() {
 
   useEffect(() => {
     var url_atual = window.location.href;
-    var pageid =  /\lista\/?(.*)/i.exec(url_atual);
-
-    GetList(pageid[1]).then(res => setListofPage(res));
+    var pageid = /lista\/?(.*)/i.exec(url_atual);
+    GetList(pageid[1]).then((res) => setListofPage(res));
   }, [update]);
 
-
-  function AdicionarItem() {
+ async function HandleAdditem() {
     const newitem = {
-      itemName: itemName,
-      quantity: `${itemQuantity} ${itemMessury}`,
+      _id: listofPage._id,
+      name: itemName,
+      quantity: itemQuantity,
       buyed: false,
       category: itemCategory,
+      measure: itemMessury,
     };
 
-    let newList = [...listofPage.itens, newitem];
+    await AddNewItem(newitem);
+    
+    setItemName('')
+    setItemQuantity(0)
+    setItemCategory(Categories[0])
+    setItemMessury("Unidade(s)")
 
-    listofPage.itens = newList;
-
+    setUpdate(Date.now());
   }
 
-  function HandleAdditem() {
-    AdicionarItem();
-    setUpdate(Date.now);
-  }
-
-  const HandleRemoveItem = (itemId) => {
-    const index = listofPage.itens.findIndex(
-      (item) => item.itemId === parseInt(itemId)
-    );
-    let novoarray = listofPage.itens;
-    novoarray.splice(index, 1);
-
-    listofPage.itens = novoarray;
+  const  HandleRemoveItem = async (itemId) => {
+    let itemToRemove = {
+      _id: listofPage._id,
+      itemId: itemId,
+    };
+   await removeItem(itemToRemove);
+    setUpdate(Date.now());
   };
 
   const HandleSetBuyedItem = (itemId) => {
@@ -128,11 +126,18 @@ export default function List() {
         </div>
       </div>
       <h1 style={{ fontSize: "24px", margin: "15px" }}>Itens</h1>
-      <CreatedItens
-        itens={listofPage?.items}
-        HandleRemoveItem={HandleRemoveItem}
-        HandleSetBuyedItem={HandleSetBuyedItem}
-      />
+
+      {listofPage &&
+        listofPage.items.map((item, index) => {
+          return (
+            <CreatedItens
+              key={item._id}
+              item={item}
+              HandleRemoveItem={HandleRemoveItem}
+              HandleSetBuyedItem={HandleSetBuyedItem}
+            />
+          );
+        })}
     </div>
   );
 }

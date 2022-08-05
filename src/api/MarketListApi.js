@@ -32,9 +32,57 @@ export async function GetLists(ownerId){
 export async function GetList(listId){
     try {
        const list =  await axios.get(`${apiUrl}/get-lists?listId=${listId}`)
-       console.log(list.data)
         return list.data[0]
     } catch (error) {
         console.log(error)
     }
+}
+
+
+export async function RemoveList(listId){
+    try {
+        await axios.get(`${apiUrl}/remove-list?listId=${listId}`)
+        return true
+    } catch (error) {
+        console.log(error)
+        return false 
+    }
+}
+
+
+export async function AddNewItem(item){
+    let headers = {
+        headers: { 
+            'Content-Type': 'application/json'
+          },
+    }
+
+    let body = JSON.stringify(item)
+    try {
+        const addResponse =  await axios.post(`${apiUrl}/add-item`,body, headers)
+        console.log(addResponse)
+         return true
+     } catch (error) {
+        console.log(error)
+        return null
+     }
+}
+
+
+export async function removeItem(item){
+    let headers = {
+        headers: { 
+            'Content-Type': 'application/json'
+          },
+    }
+
+    let body = JSON.stringify(item)
+    try {
+        const addResponse =  await axios.post(`${apiUrl}/remove-item`,body, headers)
+        console.log(addResponse)
+         return true
+     } catch (error) {
+        console.log(error)
+        return null
+     }
 }

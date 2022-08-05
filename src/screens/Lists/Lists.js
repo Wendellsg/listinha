@@ -2,31 +2,20 @@ import Header from "../../components/header/header";
 import NewList from "../../components/NewList/NewList";
 import CreatedList from "../../components/CreatedList/CreatedList";
 import { useEffect, useState } from "react";
-import { GetLists } from "../../api/MarketListApi";
+import { GetLists, RemoveList } from "../../api/MarketListApi";
 
 export default function Lists() {
   const [listsData, setListsData] = useState([]);
   const [update, setUpdate] = useState(0);
 
-  function SaveLocalList() {
-    localStorage.setItem("Listas", JSON.stringify(listsData));
-    const listupdate = localStorage.getItem("Listas");
-    setListsData(JSON.parse(listupdate));
-  }
-
-  const RemoveList = (listID) => {
-    //console.log('Vou remover a lista: ' + listID )
-    const index = listsData.findIndex((list) => list.id === parseInt(listID));
-    let novoarray = listsData;
-    novoarray.splice(index, 1);
-    setListsData(novoarray);
-    SaveLocalList();
+  const HandleRemoveList = async (listID) => {
+    await RemoveList(listID)
     setUpdate(Date.now);
   };
 
   useEffect(() => {
     GetLists("1").then((res) => setListsData(res));
-  }, []);
+  }, [update]);
 
   return (
     <div className="ListsContainer">
@@ -42,7 +31,7 @@ export default function Lists() {
             return (
               <CreatedList
                 key={list._id}
-                removefunction={RemoveList}
+                removefunction={HandleRemoveList}
                 listname={list.name}
                 listdate={list.createdAt}
                 id={list._id}
