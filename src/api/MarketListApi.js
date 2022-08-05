@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const apiUrl ='http://localhost:9000'
+const apiUrl =process.env.REACT_APP_API_URL
 
 export async function createList(list){
     let headers = {
