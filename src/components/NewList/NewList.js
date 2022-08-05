@@ -1,6 +1,7 @@
 import './newList.styles.css'
 import Plus from '../../assets/plus.png'
 import { useState, useEffect } from 'react'
+import {createList} from '../../api/MarketListApi'
 
 export default function NewList({setUpdate}){
 
@@ -8,9 +9,6 @@ export default function NewList({setUpdate}){
 const [listName, setListName] = useState('')
 const [lists, setLists] = useState([])
 
-function SaveLocalList(List){
-    localStorage.setItem('Listas', JSON.stringify(List))
-}
 
 function getLocalList(){
     const localLists =  localStorage.getItem('Listas')
@@ -21,24 +19,14 @@ function getLocalList(){
     }
 }
 
-const Lista = {
-    id: parseInt(Date.now()*5/350),
-    name: listName,
-    created: new Date(),
-    itens: [],
-}
+
 
 function handleCreateList(){
-    
-    getLocalList()
-
-    
-
-    let newList = [...lists, Lista]
-
-    SaveLocalList(newList)
-    console.log(newList)
-    getLocalList()
+    const Lista = {
+        name: listName,
+        ownerId: '1'
+    }
+    createList(Lista)
     setUpdate(Math.random())
 }
 
