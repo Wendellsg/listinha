@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const apiUrl ='http://localhost:9000'
+const apiUrl =process.env.REACT_APP_API_URL
 
 export async function createList(list){
     let headers = {
@@ -79,6 +79,25 @@ export async function removeItem(item){
     let body = JSON.stringify(item)
     try {
         const addResponse =  await axios.post(`${apiUrl}/remove-item`,body, headers)
+        console.log(addResponse)
+         return true
+     } catch (error) {
+        console.log(error)
+        return null
+     }
+}
+
+
+export async function UpdateItemBuyed(item){
+    let headers = {
+        headers: { 
+            'Content-Type': 'application/json'
+          },
+    }
+
+    let body = JSON.stringify(item)
+    try {
+        const addResponse =  await axios.post(`${apiUrl}/update-item-buyed`,body, headers)
         console.log(addResponse)
          return true
      } catch (error) {

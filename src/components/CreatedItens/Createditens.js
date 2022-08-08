@@ -28,7 +28,7 @@ export default function CreatedItens({
         <div onClick={() => HandleRemoveItem(item._id)} className="ItemIcons">
           <img src={DeleteIcon} alt="deletar" />
         </div>
-        <div onClick={() => HandleSetBuyedItem(item._id)} className="ItemIcons">
+        <div onClick={() => HandleSetBuyedItem(item._id, !item.buyed)} className="ItemIcons">
           <img src={CheckIcon} alt="comprado" />
         </div>
       </div>
