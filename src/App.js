@@ -1,11 +1,14 @@
-import './App.css';
-import Router from './routes';
+import "./App.css";
+import Router from "./routes";
+import AuthProvider from "./contexts/AuthContext";
 //import Footer from './components/footer/footer';
 function App() {
   return (
-    <div className="App">
-      <Router/>
-    </div>
+    <AuthProvider>
+      <div className="App">
+        <Router />
+      </div>
+    </AuthProvider>
   );
 }
 

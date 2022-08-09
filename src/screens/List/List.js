@@ -39,9 +39,6 @@ export default function List() {
 
     setItemName("");
     setItemQuantity(0);
-    setItemCategory(Categories[0]);
-    setItemMessury("Unidade(s)");
-
     setUpdate(Date.now());
   }
 
@@ -50,6 +47,7 @@ export default function List() {
       _id: listofPage._id,
       itemId: itemId,
     };
+    console.log(itemToRemove)
     await removeItem(itemToRemove);
     setUpdate(Date.now());
   };
