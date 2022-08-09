@@ -1,4 +1,4 @@
-.homeContainer {
+.CreateAccountContainer {
   height: 80vh;
   width: 100vw;
   background-repeat: no-repeat;
@@ -7,7 +7,7 @@
   background-size: contain;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   padding: 30px;
 }

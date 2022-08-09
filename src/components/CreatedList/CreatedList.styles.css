@@ -14,10 +14,6 @@
         padding: 0px 15px;
         cursor: pointer;
 }
-.CreatedListContainer:hover{
-    transition: 300ms;
-    transform: scale(1.1);
-}
 
 .listLinkContainer{
     display: flex;

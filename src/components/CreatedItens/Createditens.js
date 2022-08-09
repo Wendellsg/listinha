@@ -39,7 +39,7 @@ export default function CreatedItens({
         <img src={Carrinho} alt="deletar" />
         <p>No carrinho</p>
         <div
-          onClick={() => HandleRemoveItem(item.itemId)}
+          onClick={() => HandleRemoveItem(item._id)}
           className="ItemIcons"
         >
           <img src={DeleteIcon} alt="deletar" />
