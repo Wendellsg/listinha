@@ -35,7 +35,7 @@ export default function Lists() {
         {!listsData.length? (
           <h2 className="subtitle">Você ainda não criou nenhuma lista</h2>
         ) : (
-          listsData?.map((list) => {
+          listsData?.map((list, index) => {
             return (
               <CreatedList
                 key={list._id}
@@ -44,6 +44,8 @@ export default function Lists() {
                 listdate={list.createdAt}
                 id={list._id}
                 listitens={list.items}
+                index={index}
+
               />
             );
           })

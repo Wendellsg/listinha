@@ -10,3 +10,10 @@
     margin-left: 10px;
     margin-right: 10px;
 }
+
+.LogoutButton{
+    margin-left: auto;
+    font-size: 15px;
+    cursor: pointer;
+    font-weight: bold;
+}

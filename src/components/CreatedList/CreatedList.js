@@ -23,7 +23,7 @@ export default function CreatedList(props) {
 
   const navigate = useNavigate();
   return (
-    <div className="CreatedListContainer">
+    <li className={`CreatedListContainer list-${Math.floor(Math.random() * (5 - 1) + 1)}`}>
       <div
         onClick={() => navigate(`/lista/${props.id}`)}
         className="listLinkContainer"
@@ -39,6 +39,6 @@ export default function CreatedList(props) {
           onClick={() => props.removefunction(props.id)}
         />
       </div>
-    </div>
+    </li>
   );
 }
