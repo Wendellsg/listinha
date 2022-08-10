@@ -1,57 +1,36 @@
-import "./CreateAccount.styles.css";
+import "./ChangePassword.styles.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { CreateUser } from "../../api/MarketListApi";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-export default function CreateAccount() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+
+export default function ChangePassword() {
   const [password, setPassword] = useState("");
   const [passwordVerify, setPasswordVerify] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  
 
-  async function HandleCreate() {
-    if (name === "" || email === "" || password === "") return;
-    if (password !== passwordVerify) return;
+  async function handleChanePassWord() {
+    if (password === "") return;
 
-    let userPayload = {
-      name: name,
-      email: email,
-      password: password,
-    };
-
-    await CreateUser(userPayload);
-    setEmail("");
-    setPassword("");
-    navigate("/");
+    console.log(password);
+   /*  navigate('/') */
   }
 
   return (
-    <div className="CreateAccountContainer">
+    <div className="homeContainer">
       <div>
-        <h1>Crie sua conta</h1>
+        <h1>Reset sua senha</h1>
+        <p
+          className="LoginLabel"
+          style={{ marginLeft: "0", marginTop: "1rem", marginBottom: '2rem' }}
+        >
+          Informe o e-mail para enviarmos o link de reset de senha.
+        </p>
       </div>
 
       <div className="loginCredencials">
-        <label className="LoginLabel">Nome</label>
-        <input
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Seu nome"
-          className="loginInput"
-          type={"text"}
-        />
-        <label className="LoginLabel">Email</label>
-        <input
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Seu Email"
-          className="loginInput"
-          type={"email"}
-        />
-        <label className="LoginLabel">Senha</label>
-        <div style={{ position: "relative" }}>
+      <div style={{ position: "relative" }}>
           <input
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -106,10 +85,10 @@ export default function CreateAccount() {
       <div
         className="btnHome"
         onClick={() => {
-          HandleCreate();
+          handleChanePassWord();
         }}
       >
-        <h2>Criar conta</h2>
+        <h2>Enviar</h2>
       </div>
     </div>
   );
