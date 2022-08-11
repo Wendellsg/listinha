@@ -3,8 +3,18 @@ import Home from "./screens/Home/Home";
 import Lists from "./screens/Lists/Lists";
 import List from "./screens/List/List";
 import CreateAccount from "./screens/CreateAccount/CreateAccount"
+import ResetPassword from './screens/ResetPassword/ResetPassword'
+import ChangePassword from './screens/ChangePassword/ChangePassword'
 
 import { useEffect } from "react";
+
+
+const publicPathsNames = [
+  '/create-account',
+  '/reset-password',
+ '/change-password',
+ '/'
+]
 
 // import your route components too
 export default function Router() {
@@ -16,7 +26,7 @@ export default function Router() {
      return window.location.href = '/listas'
     }
    
-    if((!token && pathname !== '/' && pathname !== '/create-account')|| (token === 'null' && pathname !== '/' && pathname !== '/create-account')){
+    if((!token || token === 'null') && !publicPathsNames.includes(pathname)){
       window.location.href = '/'
     }
   },[])
@@ -27,7 +37,9 @@ export default function Router() {
         <Route path="/" element={<Home />} />
         <Route path="listas" element={<Lists />} />
         <Route path="/lista/:id" element={<List />} />
-        <Route path="/create-account/" element={<CreateAccount />} />
+        <Route path="/create-account" element={<CreateAccount />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/change-password" element={<ChangePassword />} />
       </Routes>
     </BrowserRouter>
   );

@@ -131,7 +131,6 @@ export async function Login(credencials) {
   }
 }
 
-
 export async function CreateUser(credencials) {
   let headers = {
     headers: {
@@ -147,6 +146,42 @@ export async function CreateUser(credencials) {
     return true;
   } catch (error) {
     console.log(error);
+    return null;
+  }
+}
+
+export async function sendResetPassword(credencials) {
+  let headers = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  let body = JSON.stringify(credencials);
+  try {
+    await axios.post(`${apiUrl}/reset-password`, body, headers);
+    return true;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
+
+
+export async function sendChangePassword(credencials) {
+  let headers = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  let body = JSON.stringify(credencials);
+  try {
+   await axios.post(`${apiUrl}/change-password`, body, headers).then(res=> console.log(res.data?.message));
+    
+    return true;
+  } catch (error) {
+    console.log(error.response.data.message);
     return null;
   }
 }

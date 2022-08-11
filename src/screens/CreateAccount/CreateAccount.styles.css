@@ -12,90 +12,13 @@
   padding: 30px;
 }
 
-.homeContainer h1 {
-  font-family: Raleway;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 30px;
-  line-height: 35px;
-  color: #000000;
-  margin: 10px;
-}
-
-.btnHome {
-  transition: 300ms;
-  width: 262px;
-  height: 45px;
-  background: linear-gradient(264.89deg, #86e4fd 0%, #47c8ec 100%);
-  box-shadow: 0px 3px 7px 2px rgba(71, 200, 236, 0.5);
-  border-radius: 21px;
-  text-decoration: none;
-  font-family: Raleway;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 20px;
-  line-height: 42px;
-  text-align: center;
-  color: #ffffff;
-  align-items: center;
-  display: flex;
-  justify-content: center;
+.ShowPassowordIcon{
+  position: absolute;
+  top: 13px;
+  right: 15px;
   cursor: pointer;
-  margin-top: 2rem;
-  padding: 0 1rem;
 }
 
-.loginCredencials {
-  display: flex;
-  flex-direction: column;
-  text-align: left;
-}
-
-.loginInput {
-  box-shadow: 0px 3px 7px 2px rgba(71, 200, 236, 0.5);
-  border: 1px solid #30a4ab;
-  border-radius: 21px;
-  width: 256px;
-  height: 42px;
-  padding: 0 1rem;
-  outline: none;font-style: normal;
-  font-weight: 700;
-  font-size: 14px;
-  line-height: 16px;
-  color: #000000;
-}
-
-.loginInput:focus{
-  border: 1px solid #FFD29F;
-  box-shadow:  0px 4px 4px #FFD29F;
-}
-
-.LoginLabel {
-  font-style: normal;
-  font-weight: 700;
-  font-size: 14px;
-  line-height: 16px;
-  margin-bottom: 0.5rem;
-  margin-top: 2rem;
-  margin-left: 15px;
-
-  color: #000000;
-}
-
-.HomeIllustration {
-  height: 250px;
-  width: auto;
-}
-
-.btnHome:hover {
-  transition: 300ms;
-  transform: scale(1.1);
-  background: linear-gradient(264.89deg, #86e4fd 0%, #73d2ec 100%);
-  box-shadow: 0px 4px 8px 3px rgba(71, 200, 236, 0.5);
-}
-
-.btnHome:active {
-  transition: 300ms;
-  transform: scale(0.9);
-  background: linear-gradient(264.89deg, #86e4fd 0%, #157691 100%);
+.ShowPassowordIcon:hover{
+  opacity: 0.7;
 }

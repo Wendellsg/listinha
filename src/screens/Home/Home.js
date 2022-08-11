@@ -15,6 +15,8 @@ export default function Home() {
       <div>
         <h1>Listinhas</h1>
         <img src={illustation} className="HomeIllustration"/>
+        <p className="LoginLabel" style={{marginLeft: '0', marginTop: '1rem'}}>Nunca mais esqueça os itens das suas comprinhas do mercado</p>
+      
       </div>
 
       <div className="loginCredencials">
@@ -55,12 +57,17 @@ export default function Home() {
       </div>
 
       <div
+      onClick={() => navigate(`/reset-password`)}
+      >
+        <p className="LoginLabel" style={{cursor: 'pointer', marginLeft: '0', marginTop: '1rem'}}>Esqueci minha senha</p>
+      </div>
+
+      <div
       onClick={() => navigate(`/create-account`)}
       >
         <p className="LoginLabel" style={{cursor: 'pointer', marginLeft: '0', marginTop: '1rem'}}>Ainda não tem uma conta?</p>
       </div>
 
-      <p className="LoginLabel" style={{marginLeft: '0', marginTop: '1rem'}}>Nunca mais esqueça os itens das suas comprinhas do mercado</p>
     </div>
   );
 }
