@@ -166,3 +166,22 @@ export async function sendResetPassword(credencials) {
     return null;
   }
 }
+
+
+export async function sendChangePassword(credencials) {
+  let headers = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  let body = JSON.stringify(credencials);
+  try {
+   await axios.post(`${apiUrl}/change-password`, body, headers).then(res=> console.log(res.data?.message));
+    
+    return true;
+  } catch (error) {
+    console.log(error.response.data.message);
+    return null;
+  }
+}

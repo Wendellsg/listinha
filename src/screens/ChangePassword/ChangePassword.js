@@ -1,20 +1,35 @@
 import "./ChangePassword.styles.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import { sendChangePassword } from "../../api/MarketListApi";
 
 export default function ChangePassword() {
   const [password, setPassword] = useState("");
   const [passwordVerify, setPasswordVerify] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [resetPasswordToken, setResetPasswordToken] = useState("");
+  const [resetPasswordEmail, setResetPasswordEmail] = useState("");
   const navigate = useNavigate();
-  
+
+  useEffect(() => {
+    const urlSerch = new URLSearchParams(window.location.search);
+    const token = urlSerch.get("token");
+    const email = urlSerch.get("email");
+    setResetPasswordToken(token);
+    setResetPasswordEmail(email);
+  }, []);
 
   async function handleChanePassWord() {
     if (password === "") return;
-
-    console.log(password);
-   /*  navigate('/') */
+    let changePasswordPayload = {
+      email: resetPasswordEmail,
+      token: resetPasswordToken,
+      newPassword: password,
+    };
+    await sendChangePassword(changePasswordPayload);
+    console.log(changePasswordPayload);
+    navigate('/')
   }
 
   return (
@@ -23,20 +38,20 @@ export default function ChangePassword() {
         <h1>Reset sua senha</h1>
         <p
           className="LoginLabel"
-          style={{ marginLeft: "0", marginTop: "1rem", marginBottom: '2rem' }}
+          style={{ marginLeft: "0", marginTop: "1rem", marginBottom: "2rem" }}
         >
           Informe o e-mail para enviarmos o link de reset de senha.
         </p>
       </div>
 
       <div className="loginCredencials">
-      <div style={{ position: "relative" }}>
+        <div style={{ position: "relative" }}>
           <input
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Sua senha"
             className="loginInput"
-            type={showPassword?"text":"password"}
+            type={showPassword ? "text" : "password"}
           />
           {showPassword ? (
             <AiFillEyeInvisible
@@ -62,7 +77,7 @@ export default function ChangePassword() {
             onChange={(e) => setPasswordVerify(e.target.value)}
             placeholder="Repita sua senha"
             className="loginInput"
-            type={showPassword?"text":"password"}
+            type={showPassword ? "text" : "password"}
           />
           {showPassword ? (
             <AiFillEyeInvisible
