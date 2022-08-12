@@ -17,7 +17,7 @@ export default function Lists() {
   };
 
   useEffect(() => {
-    GetLists(userData?.userid).then((res) => setListsData(res));
+   GetLists(userData?.userid).then((res) => setListsData(res));
   }, [update, userData]);
 
   useEffect(()=>{

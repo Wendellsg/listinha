@@ -41,3 +41,22 @@ body{
   display: flex;
   justify-content: center;
 }
+* {
+  scrollbar-width: thin;
+  scrollbar-color:  #47C8Ec #ffffff;
+}
+
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 5px;
+}
+
+*::-webkit-scrollbar-track {
+  background:  #ffffff;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color:  #47C8Ec;
+  border-radius: 20px;
+  border: 3px solid  #47C8Ec;
+}

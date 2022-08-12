@@ -11,6 +11,8 @@ import {
   UpdateItemBuyed,
 } from "../../api/MarketListApi";
 
+import { useParams } from "react-router-dom";
+
 export default function List() {
   const [itemName, setItemName] = useState("");
   const [itemQuantity, setItemQuantity] = useState(0);
@@ -18,11 +20,9 @@ export default function List() {
   const [itemMessury, setItemMessury] = useState("Unidade(s)");
   const [update, setUpdate] = useState(0);
   const [listofPage, setListofPage] = useState(null);
-
+  const { id } = useParams();
   useEffect(() => {
-    var url_atual = window.location.href;
-    var pageid = /lista\/?(.*)/i.exec(url_atual);
-    GetList(pageid[1]).then((res) => setListofPage(res));
+    GetList(id).then((res) => setListofPage(res));
   }, [update]);
 
   async function HandleAdditem() {
@@ -47,20 +47,18 @@ export default function List() {
       _id: listofPage._id,
       itemId: itemId,
     };
-    console.log(itemToRemove)
     await removeItem(itemToRemove);
     setUpdate(Date.now());
   };
 
   const HandleSetBuyedItem = async (itemId, state) => {
-    console.log("Comprei o item: " + itemId);
     let itemToUpdate = {
       _id: listofPage._id,
       itemId: itemId,
       state: state,
     };
-   await UpdateItemBuyed(itemToUpdate);
-   setUpdate(Date.now());
+    await UpdateItemBuyed(itemToUpdate);
+    setUpdate(Date.now());
   };
 
   //
@@ -69,7 +67,6 @@ export default function List() {
       {category.name}
     </option>
   ));
-
   return (
     <div>
       <Header name={listofPage?.name} />
@@ -130,18 +127,32 @@ export default function List() {
         </div>
       </div>
       <h1 style={{ fontSize: "24px", margin: "15px" }}>Itens</h1>
-
-      {listofPage &&
-        listofPage.items.map((item, index) => {
-          return (
-            <CreatedItens
-              key={item._id}
-              item={item}
-              HandleRemoveItem={HandleRemoveItem}
-              HandleSetBuyedItem={HandleSetBuyedItem}
-            />
+    <div className="ListItemsContainer">
+    {listofPage &&
+        Categories.map((category) => {
+          const itensByCategory = listofPage.items.filter(
+            (item) => item.category === category.name
           );
+          if (itensByCategory?.length > 0) {
+            return (
+              <div key={category.id}>
+                <div className="CategoryHeader"><img src={require(`../../assets/category_images/${category.id}.png`)} alt={category.name}/> <h2>{category?.name}</h2></div>
+                {itensByCategory.map((item) => {
+                  return (
+                    <CreatedItens
+                      key={item._id}
+                      item={item}
+                      HandleRemoveItem={HandleRemoveItem}
+                      HandleSetBuyedItem={HandleSetBuyedItem}
+                    />
+                  );
+                })}
+              </div>
+            );
+          }
         })}
+    </div>
+      
     </div>
   );
 }
