@@ -131,7 +131,7 @@ export async function Login(credencials) {
   } catch (error) {
     return {
       success: false,
-      message: error.response.data.message,
+      message: error.response?.data?.message || "Problema na requisição, tente novamente mais tarde",
     };
   }
 }
@@ -154,7 +154,7 @@ export async function CreateUser(credencials) {
   } catch (error) {
     return {
       success: false,
-      message: error.response.data.message,
+      message: error.response?.data?.message || "Problema na requisição, tente novamente mais tarde",
     };
   }
 }
@@ -173,7 +173,7 @@ export async function sendResetPassword(credencials) {
   } catch (error) {
     return {
       success: false,
-      message: error.response.data.message,
+      message: error.response?.data?.message || "Problema na requisição, tente novamente mais tarde",
     };
   }
 }
@@ -191,11 +191,13 @@ export async function sendChangePassword(credencials) {
       .post(`${apiUrl}/change-password`, body, headers)
       .then((res) => console.log(res.data?.message));
 
-    return true;
+    return {
+      success: true,
+    };
   } catch (error) {
     return {
       success: false,
-      message: error.response.data.message,
+      message: error.response?.data?.message || "Problema na requisição, tente novamente mais tarde",
     };
   }
 }

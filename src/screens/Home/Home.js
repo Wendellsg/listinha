@@ -38,15 +38,13 @@ export default function Home() {
         password: password,
       })
 
-    console.log(loginResponse)
-
     if(loginResponse.success === false){
      return toast.update(toastId.current, { render: loginResponse.message,type: toast.TYPE.ERROR, autoClose: 5000,  isLoading: false });
     }
 
 
     if(loginResponse.success === true){
-      toast.update(toastId.current, {type: toast.TYPE.SUCCESS, autoClose: 5000,  isLoading: false});
+      toast.update(toastId.current, {render: "Logado", type: toast.TYPE.SUCCESS, autoClose: 500,  isLoading: false});
       navigate('/listas')
     }
   }
@@ -64,7 +62,8 @@ export default function Home() {
         </p>
       </div>
 
-      <div className="loginCredencials">
+       
+      <div className="loginCredencials"  onKeyDown={(e) => (e.key === "Enter" ? login() : null)} >
         <input
           value={email}
           onChange={(e) => setEmail(e.target.value)}

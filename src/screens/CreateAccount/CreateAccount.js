@@ -35,9 +35,6 @@ export default function CreateAccount() {
       email: email,
       password: password,
     };
-
-    console.log(userPayload)
-
     CreatingProgress()
 
    const createAccountResponse = await CreateUser(userPayload);
