@@ -10,13 +10,17 @@ const AuthProvider = ({ children }) => {
 
   async function HandleLogin(credencials){
     let loginData = await Login(credencials)
-    if(!loginData) return;
-    setToken(loginData.token)
-    setUserData(loginData.userData)
+    
+    if(!loginData.success) return loginData;
 
-    localStorage.setItem("@ListinhaToken", loginData.token)
-    localStorage.setItem("@ListinhaUserData", JSON.stringify(loginData.userData))
-    window.location.href = '/listas'
+    if(loginData.success){
+      localStorage.setItem("@ListinhaToken", loginData.token)
+      localStorage.setItem("@ListinhaUserData", JSON.stringify(loginData.userData))
+      setToken(loginData.token)
+      setUserData(loginData.userData)
+      return loginData
+    }
+
   }
 
   useEffect(()=>{

@@ -78,11 +78,7 @@ export async function removeItem(item) {
 
   let body = JSON.stringify(item);
   try {
-    const addResponse = await axios.post(
-      `${apiUrl}/remove-item`,
-      body,
-      headers
-    );
+    await axios.post(`${apiUrl}/remove-item`, body, headers);
     return true;
   } catch (error) {
     console.log(error);
@@ -123,11 +119,20 @@ export async function Login(credencials) {
   try {
     const userData = await axios.post(`${apiUrl}/login`, body, headers);
 
-    if (!userData?.data.token) return null;
-    return userData.data;
+    if (!userData?.data.token)
+      return {
+        success: false,
+        message: "Falha no login",
+      };
+
+    return {
+      success: true,
+      ...userData.data};
   } catch (error) {
-    console.log(error);
-    return null;
+    return {
+      success: false,
+      message: error.response?.data?.message || "Problema na requisição, tente novamente mais tarde",
+    };
   }
 }
 
@@ -143,10 +148,14 @@ export async function CreateUser(credencials) {
     const userData = await axios.post(`${apiUrl}/create-user`, body, headers);
 
     if (!userData?.data) return null;
-    return true;
+    return {
+      success: true,
+    };
   } catch (error) {
-    console.log(error);
-    return null;
+    return {
+      success: false,
+      message: error.response?.data?.message || "Problema na requisição, tente novamente mais tarde",
+    };
   }
 }
 
@@ -160,13 +169,14 @@ export async function sendResetPassword(credencials) {
   let body = JSON.stringify(credencials);
   try {
     await axios.post(`${apiUrl}/reset-password`, body, headers);
-    return true;
+    return { success: true };
   } catch (error) {
-    console.log(error);
-    return null;
+    return {
+      success: false,
+      message: error.response?.data?.message || "Problema na requisição, tente novamente mais tarde",
+    };
   }
 }
-
 
 export async function sendChangePassword(credencials) {
   let headers = {
@@ -177,11 +187,17 @@ export async function sendChangePassword(credencials) {
 
   let body = JSON.stringify(credencials);
   try {
-   await axios.post(`${apiUrl}/change-password`, body, headers).then(res=> console.log(res.data?.message));
-    
-    return true;
+    await axios
+      .post(`${apiUrl}/change-password`, body, headers)
+      .then((res) => console.log(res.data?.message));
+
+    return {
+      success: true,
+    };
   } catch (error) {
-    console.log(error.response.data.message);
-    return null;
+    return {
+      success: false,
+      message: error.response?.data?.message || "Problema na requisição, tente novamente mais tarde",
+    };
   }
 }

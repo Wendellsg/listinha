@@ -1,8 +1,9 @@
 import "./CreateAccount.styles.css";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { CreateUser } from "../../api/MarketListApi";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import { toast } from "react-toastify";
 export default function CreateAccount() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -10,31 +11,53 @@ export default function CreateAccount() {
   const [passwordVerify, setPasswordVerify] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const toastId = useRef(null);
+  const toastifyConfig = {
+    position: "bottom-center",
+    autoClose: 5000,
+    hideProgressBar: true,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+  };
 
+  var pattern = /^[\w&.-]+$/
+
+  const CreatingProgress = () => toastId.current = toast.loading("Criando conta", {...toastifyConfig, autoClose: false });
   async function HandleCreate() {
-    if (name === "" || email === "" || password === "") return;
-    if (password !== passwordVerify) return;
-
+    if (name === "" || email === "" || password === "") return toast.warn("Preencha todos os campos", toastifyConfig);
+    if (!email.includes("@")) return toast.warn("E-mail inválido", toastifyConfig);
+    if (password !== passwordVerify) return toast.warn("Verifique se digitou a senhas corretamente", toastifyConfig);
+    if(password.length < 8 || pattern.test(password)) return toast.warn("Senha fraca. Precisa ter pelo menos 8 caracteres e algum caracter especial. ex: !@#$%¨&*()_+", toastifyConfig);
     let userPayload = {
       name: name,
       email: email,
       password: password,
     };
+    CreatingProgress()
 
-    await CreateUser(userPayload);
+   const createAccountResponse = await CreateUser(userPayload);
+
+   if(createAccountResponse.success === false){
+    return toast.update(toastId.current, { render: createAccountResponse.message,type: toast.TYPE.ERROR, autoClose: 5000,  isLoading: false });
+   }
+
+   if(createAccountResponse.success === true){
+    toast.update(toastId.current, {type: toast.TYPE.SUCCESS, autoClose: 5000,  isLoading: false});
+  }
     setEmail("");
     setPassword("");
-    navigate("/");
+    navigate("/"); 
   }
 
   return (
     <div className="CreateAccountContainer">
-      <div>
+      <div style={{marginBottom: '2rem'}}>
         <h1>Crie sua conta</h1>
       </div>
 
       <div className="loginCredencials">
-        <label className="LoginLabel">Nome</label>
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}
@@ -42,7 +65,6 @@ export default function CreateAccount() {
           className="loginInput"
           type={"text"}
         />
-        <label className="LoginLabel">Email</label>
         <input
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -50,7 +72,6 @@ export default function CreateAccount() {
           className="loginInput"
           type={"email"}
         />
-        <label className="LoginLabel">Senha</label>
         <div style={{ position: "relative" }}>
           <input
             value={password}
@@ -75,8 +96,6 @@ export default function CreateAccount() {
             />
           )}
         </div>
-        <label className="LoginLabel">repita sua senha</label>
-
         <div style={{ position: "relative" }}>
           <input
             value={passwordVerify}

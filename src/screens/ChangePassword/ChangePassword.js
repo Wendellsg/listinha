@@ -1,8 +1,9 @@
 import "./ChangePassword.styles.css";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { sendChangePassword } from "../../api/MarketListApi";
+import { toast } from "react-toastify";
 
 export default function ChangePassword() {
   const [password, setPassword] = useState("");
@@ -11,6 +12,18 @@ export default function ChangePassword() {
   const [resetPasswordToken, setResetPasswordToken] = useState("");
   const [resetPasswordEmail, setResetPasswordEmail] = useState("");
   const navigate = useNavigate();
+  const toastId = useRef(null);
+
+  const toastifyConfig = {
+    position: "bottom-center",
+    autoClose: 5000,
+    hideProgressBar: true,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+  };
+  var pattern = /^[\w&.-]+$/;
 
   useEffect(() => {
     const urlSerch = new URLSearchParams(window.location.search);
@@ -20,16 +33,47 @@ export default function ChangePassword() {
     setResetPasswordEmail(email);
   }, []);
 
+  const changeIngPassword = () =>
+    (toastId.current = toast.loading("Enviando 🔑", {
+      ...toastifyConfig,
+      autoClose: false,
+    }));
+
   async function handleChanePassWord() {
-    if (password === "") return;
+    if (password !== passwordVerify)
+      return toast.warn(
+        "Verifique se digitou a senhas corretamente",
+        toastifyConfig
+      );
+    if (password.length < 8 || pattern.test(password))
+      return toast.warn(
+        "Senha fraca. Precisa ter pelo menos 8 caracteres e algum caracter especial. ex: !@#$%¨&*()_+",
+        toastifyConfig
+      );
     let changePasswordPayload = {
       email: resetPasswordEmail,
       token: resetPasswordToken,
       newPassword: password,
     };
-    await sendChangePassword(changePasswordPayload);
-    console.log(changePasswordPayload);
-    navigate('/')
+
+    changeIngPassword();
+    const response = await sendChangePassword(changePasswordPayload);
+
+    if (!response.success) {
+      return toast.update(toastId.current, {
+        render: response.message,
+        type: toast.TYPE.ERROR,
+        autoClose: 5000,
+        isLoading: false,
+      });
+    }
+    toast.update(toastId.current, {
+      render: "Senha alterada com sucesso",
+      type: toast.TYPE.SUCCESS,
+      autoClose: 5000,
+      isLoading: false,
+    });
+    navigate("/");
   }
 
   return (
@@ -44,7 +88,10 @@ export default function ChangePassword() {
         </p>
       </div>
 
-      <div className="loginCredencials">
+      <div
+        className="loginCredencials"
+        onKeyDown={(e) => (e.key === "Enter" ? handleChanePassWord() : null)}
+      >
         <div style={{ position: "relative" }}>
           <input
             value={password}

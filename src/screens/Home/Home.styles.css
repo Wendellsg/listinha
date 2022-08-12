@@ -64,6 +64,7 @@
   line-height: 16px;
   color: #000000;
   transition: 300ms;
+  margin-top: 1rem;
 }
 
 .loginInput:focus{
@@ -100,4 +101,15 @@
   transition: 300ms;
   transform: scale(0.9);
   background: linear-gradient(264.89deg, #86e4fd 0%, #157691 100%);
+}
+
+.LoginShowPassowordIcon{
+  position: absolute;
+  top: 30px;
+  right: 15px;
+  cursor: pointer;
+}
+
+.LoginShowPassowordIcon:hover{
+  opacity: 0.7;
 }
