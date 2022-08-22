@@ -24,6 +24,7 @@ export async function createList(list) {
 }
 
 export async function GetLists(ownerId) {
+  console.log('Buscanod listas')
   try {
     const userLists = await axios.get(`${apiUrl}/get-lists?ownerId=${ownerId}`);
     return userLists.data;
