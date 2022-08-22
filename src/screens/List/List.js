@@ -17,13 +17,14 @@ import { toast } from "react-toastify";
 
 export default function List() {
   const [itemName, setItemName] = useState("");
-  const [itemCategory, setItemCategory] = useState("Limpenza");
+  const [itemCategory, setItemCategory] = useState(Categories[0].name);
   const [update, setUpdate] = useState(0);
   const [listofPage, setListofPage] = useState(null);
 
   const { id } = useParams();
   useEffect(() => {
     GetList(id).then((res) => setListofPage(res));
+
   }, [update]);
 
   const toastifyConfig = {
@@ -132,7 +133,7 @@ export default function List() {
       </div>
       <h1 style={{ fontSize: "24px", margin: "15px" }}>Itens</h1>
       <div className="ListItemsContainer slide-in-bottom ">
-        {!listofPage?.length && 'Nenhum item adicionado ainda'}
+        {!listofPage?.items?.length && 'Nenhum item adicionado ainda'}
 
 
         {listofPage &&
