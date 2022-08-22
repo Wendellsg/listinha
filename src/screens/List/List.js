@@ -132,7 +132,7 @@ export default function List() {
       </div>
       <h1 style={{ fontSize: "24px", margin: "15px" }}>Itens</h1>
       <div className="ListItemsContainer slide-in-bottom ">
-        {!listofPage.length && 'Nenhum item adicionado ainda'}
+        {!listofPage?.length && 'Nenhum item adicionado ainda'}
 
 
         {listofPage &&
