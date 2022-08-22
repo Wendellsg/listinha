@@ -9,15 +9,14 @@ import {
   AddNewItem,
   removeItem,
   UpdateItemBuyed,
+  setItemQuantity,
 } from "../../api/MarketListApi";
 
 import { useParams } from "react-router-dom";
 
 export default function List() {
   const [itemName, setItemName] = useState("");
-  const [itemQuantity, setItemQuantity] = useState(0);
   const [itemCategory, setItemCategory] = useState("Limpenza");
-  const [itemMessury, setItemMessury] = useState("Unidade(s)");
   const [update, setUpdate] = useState(0);
   const [listofPage, setListofPage] = useState(null);
   const { id } = useParams();
@@ -29,16 +28,13 @@ export default function List() {
     const newitem = {
       _id: listofPage._id,
       name: itemName,
-      quantity: itemQuantity,
       buyed: false,
       category: itemCategory,
-      measure: itemMessury,
     };
 
     await AddNewItem(newitem);
 
     setItemName("");
-    setItemQuantity(0);
     setUpdate(Date.now());
   }
 
@@ -61,9 +57,25 @@ export default function List() {
     setUpdate(Date.now());
   };
 
+  const HandleChangeQuantity = async (itemId, quantity) => {
+    let itemToUpdate = {
+      _id: listofPage._id,
+      itemId: itemId,
+      quantity: quantity,
+    };
+    await setItemQuantity(itemToUpdate);
+    setUpdate(Date.now());
+  };
+
   //
   const CategorieOptions = Categories?.map((category) => (
-    <option key={category.id} value={category.name}>
+    <option
+      key={category.id}
+      value={category.name}
+      style={{
+        backgroundImage: `url(../../assets/category_images/${category.id}.png)`,
+      }}
+    >
       {category.name}
     </option>
   ));
@@ -78,20 +90,10 @@ export default function List() {
               <input
                 value={itemName}
                 onChange={(e) => setItemName(e.target.value)}
-                style={{ width: "120px" }}
+                style={{ width: "150px" }}
                 placeholder="Nome do item"
                 className="NewItemInput"
                 type="text"
-              />
-            </div>
-            <div style={{ marginTop: "10px" }}>
-              <h2>Quantidade</h2>
-              <input
-                value={itemQuantity}
-                onChange={(e) => setItemQuantity(e.target.value)}
-                placeholder="3"
-                className="NewItemInput"
-                type="number"
               />
             </div>
           </div>
@@ -106,20 +108,6 @@ export default function List() {
                 {CategorieOptions}
               </select>
             </div>
-            <div style={{ marginTop: "10px" }}>
-              <h2>Medida</h2>
-              <select
-                value={itemMessury}
-                onChange={(e) => setItemMessury(e.target.value)}
-                className="NewItemSelect"
-              >
-                <option value="Unidade(s)">Unidade(s)</option>
-                <option value="Kg(s)">Kg(s)</option>
-                <option value="Pacote(s)">Pacote(s)</option>
-                <option value="Litro(s)">Litro(s)</option>
-                <option value="Metro(s)">Metro(s)</option>
-              </select>
-            </div>
           </div>
         </div>
         <div onClick={() => HandleAdditem()} className="NewItemplusicon">
@@ -127,32 +115,39 @@ export default function List() {
         </div>
       </div>
       <h1 style={{ fontSize: "24px", margin: "15px" }}>Itens</h1>
-    <div className="ListItemsContainer">
-    {listofPage &&
-        Categories.map((category) => {
-          const itensByCategory = listofPage.items.filter(
-            (item) => item.category === category.name
-          );
-          if (itensByCategory?.length > 0) {
-            return (
-              <div key={category.id}>
-                <div className="CategoryHeader"><img src={require(`../../assets/category_images/${category.id}.png`)} alt={category.name}/> <h2>{category?.name}</h2></div>
-                {itensByCategory.map((item) => {
-                  return (
-                    <CreatedItens
-                      key={item._id}
-                      item={item}
-                      HandleRemoveItem={HandleRemoveItem}
-                      HandleSetBuyedItem={HandleSetBuyedItem}
-                    />
-                  );
-                })}
-              </div>
+      <div className="ListItemsContainer">
+        {listofPage &&
+          // eslint-disable-next-line array-callback-return
+          Categories.map((category) => {
+            const itensByCategory = listofPage.items.filter(
+              (item) => item.category === category.name
             );
-          }
-        })}
-    </div>
-      
+            if (itensByCategory?.length > 0) {
+              return (
+                <div key={category.id}>
+                  <div className="CategoryHeader">
+                    <img
+                      src={require(`../../assets/category_images/${category.id}.png`)}
+                      alt={category.name}
+                    />{" "}
+                    <h2>{category?.name}</h2>
+                  </div>
+                  {itensByCategory.map((item) => {
+                    return (
+                      <CreatedItens
+                        key={item._id}
+                        item={item}
+                        HandleRemoveItem={HandleRemoveItem}
+                        HandleSetBuyedItem={HandleSetBuyedItem}
+                        HandleChangeQuantity={HandleChangeQuantity}
+                      />
+                    );
+                  })}
+                </div>
+              );
+            }
+          })}
+      </div>
     </div>
   );
 }
