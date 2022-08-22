@@ -12,7 +12,7 @@ function Header(props) {
 
   return (
       <div className="header">
-        <img src={Logo} alt="Listas" className="logo" />
+        <img src={Logo} alt="Listas" className="logo" onClick={()=>  navigate('/listas')}/>
         <h1>{props.name}</h1>
         <p className='LogoutButton' onClick={()=> handleLogout()}>Sair</p>
       </div>

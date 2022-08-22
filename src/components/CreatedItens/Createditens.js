@@ -10,7 +10,8 @@ export default function CreatedItens({
   item,
   HandleRemoveItem,
   HandleSetBuyedItem,
-  HandleChangeQuantity
+  HandleChangeQuantity,
+  index,
 }) {
   function TextDecoration(buyed) {
     if (buyed) {
@@ -21,7 +22,7 @@ export default function CreatedItens({
   }
 
   return (
-    <li className="ListItem">
+    <li className="ListItem slide-in-left" style={{animationDelay: `${index*200}ms`}}>
       <h1 className="ItemName" style={TextDecoration(item.buyed)}>
         {item.name}
       </h1>

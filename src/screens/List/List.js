@@ -13,18 +13,34 @@ import {
 } from "../../api/MarketListApi";
 
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function List() {
   const [itemName, setItemName] = useState("");
   const [itemCategory, setItemCategory] = useState("Limpenza");
   const [update, setUpdate] = useState(0);
   const [listofPage, setListofPage] = useState(null);
+
   const { id } = useParams();
   useEffect(() => {
     GetList(id).then((res) => setListofPage(res));
   }, [update]);
 
+  const toastifyConfig = {
+    position: "bottom-center",
+    autoClose: 5000,
+    hideProgressBar: true,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+  };
+
   async function HandleAdditem() {
+
+
+    if(itemName === '')return  toast.warn("O item precisa de um nome!", {...toastifyConfig,isLoading: false});
+
     const newitem = {
       _id: listofPage._id,
       name: itemName,
@@ -115,10 +131,13 @@ export default function List() {
         </div>
       </div>
       <h1 style={{ fontSize: "24px", margin: "15px" }}>Itens</h1>
-      <div className="ListItemsContainer">
+      <div className="ListItemsContainer slide-in-bottom ">
+        {!listofPage.length && 'Nenhum item adicionado ainda'}
+
+
         {listofPage &&
           // eslint-disable-next-line array-callback-return
-          Categories.map((category) => {
+          Categories.map((category, i) => {
             const itensByCategory = listofPage.items.filter(
               (item) => item.category === category.name
             );
@@ -132,7 +151,9 @@ export default function List() {
                     />{" "}
                     <h2>{category?.name}</h2>
                   </div>
-                  {itensByCategory.map((item) => {
+                  {
+                  itensByCategory.map((item, index) => {
+                    
                     return (
                       <CreatedItens
                         key={item._id}
@@ -140,6 +161,8 @@ export default function List() {
                         HandleRemoveItem={HandleRemoveItem}
                         HandleSetBuyedItem={HandleSetBuyedItem}
                         HandleChangeQuantity={HandleChangeQuantity}
+                        index={index}
+                    
                       />
                     );
                   })}
