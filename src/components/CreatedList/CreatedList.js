@@ -23,7 +23,7 @@ export default function CreatedList(props) {
 
   const navigate = useNavigate();
   return (
-    <li className={`CreatedListContainer list-${Math.floor(Math.random() * (5 - 1) + 1)}`}>
+    <li className={`CreatedListContainer list-${Math.floor(Math.random() * (5 - 1) + 1)} slide-in-left`} style={{animationDelay: `${props.index*200}ms`}}>
       <div
         onClick={() => navigate(`/lista/${props.id}`)}
         className="listLinkContainer"

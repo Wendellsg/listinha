@@ -25,6 +25,14 @@
     transition: 300ms;
     cursor: pointer;
     margin: auto 5px;
+    display: flex;
+    align-items: center;
+}
+
+.ItemTools{
+    display: flex;
+    align-items: center;
+    width: 40%;
 }
 
 .ItemIcons:hover{
@@ -40,19 +48,7 @@
 
 .itembuyed{
     display: flex;
-    font-size: 10px;
     font-weight: 700;
     justify-content: center;
     align-items: center;
-    width: 30%;
-}
-
-.itembuyed p{
-    white-space: nowrap;
-}
-
-.itembuyed img{
-    width: 16px;
-    height: 16px;
-    margin-right: 5px;
 }

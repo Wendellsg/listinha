@@ -1,14 +1,19 @@
 import "./Createditens.styles.css";
-import DeleteIcon from "../../assets/deleteicon.png";
-import CheckIcon from "../../assets/check.png";
-import Carrinho from "../../assets/carrinho.png";
+import { MdCheckCircleOutline, MdRemoveShoppingCart } from "react-icons/md";
+import {
+  IoCloseCircleOutline,
+  IoAddSharp,
+  IoRemoveSharp,
+} from "react-icons/io5";
 
 export default function CreatedItens({
   item,
   HandleRemoveItem,
   HandleSetBuyedItem,
+  HandleChangeQuantity,
+  index,
 }) {
-  function TextDecoration({ buyed }) {
+  function TextDecoration(buyed) {
     if (buyed) {
       return { textDecorationLine: "line-through", color: "#888" };
     } else {
@@ -17,33 +22,55 @@ export default function CreatedItens({
   }
 
   return (
-    <li className="ListItem">
-      <h1 className="ItemName" style={TextDecoration(item.buyed||false)}>
+    <li className="ListItem slide-in-left" style={{animationDelay: `${index*200}ms`}}>
+      <h1 className="ItemName" style={TextDecoration(item.buyed)}>
         {item.name}
       </h1>
-      <h1 className="ItemQuantity" style={TextDecoration(item.buyed||false)}>
-        {`${item.quantity} ${item.measure}`}
-      </h1>
-      <div style={item.buyed ? { display: "none" } : { display: "flex" }}>
-        <div onClick={() => HandleRemoveItem(item._id)} className="ItemIcons">
-          <img src={DeleteIcon} alt="deletar" />
+
+      <div className="ItemTools">
+        <div onClick={() => HandleChangeQuantity(item._id, item.quantity -1)} className="ItemIcons">
+          <IoRemoveSharp color="#333" />
         </div>
-        <div onClick={() => HandleSetBuyedItem(item._id, !item.buyed)} className="ItemIcons">
-          <img src={CheckIcon} alt="comprado" />
+
+        <h1 className="ItemName">{item.quantity}</h1>
+        <div className="ItemTools" style={{ marginRight: "2rem" }}>
+          <div onClick={() => HandleChangeQuantity(item._id, item.quantity +1)} className="ItemIcons">
+            <IoAddSharp color="#333" />
+          </div>
         </div>
-      </div>
-      <div
-        className="itembuyed"
-        style={item.buyed ? { display: "flex" } : { display: "none" }}
-      >
-        <img src={Carrinho} alt="deletar" />
-        <p>No carrinho</p>
-        <div
-          onClick={() => HandleRemoveItem(item._id)}
-          className="ItemIcons"
-        >
-          <img src={DeleteIcon} alt="deletar" />
-        </div>
+
+        {item.buyed ? (
+          <div className="itembuyed">
+            <div
+              onClick={() => HandleSetBuyedItem(item._id, false)}
+              className="ItemIcons"
+            >
+              <MdRemoveShoppingCart color="#333" />
+            </div>
+
+            <div
+              onClick={() => HandleRemoveItem(item._id)}
+              className="ItemIcons"
+            >
+              <IoCloseCircleOutline color="#AB3030" />
+            </div>
+          </div>
+        ) : (
+          <div className="itembuyed">
+            <div
+              onClick={() => HandleRemoveItem(item._id)}
+              className="ItemIcons"
+            >
+              <IoCloseCircleOutline color="#AB3030" />
+            </div>
+            <div
+              onClick={() => HandleSetBuyedItem(item._id, true)}
+              className="ItemIcons"
+            >
+              <MdCheckCircleOutline color="#59D640" />
+            </div>
+          </div>
+        )}
       </div>
     </li>
   );

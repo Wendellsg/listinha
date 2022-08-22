@@ -45,7 +45,7 @@ export default function Lists() {
                 id={list._id}
                 listitens={list.items}
                 index={index}
-
+              
               />
             );
           })

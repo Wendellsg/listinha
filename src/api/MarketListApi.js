@@ -108,6 +108,30 @@ export async function UpdateItemBuyed(item) {
   }
 }
 
+export async function setItemQuantity(item) {
+  let headers = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  let body = JSON.stringify(item);
+  try {
+    const addResponse = await axios.post(
+      `${apiUrl}/set-item-quantity`,
+      body,
+      headers
+    );
+    return true;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
+
+
+
+
 export async function Login(credencials) {
   let headers = {
     headers: {
