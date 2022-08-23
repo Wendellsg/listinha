@@ -35,17 +35,11 @@ export default function Lists() {
   };
 
   useEffect(() => {
-    console.log(data)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);
-
-
-  useEffect(() => {
     if (userData){
       refetch();
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userData]);
+  }, [userData, update]);
 
 
   if (isLoading) return "Carregando...";
