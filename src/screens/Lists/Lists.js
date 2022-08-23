@@ -11,10 +11,10 @@ import { AuthContext } from "../../contexts/AuthContext";
 import "./Lists.styles.css";
 import { useQuery } from "@tanstack/react-query";
 import {BsFillPersonFill, BsFillPeopleFill} from 'react-icons/bs'
+const userData = JSON.parse(localStorage.getItem("@ListinhaUserData"))
 
 export default function Lists() {
   const [update, setUpdate] = useState(0);
-  const { userData } = useContext(AuthContext);
   const { isLoading, data, refetch } = useQuery(["listsData"], () =>
     GetLists(userData?.userid, userData?.email)
   );
@@ -35,10 +35,9 @@ export default function Lists() {
   };
 
   useEffect(() => {
-    if (!userData?.userid) return;
-    refetch();
+    console.log(data)
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [update]);
+  }, [data]);
 
 
   useEffect(() => {
