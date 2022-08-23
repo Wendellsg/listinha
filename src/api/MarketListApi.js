@@ -23,14 +23,46 @@ export async function createList(list) {
   }
 }
 
-export async function GetLists(ownerId) {
+export async function shareList(listtoShare) {
+  let headers = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  let body = JSON.stringify(listtoShare);
+
   try {
-    const userLists = await axios.get(`${apiUrl}/get-lists?ownerId=${ownerId}`);
+    const createdList = await axios.post(
+      `${apiUrl}/share-list`,
+      body,
+      headers
+    );
+    console.log(createdList);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function GetLists(ownerId, email) {
+  try {
+    const userLists = await axios.get(`${apiUrl}/get-lists?ownerId=${ownerId}&email=${email}`);
     return userLists.data;
   } catch (error) {
     console.log(error);
   }
 }
+
+
+export async function GetUserProfile(email) {
+  try {
+    const userProfile = await axios.get(`${apiUrl}/get-user-profile?&email=${email}`);
+    return userProfile.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 
 export async function GetList(listId) {
   try {
@@ -79,6 +111,23 @@ export async function removeItem(item) {
   let body = JSON.stringify(item);
   try {
     await axios.post(`${apiUrl}/remove-item`, body, headers);
+    return true;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
+
+export async function removeShare(share) {
+  let headers = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  let body = JSON.stringify(share);
+  try {
+    await axios.post(`${apiUrl}/remove-share`, body, headers);
     return true;
   } catch (error) {
     console.log(error);

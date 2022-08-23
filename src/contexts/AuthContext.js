@@ -25,7 +25,7 @@ const AuthProvider = ({ children }) => {
 
   useEffect(()=>{
     let localToken = localStorage.getItem("@ListinhaToken")
-    let localUserData = JSON.parse(localStorage.getItem("@ListinhaUserData"))|null
+    let localUserData = JSON.parse(localStorage.getItem("@ListinhaUserData"))
     setToken(localToken)
     setUserData(localUserData)
   },[])

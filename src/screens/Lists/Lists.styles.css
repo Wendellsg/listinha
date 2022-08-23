@@ -2,3 +2,16 @@
   margin-top: 20px;
 }
 
+.ListSelect{
+  display: flex;
+  gap: 1rem;
+  margin: 10px;
+}
+
+.ListSelectItem{
+  cursor: pointer;
+}
+
+.ListSelectItem:hover{
+  opacity: 0.5;
+}
