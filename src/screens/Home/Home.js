@@ -6,6 +6,7 @@ import illustation from "../../assets/homeimage.jpg";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import { toastifyConfig } from "../../utils";
 export default function Home() {
   const { HandleLogin } = useContext(AuthContext);
   const [email, setEmail] = useState("");
@@ -13,16 +14,6 @@ export default function Home() {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const toastId = useRef(null);
-
-  const toastifyConfig = {
-    position: "bottom-center",
-    autoClose: 5000,
-    hideProgressBar: true,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-  };
 
   const loginProgress = () => toastId.current = toast.loading("Fazendo Login", {...toastifyConfig, autoClose: false });
   

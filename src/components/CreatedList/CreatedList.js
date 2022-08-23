@@ -4,17 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import SharedProfile from "../../components/SharedProfile";
+import { toastifyConfig } from "../../utils";
 
 export default function CreatedList(props) {
-  const toastifyConfig = {
-    position: "bottom-center",
-    autoClose: 5000,
-    hideProgressBar: true,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-  };
 
   const [showShareBox, setShowShateBox] = useState(false);
   const [email, setEmail] = useState("");

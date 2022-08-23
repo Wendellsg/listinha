@@ -1,13 +1,12 @@
 import Header from "../../components/header/header";
 import NewList from "../../components/NewList/NewList";
 import CreatedList from "../../components/CreatedList/CreatedList";
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import {
   GetLists,
   RemoveList,
   shareList,
 } from "../../api/MarketListApi";
-import { AuthContext } from "../../contexts/AuthContext";
 import "./Lists.styles.css";
 import { useQuery } from "@tanstack/react-query";
 import {BsFillPersonFill, BsFillPeopleFill} from 'react-icons/bs'
