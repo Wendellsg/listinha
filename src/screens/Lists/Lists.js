@@ -101,12 +101,12 @@ export default function Lists() {
       >
         <h2 className="subtitle">Lista compartilhadas</h2>
         <div>
-          {!data?.sharedLists.length ? (
+          {!data?.sharedLists?.length ? (
             <h2 className="subtitle">
               Ninguem compartilhou nenhuma lista com você ainda
             </h2>
           ) : (
-            data?.sharedLists.map((list, index) => {
+            data?.sharedLists?.map((list, index) => {
               return (
                 <CreatedList
                   key={list._id}
