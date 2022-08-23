@@ -70,10 +70,10 @@ export default function Lists() {
       >
         <h2 className="subtitle">Minhas listas</h2>
         <div>
-          {!data?.myLists.length ? (
+          {!data?.myLists?.length ? (
             <h2 className="subtitle">Você ainda não criou nenhuma lista</h2>
           ) : (
-            data?.myLists.map((list, index) => {
+            data?.myLists?.map((list, index) => {
               return (
                 <CreatedList
                   key={list._id}
