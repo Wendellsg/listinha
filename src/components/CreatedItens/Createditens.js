@@ -22,7 +22,7 @@ export default function CreatedItens({
   }
 
   return (
-    <li className="ListItem slide-in-left" style={{animationDelay: `${index*200}ms`}}>
+    <li className="ListItem swing-in-top-fwd" style={{animationDelay: `${index*200}ms`}}>
       <h1 className="ItemName" style={TextDecoration(item.buyed)}>
         {item.name}
       </h1>

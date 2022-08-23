@@ -45,7 +45,7 @@ export default function CreatedList(props) {
   const navigate = useNavigate();
   return (
     <li
-      className={`CreatedListContainer list-${getColor()} slide-in-left`}
+      className={`CreatedListContainer list-${getColor()} swing-in-top-fwd`}
       style={{ animationDelay: `${props.index * 200}ms` }}
     >
       <div className="CreatedListHeader">
