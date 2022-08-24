@@ -9,7 +9,9 @@ import {
 } from "../../api/MarketListApi";
 import "./Lists.styles.css";
 import { useQuery } from "@tanstack/react-query";
-import {BsFillPersonFill, BsFillPeopleFill} from 'react-icons/bs'
+import {BsFillPersonFill, BsFillPeopleFill} from 'react-icons/bs';
+import { toastifyConfig } from "../../utils";
+import { toast } from "react-toastify";
 const userData = JSON.parse(localStorage.getItem("@ListinhaUserData"))
 
 export default function Lists() {
@@ -30,6 +32,9 @@ export default function Lists() {
       email: email,
     };
     await shareList(sharePayload);
+    toast.info("Para remover o compartilhamento clique 2 vezes na imagem do usuário.", {
+      ...toastifyConfig,
+    });
     setUpdate(Date.now);
   };
 

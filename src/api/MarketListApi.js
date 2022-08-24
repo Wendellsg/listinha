@@ -23,6 +23,31 @@ export async function createList(list) {
   }
 }
 
+
+export async function CreateGoogleUser(credencials) {
+  let headers = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  let body = JSON.stringify(credencials);
+  console.log(apiUrl)
+  try {
+    const userDataResponse = await axios.post(`${apiUrl}/create-google-user`, body, headers);
+    if (!userDataResponse?.data) return null;
+    return {
+      success: true,
+      ...userDataResponse.data
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: error.response?.data?.message || "Problema na requisição, tente novamente mais tarde",
+    };
+  }
+}
+
 export async function shareList(listtoShare) {
   let headers = {
     headers: {
