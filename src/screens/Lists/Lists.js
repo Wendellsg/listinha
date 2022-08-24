@@ -1,16 +1,17 @@
 import Header from "../../components/header/header";
 import NewList from "../../components/NewList/NewList";
 import CreatedList from "../../components/CreatedList/CreatedList";
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import {
   GetLists,
   RemoveList,
   shareList,
 } from "../../api/MarketListApi";
-import { AuthContext } from "../../contexts/AuthContext";
 import "./Lists.styles.css";
 import { useQuery } from "@tanstack/react-query";
-import {BsFillPersonFill, BsFillPeopleFill} from 'react-icons/bs'
+import {BsFillPersonFill, BsFillPeopleFill} from 'react-icons/bs';
+import { toastifyConfig } from "../../utils";
+import { toast } from "react-toastify";
 const userData = JSON.parse(localStorage.getItem("@ListinhaUserData"))
 
 export default function Lists() {
@@ -31,6 +32,9 @@ export default function Lists() {
       email: email,
     };
     await shareList(sharePayload);
+    toast.info("Para remover o compartilhamento clique 2 vezes na imagem do usuário.", {
+      ...toastifyConfig,
+    });
     setUpdate(Date.now);
   };
 

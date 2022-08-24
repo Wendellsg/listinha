@@ -4,6 +4,7 @@ import Plus from "../../assets/plus.png";
 import "./List.styles.css";
 import Categories from "../../data/categories";
 import CreatedItens from "../../components/CreatedItens/Createditens";
+import { toastifyConfig } from "../../utils";
 import {
   GetList,
   AddNewItem,
@@ -26,16 +27,6 @@ export default function List() {
     GetList(id).then((res) => setListofPage(res));
 
   }, [update]);
-
-  const toastifyConfig = {
-    position: "bottom-center",
-    autoClose: 5000,
-    hideProgressBar: true,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-  };
 
   async function HandleAdditem() {
 
@@ -132,7 +123,7 @@ export default function List() {
         </div>
       </div>
       <h1 style={{ fontSize: "24px", margin: "15px" }}>Itens</h1>
-      <div className="ListItemsContainer slide-in-bottom ">
+      <div className="ListItemsContainer">
         {!listofPage?.items?.length && 'Nenhum item adicionado ainda'}
 
 

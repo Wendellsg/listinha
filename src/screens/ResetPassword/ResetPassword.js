@@ -3,6 +3,7 @@ import { useState, useRef } from "react";
 import { sendResetPassword } from "../../api/MarketListApi";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { toastifyConfig } from "../../utils";
 export default function ResetPassword() {
   const [email, setEmail] = useState("");
   const [showSendedMessage, setShowSendedMessage] = useState(false);
@@ -40,17 +41,6 @@ export default function ResetPassword() {
       isLoading: false,
     });
   }
-
-  const toastifyConfig = {
-    position: "bottom-center",
-    autoClose: 5000,
-    hideProgressBar: true,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-  };
-
   const sendingEmail = () =>
     (toastId.current = toast.loading("📨 Enviando", {
       ...toastifyConfig,

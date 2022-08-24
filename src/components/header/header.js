@@ -1,21 +1,25 @@
-import './header.styles.css';
-import Logo from '../../assets/image1.png'
+import "./header.styles.css";
+import Logo from "../../assets/image1.png";
 import { useNavigate } from "react-router-dom";
+import ProfileMenu from "../ProfileMenu";
 
 function Header(props) {
   const navigate = useNavigate();
-  function handleLogout(){
-    localStorage.removeItem('@ListinhaToken')
-    navigate('/')
-  }
-
 
   return (
-      <div className="header">
-        <img src={Logo} alt="Listas" className="logo" onClick={()=>  navigate('/listas')}/>
+    <div className="header">
+      <div className="Row">
+        <img
+          src={Logo}
+          alt="Listas"
+          className="logo"
+          onClick={() => navigate("/listas")}
+        />
         <h1>{props.name}</h1>
-        <p className='LogoutButton' onClick={()=> handleLogout()}>Sair</p>
       </div>
+
+      <ProfileMenu />
+    </div>
   );
 }
 

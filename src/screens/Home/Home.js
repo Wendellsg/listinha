@@ -1,51 +1,106 @@
 import "./Home.styles.css";
 import { useContext, useRef } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import illustation from "../../assets/homeimage.jpg";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import { toastifyConfig } from "../../utils";
+import { CreateGoogleUser } from "../../api/MarketListApi";
+import GoogleLogin from "react-google-login";
+
 export default function Home() {
   const { HandleLogin } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [gapi, setGapi] = useState(null);
   const navigate = useNavigate();
   const toastId = useRef(null);
 
-  const toastifyConfig = {
-    position: "bottom-center",
-    autoClose: 5000,
-    hideProgressBar: true,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
+  const loginProgress = () =>
+    (toastId.current = toast.loading("Fazendo Login", {
+      ...toastifyConfig,
+      autoClose: false,
+    }));
+
+  const responseGoogle = async (response) => {
+    if (response.accessToken) {
+      let googleUserPayload = {
+        userToken: response.accessToken,
+        name:
+          response.profileObj.givenName + " " + response.profileObj.familyName,
+        email: response.profileObj.email,
+        image: response.profileObj.imageUrl,
+        googleUser: true,
+      };
+
+      const createResponse = await CreateGoogleUser(googleUserPayload);
+
+      localStorage.setItem(
+        "@ListinhaUserData",
+        JSON.stringify(createResponse?.userData)
+      );
+
+      localStorage.setItem("@ListinhaToken", response.accessToken);
+      toast.success(`Logado como ${response.profileObj.email}`, {
+        ...toastifyConfig,
+      });
+      navigate("/listas");
+    }
   };
 
-  const loginProgress = () => toastId.current = toast.loading("Fazendo Login", {...toastifyConfig, autoClose: false });
-  
+  useEffect(() => {
+    async function importGapi() {
+      await import("gapi-script").then((pack) => setGapi(pack.gapi));
+    }
+    importGapi();
+  }, []);
+
+  useEffect(() => {
+    if (!gapi) return;
+    const initClient = () => {
+      gapi.client.init({
+        clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+        scope: "",
+      });
+    };
+    gapi.load("client:auth2", initClient);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gapi]);
+
   async function login() {
     if (email === "") return toast.warn("📧 Digite seu email!", toastifyConfig);
 
     if (password === "")
-      return toast("🔑 Digite sua senha!", {...toastifyConfig,isLoading: true});
-    loginProgress()
+      return toast.warn("🔑 Digite sua senha!", {
+        ...toastifyConfig,
+      });
+    loginProgress();
 
-    const loginResponse =  await HandleLogin({
-        email: email,
-        password: password,
-      })
+    const loginResponse = await HandleLogin({
+      email: email,
+      password: password,
+    });
 
-    if(loginResponse.success === false){
-     return toast.update(toastId.current, { render: loginResponse.message,type: toast.TYPE.ERROR, autoClose: 5000,  isLoading: false });
+    if (loginResponse.success === false) {
+      return toast.update(toastId.current, {
+        render: loginResponse.message,
+        type: toast.TYPE.ERROR,
+        autoClose: 5000,
+        isLoading: false,
+      });
     }
 
-
-    if(loginResponse.success === true){
-      toast.update(toastId.current, {render: "Logado", type: toast.TYPE.SUCCESS, autoClose: 500,  isLoading: false});
-      navigate('/listas')
+    if (loginResponse.success === true) {
+      toast.update(toastId.current, {
+        render: "Logado",
+        type: toast.TYPE.SUCCESS,
+        autoClose: 500,
+        isLoading: false,
+      });
+      navigate("/listas");
     }
   }
 
@@ -53,7 +108,7 @@ export default function Home() {
     <div className="homeContainer">
       <div>
         <h1>Listinhas</h1>
-        <img src={illustation} className="HomeIllustration" />
+        <img src={illustation} className="HomeIllustration" alt="illustaton" />
         <p
           className="LoginLabel"
           style={{ marginLeft: "0", marginTop: "1rem" }}
@@ -62,8 +117,10 @@ export default function Home() {
         </p>
       </div>
 
-       
-      <div className="loginCredencials"  onKeyDown={(e) => (e.key === "Enter" ? login() : null)} >
+      <div
+        className="loginCredencials"
+        onKeyDown={(e) => (e.key === "Enter" ? login() : null)}
+      >
         <input
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -77,7 +134,7 @@ export default function Home() {
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Sua senha"
             className="loginInput"
-            type={showPassword?"text":"password"}
+            type={showPassword ? "text" : "password"}
           />
           {showPassword ? (
             <AiFillEyeInvisible
@@ -101,6 +158,7 @@ export default function Home() {
         <h2>Entrar</h2>
       </div>
 
+
       <div onClick={() => navigate(`/reset-password`)}>
         <p
           className="LoginLabel"
@@ -109,6 +167,17 @@ export default function Home() {
           Esqueci minha senha
         </p>
       </div>
+      <div className="LoginWithGoogle">
+        <GoogleLogin
+          clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID || ""}
+          buttonText="Logar com o google"
+          onSuccess={responseGoogle}
+          onFailure={responseGoogle}
+          cookiePolicy={"single_host_origin"}
+        />
+      </div>
+
+    
 
       <div onClick={() => navigate(`/create-account`)}>
         <p

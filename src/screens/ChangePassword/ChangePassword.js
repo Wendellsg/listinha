@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { sendChangePassword } from "../../api/MarketListApi";
 import { toast } from "react-toastify";
+import { toastifyConfig } from "../../utils";
 
 export default function ChangePassword() {
   const [password, setPassword] = useState("");
@@ -14,15 +15,6 @@ export default function ChangePassword() {
   const navigate = useNavigate();
   const toastId = useRef(null);
 
-  const toastifyConfig = {
-    position: "bottom-center",
-    autoClose: 5000,
-    hideProgressBar: true,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-  };
   var pattern = /^[\w&.-]+$/;
 
   useEffect(() => {

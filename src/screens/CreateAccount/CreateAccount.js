@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { CreateUser } from "../../api/MarketListApi";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { toast } from "react-toastify";
+import { toastifyConfig } from "../../utils";
 export default function CreateAccount() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -12,15 +13,6 @@ export default function CreateAccount() {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const toastId = useRef(null);
-  const toastifyConfig = {
-    position: "bottom-center",
-    autoClose: 5000,
-    hideProgressBar: true,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-  };
 
   var pattern = /^[\w&.-]+$/
 

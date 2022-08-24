@@ -15,7 +15,7 @@
     width: fit-content;
     word-break: keep-all;
     position:absolute;
-    background-color: #47C8EC;
+    background-color: var(--primary-color);
     color: #FFF;
     padding: 5px 7px;
     border-radius: 10px;

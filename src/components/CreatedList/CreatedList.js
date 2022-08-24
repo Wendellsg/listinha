@@ -4,17 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import SharedProfile from "../../components/SharedProfile";
+import { toastifyConfig } from "../../utils";
 
 export default function CreatedList(props) {
-  const toastifyConfig = {
-    position: "bottom-center",
-    autoClose: 5000,
-    hideProgressBar: true,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-  };
 
   const [showShareBox, setShowShateBox] = useState(false);
   const [email, setEmail] = useState("");
@@ -45,7 +37,7 @@ export default function CreatedList(props) {
   const navigate = useNavigate();
   return (
     <li
-      className={`CreatedListContainer list-${getColor()} slide-in-left`}
+      className={`CreatedListContainer list-${getColor()} swing-in-top-fwd`}
       style={{ animationDelay: `${props.index * 200}ms` }}
     >
       <div className="CreatedListHeader">
