@@ -2,13 +2,17 @@ import "./ProfileMenu.styles.css";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { GoogleLogout } from "react-google-login";
-import userPlaceHolder from '../../assets/Portrait_Placeholder.png'
-import {gapi} from 'gapi-script'
+import userPlaceHolder from "../../assets/Portrait_Placeholder.png";
+import { gapi } from "gapi-script";
+import UserProfileModal from "../UserProfileModal";
+
 const userData = JSON.parse(localStorage.getItem("@ListinhaUserData"));
 
 export default function ProfileMenu() {
-  const [showMenu, setShowMenu] = useState(false);
   const navigate = useNavigate();
+
+  const [ showProfileModal, setShowProfileModal ] = useState(false);
+  const [ showMenu, setShowMenu ] = useState(false);
 
   useEffect(() => {
     if (!gapi) return;
@@ -22,7 +26,6 @@ export default function ProfileMenu() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gapi]);
 
-
   function handleLogout() {
     setShowMenu(false);
     localStorage.removeItem("@ListinhaToken");
@@ -31,14 +34,20 @@ export default function ProfileMenu() {
   }
 
   return (
-    <div className="ProFileMenuContainer">
-      <div className="MenuButton" onClick={() => setShowMenu(!showMenu)}>
-        <img style={{borderRadius: '50%'}} src={userData.image||userPlaceHolder} alt={''} />
-      </div>
-      {showMenu && (
-        <div className="MenuContainer swing-in-top-fwd">
-          <p>Perfil</p>
-          <p>Assinatura</p>
+    <>
+      {showProfileModal && <UserProfileModal setShowProfileModal={setShowProfileModal} userData={userData}/>}
+      <div className="ProFileMenuContainer">
+        <div className="MenuButton" onClick={() => setShowMenu(!showMenu)}>
+          <img
+            style={{ borderRadius: "50%" }}
+            src={userData.image || userPlaceHolder}
+            alt={""}
+          />
+        </div>
+        {showMenu && (
+          <div className="MenuContainer swing-in-top-fwd">
+            <p onClick={() => [setShowProfileModal(true), setShowMenu(false)]}>Perfil</p>
+            <p>Assinatura</p>
             <GoogleLogout
               clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID || ""}
               render={(renderProps) => (
@@ -46,8 +55,9 @@ export default function ProfileMenu() {
               )}
               onLogoutSuccess={handleLogout}
             ></GoogleLogout>
-        </div>
-      )}
-    </div>
+          </div>
+        )}
+      </div>
+    </>
   );
 }

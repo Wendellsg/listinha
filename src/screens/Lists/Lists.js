@@ -2,17 +2,13 @@ import Header from "../../components/header/header";
 import NewList from "../../components/NewList/NewList";
 import CreatedList from "../../components/CreatedList/CreatedList";
 import { useEffect, useState } from "react";
-import {
-  GetLists,
-  RemoveList,
-  shareList,
-} from "../../api/MarketListApi";
+import { GetLists, RemoveList, shareList } from "../../api/MarketListApi";
 import "./Lists.styles.css";
 import { useQuery } from "@tanstack/react-query";
-import {BsFillPersonFill, BsFillPeopleFill} from 'react-icons/bs';
+import { BsFillPersonFill, BsFillPeopleFill } from "react-icons/bs";
 import { toastifyConfig } from "../../utils";
 import { toast } from "react-toastify";
-const userData = JSON.parse(localStorage.getItem("@ListinhaUserData"))
+const userData = JSON.parse(localStorage.getItem("@ListinhaUserData"));
 
 export default function Lists() {
   const [update, setUpdate] = useState(0);
@@ -32,19 +28,21 @@ export default function Lists() {
       email: email,
     };
     await shareList(sharePayload);
-    toast.info("Para remover o compartilhamento clique 2 vezes na imagem do usuário.", {
-      ...toastifyConfig,
-    });
+    toast.info(
+      "Para remover o compartilhamento clique 2 vezes na imagem do usuário.",
+      {
+        ...toastifyConfig,
+      }
+    );
     setUpdate(Date.now);
   };
 
   useEffect(() => {
-    if (userData){
+    if (userData) {
       refetch();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userData, update]);
-
 
   if (isLoading) return "Carregando...";
 
@@ -53,17 +51,28 @@ export default function Lists() {
       <Header name="Listinhas" />
       <NewList setUpdate={setUpdate} userID={userData?.userid} />
       <br />
-      <div className="ListSelect" >
-        <div className="ListSelectItem" onClick={()=> setShowList('mylist')}>
-        <BsFillPersonFill size={25} color={showList === "mylist" ? '#47C8EC': '#CCC'}/>
+      <div className="ListSelect">
+        <div className="ListSelectItem" onClick={() => setShowList("mylist")}>
+          <BsFillPersonFill
+            size={25}
+            color={showList === "mylist" ? "#47C8EC" : "#CCC"}
+          />
         </div>
-        <div className="ListSelectItem" onClick={()=> setShowList('sharedlist')}>
-        <BsFillPeopleFill size={25} color={showList === "sharedlist" ? '#47C8EC': '#CCC'}/>
+        <div
+          className="ListSelectItem"
+          onClick={() => setShowList("sharedlist")}
+        >
+          <BsFillPeopleFill
+            size={25}
+            color={showList === "sharedlist" ? "#47C8EC" : "#CCC"}
+          />
         </div>
       </div>
       <div
         style={
-          showList === "mylist" ? { display: "flex", flexDirection: 'column' } : { display: "none" }
+          showList === "mylist"
+            ? { display: "flex", flexDirection: "column" }
+            : { display: "none" }
         }
       >
         <h2 className="subtitle">Minhas listas</h2>
@@ -94,7 +103,9 @@ export default function Lists() {
 
       <div
         style={
-          showList === "sharedlist" ? { display: "flex", flexDirection: 'column' } : { display: "none" }
+          showList === "sharedlist"
+            ? { display: "flex", flexDirection: "column" }
+            : { display: "none" }
         }
       >
         <h2 className="subtitle">Lista compartilhadas</h2>
