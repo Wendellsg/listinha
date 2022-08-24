@@ -4,7 +4,7 @@
     width: 340px;
     padding: 5px 15px;
     text-align: left;
-    border-bottom: dotted 1px #47C8EC;
+    border-bottom: dotted 1px var(--primary-color);
     margin: 10px;
     justify-content: space-between;
 }
