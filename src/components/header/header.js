@@ -2,7 +2,6 @@ import "./header.styles.css";
 import Logo from "../../assets/image1.png";
 import { useNavigate } from "react-router-dom";
 import ProfileMenu from "../ProfileMenu";
-
 function Header(props) {
   const navigate = useNavigate();
 
@@ -17,7 +16,6 @@ function Header(props) {
         />
         <h1>{props.name}</h1>
       </div>
-
       <ProfileMenu />
     </div>
   );

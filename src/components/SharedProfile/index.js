@@ -36,7 +36,7 @@ function SharedProfile({ email, listid, setUpdate, listShared }) {
     >
       <img
         src={image || placeholder}
-        alt={email}
+        alt={''}
         className="SharedProfileImage"
       />
       {ShowToolTip && <div className="SharedProfileToolTip">{email}</div>}

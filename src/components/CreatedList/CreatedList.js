@@ -27,7 +27,7 @@ export default function CreatedList(props) {
   function shareVerify() {
     if (email === "" || !email.includes("@"))
       return toast.warn(
-        "📧 Digite o email pra quem quer compartilhar",
+        "📧 Digite o e-mail pra quem quer compartilhar",
         toastifyConfig
       );
    props.HandleShareList(props.id, email);
