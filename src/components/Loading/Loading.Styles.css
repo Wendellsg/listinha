@@ -1,0 +1,26 @@
+.LoadingContainer{
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.LoadingIcon{
+    animation: rotation 2s infinite linear;
+}
+
+
+.LoadingMessage{
+    font-weight: bold;
+    font-size: 18px;
+}
+
+@keyframes rotation {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(359deg);
+    }
+  }

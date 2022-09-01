@@ -23,7 +23,6 @@ export async function createList(list) {
   }
 }
 
-
 export async function CreateGoogleUser(credencials) {
   let headers = {
     headers: {
@@ -32,18 +31,24 @@ export async function CreateGoogleUser(credencials) {
   };
 
   let body = JSON.stringify(credencials);
-  console.log(apiUrl)
+  console.log(apiUrl);
   try {
-    const userDataResponse = await axios.post(`${apiUrl}/create-google-user`, body, headers);
+    const userDataResponse = await axios.post(
+      `${apiUrl}/create-google-user`,
+      body,
+      headers
+    );
     if (!userDataResponse?.data) return null;
     return {
       success: true,
-      ...userDataResponse.data
+      ...userDataResponse.data,
     };
   } catch (error) {
     return {
       success: false,
-      message: error.response?.data?.message || "Problema na requisição, tente novamente mais tarde",
+      message:
+        error.response?.data?.message ||
+        "Problema na requisição, tente novamente mais tarde",
     };
   }
 }
@@ -58,12 +63,7 @@ export async function shareList(listtoShare) {
   let body = JSON.stringify(listtoShare);
 
   try {
-    const createdList = await axios.post(
-      `${apiUrl}/share-list`,
-      body,
-      headers
-    );
-    console.log(createdList);
+    await axios.post(`${apiUrl}/share-list`, body, headers);
   } catch (error) {
     console.log(error);
   }
@@ -71,23 +71,25 @@ export async function shareList(listtoShare) {
 
 export async function GetLists(ownerId, email) {
   try {
-    const userLists = await axios.get(`${apiUrl}/get-lists?ownerId=${ownerId}&email=${email}`);
+    const userLists = await axios.get(
+      `${apiUrl}/get-lists?ownerId=${ownerId}&email=${email}`
+    );
     return userLists.data;
   } catch (error) {
     console.log(error);
   }
 }
 
-
 export async function GetUserProfile(email) {
   try {
-    const userProfile = await axios.get(`${apiUrl}/get-user-profile?&email=${email}`);
+    const userProfile = await axios.get(
+      `${apiUrl}/get-user-profile?&email=${email}`
+    );
     return userProfile.data;
   } catch (error) {
     console.log(error);
   }
 }
-
 
 export async function GetList(listId) {
   try {
@@ -117,8 +119,7 @@ export async function AddNewItem(item) {
 
   let body = JSON.stringify(item);
   try {
-    const addResponse = await axios.post(`${apiUrl}/add-item`, body, headers);
-    console.log(addResponse);
+    await axios.post(`${apiUrl}/add-item`, body, headers);
     return true;
   } catch (error) {
     console.log(error);
@@ -169,12 +170,7 @@ export async function UpdateItemBuyed(item) {
 
   let body = JSON.stringify(item);
   try {
-    const addResponse = await axios.post(
-      `${apiUrl}/update-item-buyed`,
-      body,
-      headers
-    );
-    console.log(addResponse);
+    await axios.post(`${apiUrl}/update-item-buyed`, body, headers);
     return true;
   } catch (error) {
     console.log(error);
@@ -191,7 +187,7 @@ export async function setItemQuantity(item) {
 
   let body = JSON.stringify(item);
   try {
-    const addResponse = await axios.post(
+    await axios.post(
       `${apiUrl}/set-item-quantity`,
       body,
       headers
@@ -202,9 +198,6 @@ export async function setItemQuantity(item) {
     return null;
   }
 }
-
-
-
 
 export async function Login(credencials) {
   let headers = {
@@ -225,11 +218,14 @@ export async function Login(credencials) {
 
     return {
       success: true,
-      ...userData.data};
+      ...userData.data,
+    };
   } catch (error) {
     return {
       success: false,
-      message: error.response?.data?.message || "Problema na requisição, tente novamente mais tarde",
+      message:
+        error.response?.data?.message ||
+        "Problema na requisição, tente novamente mais tarde",
     };
   }
 }
@@ -252,7 +248,9 @@ export async function CreateUser(credencials) {
   } catch (error) {
     return {
       success: false,
-      message: error.response?.data?.message || "Problema na requisição, tente novamente mais tarde",
+      message:
+        error.response?.data?.message ||
+        "Problema na requisição, tente novamente mais tarde",
     };
   }
 }
@@ -271,7 +269,9 @@ export async function sendResetPassword(credencials) {
   } catch (error) {
     return {
       success: false,
-      message: error.response?.data?.message || "Problema na requisição, tente novamente mais tarde",
+      message:
+        error.response?.data?.message ||
+        "Problema na requisição, tente novamente mais tarde",
     };
   }
 }
@@ -295,7 +295,9 @@ export async function sendChangePassword(credencials) {
   } catch (error) {
     return {
       success: false,
-      message: error.response?.data?.message || "Problema na requisição, tente novamente mais tarde",
+      message:
+        error.response?.data?.message ||
+        "Problema na requisição, tente novamente mais tarde",
     };
   }
 }
