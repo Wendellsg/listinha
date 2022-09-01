@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./screens/Home/Home";
 import Lists from "./screens/Lists/Lists";
 import List from "./screens/List/List";

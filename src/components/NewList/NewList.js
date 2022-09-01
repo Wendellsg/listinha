@@ -1,24 +1,16 @@
 import "./newList.styles.css";
 import Plus from "../../assets/plus.png";
-import { useState, useEffect } from "react";
-import { createList } from "../../api/MarketListApi";
+import { useState } from "react";
+import { useLists } from "../../hooks";
 
-export default function NewList({ setUpdate, userID }) {
+export default function NewList() {
   const [listName, setListName] = useState("");
-
-  async function handleCreateList() {
-    const Lista = {
-      name: listName,
-      ownerId: userID,
-    };
-    setListName('')
-    await createList(Lista);
-    setUpdate(Math.random());
-  }
+  const { handleCreateList } = useLists();
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
-      handleCreateList();
+      handleCreateList(listName);
+      setListName('')
     }
   };
 
@@ -35,7 +27,7 @@ export default function NewList({ setUpdate, userID }) {
           type="text"
         />
       </div>
-      <div onClick={() => handleCreateList()}>
+      <div onClick={() => [handleCreateList(listName), setListName('')]}>
         <div className="Newlistplusicon">
           <img src={Plus} alt="adicionar" />
         </div>

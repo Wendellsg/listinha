@@ -5,12 +5,14 @@ import "./List.styles.css";
 import Categories from "../../data/categories";
 import CreatedItens from "../../components/CreatedItens/Createditens";
 import { toastifyConfig } from "../../utils";
+import { useQuery } from "@tanstack/react-query";
+import Loading from "../../components/Loading";
 import {
-  GetList,
   AddNewItem,
   removeItem,
   UpdateItemBuyed,
   setItemQuantity,
+  GetList,
 } from "../../api/MarketListApi";
 
 import { useParams } from "react-router-dom";
@@ -19,60 +21,75 @@ import { toast } from "react-toastify";
 export default function List() {
   const [itemName, setItemName] = useState("");
   const [itemCategory, setItemCategory] = useState(Categories[0].name);
-  const [update, setUpdate] = useState(0);
-  const [listofPage, setListofPage] = useState(null);
-
+  const [itemsList, setItemsList] = useState(null);
   const { id } = useParams();
-  useEffect(() => {
-    GetList(id).then((res) => setListofPage(res));
+  const { isLoading, data, refetch } = useQuery(["listsItems"], () =>
+    GetList(id)
+  );
 
-  }, [update]);
+  useEffect(() => {
+    setItemsList(data);
+    console.log(data)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
 
   async function HandleAdditem() {
-
-
-    if(itemName === '')return  toast.warn("O item precisa de um nome!", {...toastifyConfig,isLoading: false});
+    if (itemName === "")
+      return toast.warn("O item precisa de um nome!", {
+        ...toastifyConfig,
+        isLoading: false,
+      });
 
     const newitem = {
-      _id: listofPage._id,
+      _id: itemsList._id,
       name: itemName,
       buyed: false,
       category: itemCategory,
     };
-
     await AddNewItem(newitem);
 
     setItemName("");
-    setUpdate(Date.now());
+    refetch()
+
   }
 
   const HandleRemoveItem = async (itemId) => {
     let itemToRemove = {
-      _id: listofPage._id,
+      _id: itemsList._id,
       itemId: itemId,
     };
+
+    setItemsList(oldList => ({...oldList, items: [...oldList.items.filter(item=> item._id !== itemId)]}))
     await removeItem(itemToRemove);
-    setUpdate(Date.now());
   };
 
   const HandleSetBuyedItem = async (itemId, state) => {
     let itemToUpdate = {
-      _id: listofPage._id,
+      _id: itemsList._id,
       itemId: itemId,
       state: state,
     };
+
+    const oldItems  = itemsList.items
+    let itemIndex= oldItems.findIndex(item => item._id === itemId)
+    oldItems[itemIndex].buyed = state
+    setItemsList(oldList => ({...oldList, items: oldItems}))
+
     await UpdateItemBuyed(itemToUpdate);
-    setUpdate(Date.now());
   };
 
   const HandleChangeQuantity = async (itemId, quantity) => {
     let itemToUpdate = {
-      _id: listofPage._id,
+      _id: itemsList._id,
       itemId: itemId,
       quantity: quantity,
     };
+
+    const oldItems  = itemsList.items
+    let itemIndex= oldItems.findIndex(item => item._id === itemId)
+    oldItems[itemIndex].quantity = quantity
+    setItemsList(oldList => ({...oldList, items: oldItems}))
     await setItemQuantity(itemToUpdate);
-    setUpdate(Date.now());
   };
 
   //
@@ -89,7 +106,7 @@ export default function List() {
   ));
   return (
     <div>
-      <Header name={listofPage?.name} />
+      <Header name={itemsList?.name} />
       <div className="NewItemContainer">
         <div className="NewItemForm">
           <div style={{ flexDirection: "column", marginRight: "20px" }}>
@@ -124,13 +141,11 @@ export default function List() {
       </div>
       <h1 style={{ fontSize: "24px", margin: "15px" }}>Itens</h1>
       <div className="ListItemsContainer">
-        {!listofPage?.items?.length && 'Nenhum item adicionado ainda'}
-
-
-        {listofPage &&
+        {!isLoading? <Loading/>: !itemsList?.items?.length && "Nenhum item adicionado ainda"}
+        {itemsList &&
           // eslint-disable-next-line array-callback-return
           Categories.map((category, i) => {
-            const itensByCategory = listofPage.items.filter(
+            const itensByCategory = itemsList.items.filter(
               (item) => item.category === category.name
             );
             if (itensByCategory?.length > 0) {
@@ -143,9 +158,7 @@ export default function List() {
                     />{" "}
                     <h2>{category?.name}</h2>
                   </div>
-                  {
-                  itensByCategory.map((item, index) => {
-                    
+                  {itensByCategory.map((item, index) => {
                     return (
                       <CreatedItens
                         key={item._id}
@@ -154,7 +167,6 @@ export default function List() {
                         HandleSetBuyedItem={HandleSetBuyedItem}
                         HandleChangeQuantity={HandleChangeQuantity}
                         index={index}
-                    
                       />
                     );
                   })}

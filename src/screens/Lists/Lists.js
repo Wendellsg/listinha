@@ -1,55 +1,19 @@
 import Header from "../../components/header/header";
 import NewList from "../../components/NewList/NewList";
 import CreatedList from "../../components/CreatedList/CreatedList";
-import { useEffect, useState } from "react";
-import { GetLists, RemoveList, shareList } from "../../api/MarketListApi";
+import { useState } from "react";
 import "./Lists.styles.css";
-import { useQuery } from "@tanstack/react-query";
 import { BsFillPersonFill, BsFillPeopleFill } from "react-icons/bs";
-import { toastifyConfig } from "../../utils";
-import { toast } from "react-toastify";
-const userData = JSON.parse(localStorage.getItem("@ListinhaUserData"));
+import Loading from "../../components/Loading";
+import {useLists} from '../../hooks'
 
 export default function Lists() {
-  const [update, setUpdate] = useState(0);
-  const { isLoading, data, refetch } = useQuery(["listsData"], () =>
-    GetLists(userData?.userid, userData?.email)
-  );
   const [showList, setShowList] = useState("mylist");
-
-  const HandleRemoveList = async (listID) => {
-    await RemoveList(listID);
-    setUpdate(Date.now);
-  };
-
-  const HandleShareList = async (listID, email) => {
-    let sharePayload = {
-      listid: listID,
-      email: email,
-    };
-    await shareList(sharePayload);
-    toast.info(
-      "Para remover o compartilhamento clique 2 vezes na imagem do usuário.",
-      {
-        ...toastifyConfig,
-      }
-    );
-    setUpdate(Date.now);
-  };
-
-  useEffect(() => {
-    if (userData) {
-      refetch();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userData, update]);
-
-  if (isLoading) return "Carregando...";
-
+  const {data,isLoading,HandleRemoveList,HandleShareList} = useLists()
   return (
     <div className="ListsContainer">
       <Header name="Listinhas" />
-      <NewList setUpdate={setUpdate} userID={userData?.userid} />
+      <NewList/>
       <br />
       <div className="ListSelect">
         <div className="ListSelectItem" onClick={() => setShowList("mylist")}>
@@ -68,6 +32,7 @@ export default function Lists() {
           />
         </div>
       </div>
+
       <div
         style={
           showList === "mylist"
@@ -77,7 +42,7 @@ export default function Lists() {
       >
         <h2 className="subtitle">Minhas listas</h2>
         <div>
-          {!data?.myLists?.length ? (
+          {isLoading? <Loading/>: !data?.myLists?.length ? (
             <h2 className="subtitle">Você ainda não criou nenhuma lista</h2>
           ) : (
             data?.myLists?.map((list, index) => {
@@ -92,7 +57,6 @@ export default function Lists() {
                   listitens={list.items}
                   index={index}
                   sharedWith={list.sharedWith}
-                  setUpdate={setUpdate}
                   listShared={false}
                 />
               );
@@ -110,7 +74,7 @@ export default function Lists() {
       >
         <h2 className="subtitle">Lista compartilhadas</h2>
         <div>
-          {!data?.sharedLists?.length ? (
+          {isLoading? <Loading/>: !data?.sharedLists?.length ? (
             <h2 className="subtitle">
               Ninguem compartilhou nenhuma lista com você ainda
             </h2>
@@ -118,7 +82,7 @@ export default function Lists() {
             data?.sharedLists?.map((list, index) => {
               return (
                 <CreatedList
-                  key={list._id}
+                  key={`${list._id}Shared`}
                   removefunction={HandleRemoveList}
                   HandleShareList={HandleShareList}
                   listname={list.name}
@@ -127,7 +91,6 @@ export default function Lists() {
                   listitens={list.items}
                   index={index}
                   sharedWith={list.sharedWith}
-                  setUpdate={setUpdate}
                   listShared={true}
                 />
               );
