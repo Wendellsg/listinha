@@ -141,7 +141,7 @@ export default function List() {
       </div>
       <h1 style={{ fontSize: "24px", margin: "15px" }}>Itens</h1>
       <div className="ListItemsContainer">
-        {!isLoading? <Loading/>: !itemsList?.items?.length && "Nenhum item adicionado ainda"}
+        {isLoading? <Loading/>: !itemsList?.items?.length && "Nenhum item adicionado ainda"}
         {itemsList &&
           // eslint-disable-next-line array-callback-return
           Categories.map((category, i) => {
