@@ -1,0 +1,26 @@
+.SugestionsContainer{
+    width: 150px;
+    background-color: aliceblue;
+    height: fit-content;
+    max-height: 80px;
+    transition: 300ms;
+    padding: 0.5rem 0;
+    overflow-y: auto;
+    border: 1px solid #30A4AB;
+    border-radius: 7px;
+    position: absolute;
+}
+
+.SugestionItem{
+    color: black;
+    margin: 0.5rem;
+    list-style: none;
+    padding: 0.5rem;
+    border-radius: 7px;
+    cursor: pointer;
+
+}
+
+.SugestionItem:hover{
+    background-color: #86E4FD ;
+} 
