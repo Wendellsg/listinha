@@ -6,6 +6,7 @@ import Categories from "../../data/categories";
 import CreatedItens from "../../components/CreatedItens/Createditens";
 import { toastifyConfig } from "../../utils";
 import { useQuery } from "@tanstack/react-query";
+import SugestionsList from "../../components/SugestionsList";
 import Loading from "../../components/Loading";
 import {
   AddNewItem,
@@ -13,6 +14,7 @@ import {
   UpdateItemBuyed,
   setItemQuantity,
   GetList,
+  createSugestion,
 } from "../../api/MarketListApi";
 
 import { useParams } from "react-router-dom";
@@ -22,6 +24,7 @@ export default function List() {
   const [itemName, setItemName] = useState("");
   const [itemCategory, setItemCategory] = useState(Categories[0].name);
   const [itemsList, setItemsList] = useState(null);
+  const [showSugestionModal, setShowSugestionModal] = useState(false);
   const { id } = useParams();
   const { isLoading, data, refetch } = useQuery(["listsItems"], () =>
     GetList(id)
@@ -29,11 +32,24 @@ export default function List() {
 
   useEffect(() => {
     setItemsList(data);
-    console.log(data)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    console.log(data);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
-  async function HandleAdditem() {
+  useEffect(() => {
+    if (itemName.length > 3) {
+      setShowSugestionModal(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [itemName]);
+
+  function selectSugestion(name, category) {
+    console.log(name, category)
+    HandleAdditem(name,category)
+    setShowSugestionModal(false);
+  }
+
+  async function HandleAdditem(name, category) {
     if (itemName === "")
       return toast.warn("O item precisa de um nome!", {
         ...toastifyConfig,
@@ -42,15 +58,20 @@ export default function List() {
 
     const newitem = {
       _id: itemsList._id,
-      name: itemName,
+      name: name,
       buyed: false,
-      category: itemCategory,
+      category: category,
     };
     await AddNewItem(newitem);
 
-    setItemName("");
-    refetch()
+    const newSugestion = {
+      name,
+      category
+    }
+    await createSugestion(newSugestion)
 
+    setItemName("");
+    refetch();
   }
 
   const HandleRemoveItem = async (itemId) => {
@@ -59,7 +80,10 @@ export default function List() {
       itemId: itemId,
     };
 
-    setItemsList(oldList => ({...oldList, items: [...oldList.items.filter(item=> item._id !== itemId)]}))
+    setItemsList((oldList) => ({
+      ...oldList,
+      items: [...oldList.items.filter((item) => item._id !== itemId)],
+    }));
     await removeItem(itemToRemove);
   };
 
@@ -70,10 +94,10 @@ export default function List() {
       state: state,
     };
 
-    const oldItems  = itemsList.items
-    let itemIndex= oldItems.findIndex(item => item._id === itemId)
-    oldItems[itemIndex].buyed = state
-    setItemsList(oldList => ({...oldList, items: oldItems}))
+    const oldItems = itemsList.items;
+    let itemIndex = oldItems.findIndex((item) => item._id === itemId);
+    oldItems[itemIndex].buyed = state;
+    setItemsList((oldList) => ({ ...oldList, items: oldItems }));
 
     await UpdateItemBuyed(itemToUpdate);
   };
@@ -85,10 +109,10 @@ export default function List() {
       quantity: quantity,
     };
 
-    const oldItems  = itemsList.items
-    let itemIndex= oldItems.findIndex(item => item._id === itemId)
-    oldItems[itemIndex].quantity = quantity
-    setItemsList(oldList => ({...oldList, items: oldItems}))
+    const oldItems = itemsList.items;
+    let itemIndex = oldItems.findIndex((item) => item._id === itemId);
+    oldItems[itemIndex].quantity = quantity;
+    setItemsList((oldList) => ({ ...oldList, items: oldItems }));
     await setItemQuantity(itemToUpdate);
   };
 
@@ -110,7 +134,7 @@ export default function List() {
       <div className="NewItemContainer">
         <div className="NewItemForm">
           <div style={{ flexDirection: "column", marginRight: "20px" }}>
-            <div>
+            <div style={{positon: 'relative'}}>
               <h2>Nome do item</h2>
               <input
                 value={itemName}
@@ -120,6 +144,12 @@ export default function List() {
                 className="NewItemInput"
                 type="text"
               />
+              {showSugestionModal && (
+                <SugestionsList
+                  search={itemName}
+                  selectSugestion={selectSugestion}
+                />
+              )}
             </div>
           </div>
           <div style={{ flexDirection: "column" }}>
@@ -135,13 +165,17 @@ export default function List() {
             </div>
           </div>
         </div>
-        <div onClick={() => HandleAdditem()} className="NewItemplusicon">
+        <div onClick={() => HandleAdditem(itemName, itemCategory)} className="NewItemplusicon">
           <img src={Plus} alt="adicionar" />
         </div>
       </div>
       <h1 style={{ fontSize: "24px", margin: "15px" }}>Itens</h1>
       <div className="ListItemsContainer">
-        {isLoading? <Loading/>: !itemsList?.items?.length && "Nenhum item adicionado ainda"}
+        {isLoading ? (
+          <Loading />
+        ) : (
+          !itemsList?.items?.length && "Nenhum item adicionado ainda"
+        )}
         {itemsList &&
           // eslint-disable-next-line array-callback-return
           Categories.map((category, i) => {

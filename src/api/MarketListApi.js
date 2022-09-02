@@ -187,11 +187,7 @@ export async function setItemQuantity(item) {
 
   let body = JSON.stringify(item);
   try {
-    await axios.post(
-      `${apiUrl}/set-item-quantity`,
-      body,
-      headers
-    );
+    await axios.post(`${apiUrl}/set-item-quantity`, body, headers);
     return true;
   } catch (error) {
     console.log(error);
@@ -299,5 +295,43 @@ export async function sendChangePassword(credencials) {
         error.response?.data?.message ||
         "Problema na requisição, tente novamente mais tarde",
     };
+  }
+}
+
+export async function getSugestions(search) {
+  if (search.length < 3) {
+    return null;
+  }
+
+  try {
+    const sugestions = await axios.get(
+      `${apiUrl}/get-sugestions?search=${search}`
+    );
+    return sugestions.data;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
+
+export async function createSugestion(sugestion) {
+  let headers = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  let body = JSON.stringify(sugestion);
+
+  try {
+    const sugestions = await axios.post(
+      `${apiUrl}/create-sugestion`,
+      body,
+      headers
+    );
+    return sugestions.data;
+  } catch (error) {
+    console.log(error);
+    return null;
   }
 }
