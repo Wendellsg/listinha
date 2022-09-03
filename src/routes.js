@@ -5,14 +5,16 @@ import List from "./screens/List/List";
 import CreateAccount from "./screens/CreateAccount/CreateAccount"
 import ResetPassword from './screens/ResetPassword/ResetPassword'
 import ChangePassword from './screens/ChangePassword/ChangePassword'
-
+import EmailConfirmation from "./screens/EmailConfirmation/EmailConfirmation";
 import { useEffect } from "react";
+
 
 
 const publicPathsNames = [
   '/create-account',
   '/reset-password',
  '/change-password',
+ '/email-confirmation',
  '/'
 ]
 
@@ -40,6 +42,8 @@ export default function Router() {
         <Route path="/create-account" element={<CreateAccount />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/change-password" element={<ChangePassword />} />
+        <Route path="/email-confirmation" element={<EmailConfirmation />} />
+
       </Routes>
     </BrowserRouter>
   );

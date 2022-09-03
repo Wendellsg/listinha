@@ -36,7 +36,7 @@ export default function CreateAccount() {
    }
 
    if(createAccountResponse.success === true){
-    toast.update(toastId.current, {type: toast.TYPE.SUCCESS, autoClose: 5000,  isLoading: false});
+    toast.update(toastId.current, {render: 'Conta criada com sucesso',type: toast.TYPE.SUCCESS, autoClose: 5000,  isLoading: false});
   }
     setEmail("");
     setPassword("");

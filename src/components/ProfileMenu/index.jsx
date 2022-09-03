@@ -35,12 +35,12 @@ export default function ProfileMenu() {
 
   return (
     <>
-      {showProfileModal && <UserProfileModal setShowProfileModal={setShowProfileModal} userData={userData}/>}
+      {userData && showProfileModal && <UserProfileModal setShowProfileModal={setShowProfileModal} userData={userData}/>}
       <div className="ProFileMenuContainer">
         <div className="MenuButton" onClick={() => setShowMenu(!showMenu)}>
           <img
             style={{ borderRadius: "50%" }}
-            src={userData.image || userPlaceHolder}
+            src={userData?.image || userPlaceHolder}
             alt={""}
           />
         </div>
