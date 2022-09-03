@@ -29,7 +29,7 @@ export function useLists(){
     );
     refetch();
   };
-  async function handleCreateList({listName}) {
+  async function handleCreateList(listName) {
     const Lista = {
       name: listName,
       ownerId: userData?.userid,
