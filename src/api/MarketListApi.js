@@ -335,3 +335,56 @@ export async function createSugestion(sugestion) {
     return null;
   }
 }
+
+export async function sendEmailConfirmation(email) {
+  let headers = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  let body = JSON.stringify(email);
+
+  try {
+    const sentResponse = await axios.post(
+      `${apiUrl}/send-email-confirmation`,
+      body,
+      headers
+    );
+    return {
+      success: true,
+      message: sentResponse.data.message || "E-mail enviado com sucesso. Pode levar alguns minutos até você recebe-lo",
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      success: false,
+      message:
+        error.response?.data?.message ||
+        "Problema no envio do e-mail, tente novamente mais tarde",
+    };
+  }
+}
+
+export async function emailConfirmation(credencials) {
+  let headers = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  let body = JSON.stringify(credencials);
+  try {
+    await axios.post(`${apiUrl}/email-confirmation`, body, headers);
+    return {
+      success: true,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message:
+        error.response?.data?.message ||
+        "Problema na requisição, tente novamente mais tarde",
+    };
+  }
+}

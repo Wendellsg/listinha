@@ -6,8 +6,8 @@ import CreateAccount from "./screens/CreateAccount/CreateAccount"
 import ResetPassword from './screens/ResetPassword/ResetPassword'
 import ChangePassword from './screens/ChangePassword/ChangePassword'
 import EmailConfirmation from "./screens/EmailConfirmation/EmailConfirmation";
-
 import { useEffect } from "react";
+
 
 
 const publicPathsNames = [

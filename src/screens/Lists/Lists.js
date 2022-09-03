@@ -6,12 +6,15 @@ import "./Lists.styles.css";
 import { BsFillPersonFill, BsFillPeopleFill } from "react-icons/bs";
 import Loading from "../../components/Loading";
 import {useLists} from '../../hooks'
+import EmailConfirmationModal from '../../components/EmailConfirmationModal/EmailConfirmationModal.'
+const userData = JSON.parse(localStorage.getItem("@ListinhaUserData"));
 
 export default function Lists() {
   const [showList, setShowList] = useState("mylist");
   const {data,isLoading,HandleRemoveList,HandleShareList} = useLists()
   return (
     <div className="ListsContainer">
+       {userData && (!userData.emailConfirmed && !userData.googleUser) ? <EmailConfirmationModal email={userData.email}/>:''}
       <Header name="Listinhas" />
       <NewList/>
       <br />
