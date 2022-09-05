@@ -32,7 +32,6 @@ export default function List() {
 
   useEffect(() => {
     setItemsList(data);
-    console.log(data);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 

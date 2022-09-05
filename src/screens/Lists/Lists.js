@@ -51,7 +51,7 @@ export default function Lists() {
             data?.myLists?.map((list, index) => {
               return (
                 <CreatedList
-                  key={list._id}
+                  key={'myList'+list._id.toString()}
                   removefunction={HandleRemoveList}
                   HandleShareList={HandleShareList}
                   listname={list.name}
