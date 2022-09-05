@@ -2,7 +2,7 @@
     width: 150px;
     background-color: aliceblue;
     height: fit-content;
-    max-height: 80px;
+    max-height: 150px;
     transition: 300ms;
     padding: 0.5rem 0;
     overflow-y: auto;
@@ -24,3 +24,22 @@
 .SugestionItem:hover{
     background-color: #86E4FD ;
 } 
+
+
+.SugestionCategory{
+    box-sizing: border-box;
+    margin-top: 5px;
+    font-size: 10px;
+    border: 1px solid #888;
+    width: fit-content;
+    padding: 2px 5px;
+    border-radius: 5px;
+    background-color: #CCC;
+    color: #FFF;
+}
+
+.SugestionCategoryImage{
+    width: 10px;
+    height: 10px;
+    margin-left: 5px;
+}

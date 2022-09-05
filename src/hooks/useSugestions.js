@@ -14,7 +14,6 @@ export function useSugestions(search){
   },[search, refetch])
 
   useEffect(()=>{
-    console.log(data)
     setSugestions(data)
   },[data])
 
