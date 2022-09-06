@@ -2,8 +2,7 @@ const Categories = [
   {
     id: "0",
     name: "Limpeza",
-    image:
-      "../../assets/category_images/0.png",
+    image: "../../assets/category_images/0.png",
   },
   {
     id: "1",
@@ -18,14 +17,12 @@ const Categories = [
   {
     id: "3",
     name: "Bebidas",
-    image:
-    "../../assets/category_images/0.png",
+    image: "../../assets/category_images/0.png",
   },
   {
     id: "4",
-    name: "Carnes",
-    image:
-    "../../assets/category_images/0.png",
+    name: "Açougue e Peixaria",
+    image: "../../assets/category_images/0.png",
   },
   {
     id: "5",
@@ -35,14 +32,12 @@ const Categories = [
   {
     id: "6",
     name: "Hortifruti",
-    image:
-    "../../assets/category_images/0.png",
+    image: "../../assets/category_images/0.png",
   },
   {
     id: "7",
     name: "Pet",
-    image:
-    "../assets/category_images/0.png",
+    image: "../assets/category_images/0.png",
   },
   {
     id: "8",
@@ -51,10 +46,24 @@ const Categories = [
   },
   {
     id: "9",
-    name: "Higiêne",
+    name: "Higiêne & Perfumaria",
+    image: "../../assets/category_images/0.png",
+  },
+  {
+    id: "10",
+    name: "Drogarias",
+    image: "../../assets/category_images/0.png",
+  },
+  {
+    id: "11",
+    name: "Embutidos e defumados",
+    image: "../../assets/category_images/0.png",
+  },
+  {
+    id: "12",
+    name: "Enlatados",
     image: "../../assets/category_images/0.png",
   },
 ];
-
 
 export default Categories;
