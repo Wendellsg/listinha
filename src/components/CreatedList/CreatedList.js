@@ -7,7 +7,6 @@ import SharedProfile from "../../components/SharedProfile";
 import { toastifyConfig } from "../../utils";
 
 export default function CreatedList(props) {
-
   const [showShareBox, setShowShateBox] = useState(false);
   const [email, setEmail] = useState("");
   const Quantity = props.listitens.length;
@@ -30,8 +29,8 @@ export default function CreatedList(props) {
         "📧 Digite o e-mail pra quem quer compartilhar",
         toastifyConfig
       );
-   props.HandleShareList(props.id, email);
-   setShowShateBox(false)
+    props.HandleShareList(props.id, email);
+    setShowShateBox(false);
   }
 
   const navigate = useNavigate();
@@ -49,7 +48,10 @@ export default function CreatedList(props) {
           <h3>{`${Quantity} ${Plural()}`}</h3>
         </div>
 
-        <div className="bin" style={props.listShared?{display: 'none'}:{}}>
+        <div
+          className="bin"
+          style={props.listShared ? { display: "none" } : {}}
+        >
           <IoTrashSharp
             size={25}
             onClick={() => props.removefunction(props.id)}
@@ -64,15 +66,29 @@ export default function CreatedList(props) {
       </div>
       {props.sharedWith && (
         <div className="SharedList">
+          {props.listShared && (
+            <SharedProfile
+              ownerId={props.ownerId}
+              listShared={props.listShared}
+            />
+          )}
           {props.sharedWith.map((profile) => {
             return (
-              <SharedProfile email={profile.email} image={profile.image} listid={props.id} setUpdate={props.setUpdate} listShared={props.listShared}/>
+              <SharedProfile
+                email={profile.email}
+                listid={props.id}
+                setUpdate={props.setUpdate}
+                listShared={props.listShared}
+              />
             );
           })}
         </div>
       )}
       {showShareBox && (
-        <div className="CreatedListShareListContainer" onKeyDown={e=> e.key === 'Enter'? shareVerify():null}>
+        <div
+          className="CreatedListShareListContainer"
+          onKeyDown={(e) => (e.key === "Enter" ? shareVerify() : null)}
+        >
           <input
             type="email"
             placeholder="E-mail para quem quer compartilhar"

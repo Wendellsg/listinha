@@ -77,13 +77,15 @@ export async function GetLists(ownerId, email) {
     return userLists.data;
   } catch (error) {
     console.log(error);
+    return null
+    
   }
 }
 
-export async function GetUserProfile(email) {
+export async function GetUserProfile({email, id}) {
   try {
     const userProfile = await axios.get(
-      `${apiUrl}/get-user-profile?&email=${email}`
+      `${apiUrl}/get-user-profile?&email=${email}&id=${id}`
     );
     return userProfile.data;
   } catch (error) {

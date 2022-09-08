@@ -22,3 +22,7 @@
     box-shadow:  1px 1px rgb(71 200 236 / 50%);
     top: 15px;
 }
+.OwnerProfile{
+    border: 1px solid #ffa843;
+    box-shadow:  1px 1px 3px #ffa84370;
+}

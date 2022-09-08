@@ -7,9 +7,10 @@ import { BsFillPersonFill, BsFillPeopleFill } from "react-icons/bs";
 import Loading from "../../components/Loading";
 import {useLists} from '../../hooks'
 import EmailConfirmationModal from '../../components/EmailConfirmationModal/EmailConfirmationModal.'
-const userData = JSON.parse(localStorage.getItem("@ListinhaUserData"));
+import { useUserData } from "../../hooks/useUserData";
 
 export default function Lists() {
+  const {userData} = useUserData()
   const [showList, setShowList] = useState("mylist");
   const {data,isLoading,HandleRemoveList,HandleShareList} = useLists()
   return (
@@ -57,6 +58,7 @@ export default function Lists() {
                   listname={list.name}
                   listdate={list.createdAt}
                   id={list._id}
+                  ownerId={list.ownerId}
                   listitens={list.items}
                   index={index}
                   sharedWith={list.sharedWith}
@@ -91,6 +93,7 @@ export default function Lists() {
                   listname={list.name}
                   listdate={list.createdAt}
                   id={list._id}
+                  ownerId={list.ownerId}
                   listitens={list.items}
                   index={index}
                   sharedWith={list.sharedWith}

@@ -3,11 +3,14 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { toastifyConfig } from "../utils";
 import { toast } from "react-toastify";
-const userData = JSON.parse(localStorage.getItem("@ListinhaUserData"));
+import { useUserData } from "./useUserData";
 
 export function useLists(){
+    const {userData} = useUserData()
     const { isLoading, data, refetch } = useQuery(["listsData"], () =>
-    GetLists(userData?.userid, userData?.email)
+    GetLists(userData?.userid, userData?.email), {
+      retry: true
+    }
   );
 
   const HandleRemoveList = async (listID) => {
@@ -39,9 +42,7 @@ export function useLists(){
   }
 
   useEffect(() => {
-    if (userData) {
       refetch();
-    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userData]);
   return{

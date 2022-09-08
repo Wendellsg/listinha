@@ -5,12 +5,11 @@ import { GoogleLogout } from "react-google-login";
 import userPlaceHolder from "../../assets/Portrait_Placeholder.png";
 import { gapi } from "gapi-script";
 import UserProfileModal from "../UserProfileModal";
-
-const userData = JSON.parse(localStorage.getItem("@ListinhaUserData"));
+import { useUserData } from "../../hooks/useUserData";
 
 export default function ProfileMenu() {
   const navigate = useNavigate();
-
+  const {userData} = useUserData()
   const [ showProfileModal, setShowProfileModal ] = useState(false);
   const [ showMenu, setShowMenu ] = useState(false);
 

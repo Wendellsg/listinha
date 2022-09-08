@@ -16,7 +16,7 @@ import {
   GetList,
   createSugestion,
 } from "../../api/MarketListApi";
-
+import { useUserData } from "../../hooks/useUserData";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -26,6 +26,7 @@ export default function List() {
   const [itemsList, setItemsList] = useState(null);
   const [showSugestionModal, setShowSugestionModal] = useState(false);
   const { id } = useParams();
+  const {userData} = useUserData()
   const { isLoading, data, refetch } = useQuery(["listsItems"], () =>
     GetList(id)
   );
@@ -43,8 +44,7 @@ export default function List() {
   }, [itemName]);
 
   function selectSugestion(name, category) {
-    console.log(name, category)
-    HandleAdditem(name,category)
+    HandleAdditem(name,category, )
     setShowSugestionModal(false);
   }
 
@@ -65,7 +65,8 @@ export default function List() {
 
     const newSugestion = {
       name,
-      category
+      category,
+      creator: userData?.email
     }
     await createSugestion(newSugestion)
 
