@@ -73,6 +73,7 @@
   width: 100%;
   justify-content: flex-start;
   gap: 1rem;
+  flex-wrap: wrap;
 }
 
 
