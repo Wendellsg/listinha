@@ -13,14 +13,45 @@
 
 .SharedProfileToolTip{
     width: fit-content;
+    height: fit-content;
     word-break: keep-all;
     position:absolute;
-    background-color: var(--primary-color);
-    color: #FFF;
-    padding: 5px 7px;
+    font-size: 10px;
+    font-weight: bold;
+    color: #000;
     border-radius: 10px;
-    box-shadow:  1px 1px rgb(71 200 236 / 50%);
+    background: linear-gradient(264.89deg, #EEE 0%, #FFF 100%);
+    box-shadow: 0px 4px 4px rgba(167, 167, 167, 0.5);
     top: 15px;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    align-items: center;
+    gap: 1rem;
+}
+
+
+.ToolTipImage{
+    height: 50px;
+    width: 50px;
+}
+
+.SharedProfileListCreatorBadge{
+    border: 1px solid var(--primary-color);
+    padding: 0.3rem;
+    border-radius: 5px;
+}
+
+.SharedProfileRemoveBottom{
+    transition: 300ms;
+   font-size: 12px;
+   color: #AB3030;
+}
+
+.SharedProfileRemoveBottom:hover{
+    transition: 300ms;
+    opacity: 0.8;
+    text-shadow: 0px 2px 4px rgba(24, 72, 85, 0.5);
 }
 .OwnerProfile{
     border: 1px solid #ffa843;

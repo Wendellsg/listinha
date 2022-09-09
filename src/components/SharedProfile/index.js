@@ -6,26 +6,27 @@ import { useLists } from "../../hooks";
 
 function SharedProfile({ email, listid, listShared, ownerId }) {
   const [ShowToolTip, setShowToolTip] = useState(false);
-  const [image, setImage] = useState(null)
-  const [ownerData, setOwnerData] = useState(null)
-  const {refetch} = useLists()
+  const [image, setImage] = useState(null);
+  const [ownerData, setOwnerData] = useState(null);
+  const { refetch } = useLists();
 
   async function handleHemoveShare() {
-    if(listShared) return;
+    if (listShared) return;
     let removePayload = {
       _id: listid,
       email: email,
     };
-    await removeShare(removePayload)
-    refetch()
+    await removeShare(removePayload);
+    refetch();
   }
 
-  useState(()=>{
-    if(ownerId) return  GetUserProfile({id: ownerId}).then(res => setOwnerData(res))
-    GetUserProfile({email: email}).then(res => setImage(res.image))
-  },[])
+  useState(() => {
+    if (ownerId)
+      return GetUserProfile({ id: ownerId }).then((res) => setOwnerData(res));
+    GetUserProfile({ email: email }).then((res) => setImage(res.image));
+  }, []);
 
-  if(ownerId){
+  if (ownerId) {
     return (
       <div
         className="SharedProfileContainer"
@@ -36,16 +37,25 @@ function SharedProfile({ email, listid, listShared, ownerId }) {
       >
         <img
           src={ownerData?.image || placeholder}
-          alt={''}
+          alt={""}
           className="SharedProfileImage OwnerProfile"
         />
-        {ShowToolTip && <div className="SharedProfileToolTip">{ownerData?.email}</div>}
+        {ShowToolTip && (
+          <div className="SharedProfileToolTip">
+            <img
+              src={ownerData?.image || placeholder}
+              alt={""}
+              className="SharedProfileImage OwnerProfile ToolTipImage"
+            />
+            <div className="SharedProfileListCreatorBadge">
+              Criador da lista
+            </div>
+            {ownerData?.email}
+          </div>
+        )}
       </div>
     );
   }
-
-
-
 
   return (
     <div
@@ -55,12 +65,26 @@ function SharedProfile({ email, listid, listShared, ownerId }) {
       onClick={() => setShowToolTip(!ShowToolTip)}
       onDoubleClick={handleHemoveShare}
     >
-      <img
-        src={image || placeholder}
-        alt={''}
-        className="SharedProfileImage"
-      />
-      {ShowToolTip && <div className="SharedProfileToolTip">{email}</div>}
+      <img src={image || placeholder} alt={""} className="SharedProfileImage" />
+      {ShowToolTip && (
+        <div className="SharedProfileToolTip">
+          <img
+            src={image || placeholder}
+            alt={""}
+            className="SharedProfileImage ToolTipImage"
+          />
+
+          {email}
+          {!listShared && (
+            <div
+              onClick={handleHemoveShare}
+              className="SharedProfileRemoveBottom"
+            >
+              Remover
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

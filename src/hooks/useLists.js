@@ -24,12 +24,6 @@ export function useLists(){
       email: email,
     };
     await shareList(sharePayload);
-    toast.info(
-      "Para remover o compartilhamento clique 2 vezes na imagem do usuário.",
-      {
-        ...toastifyConfig,
-      }
-    );
     refetch();
   };
   async function handleCreateList(listName) {
