@@ -66,12 +66,7 @@ export default function CreatedList(props) {
       </div>
       {props.sharedWith && (
         <div className="SharedList">
-          {props.listShared && (
-            <SharedProfile
-              ownerId={props.ownerId}
-              listShared={props.listShared}
-            />
-          )}
+          
           {props.sharedWith.map((profile) => {
             return (
               <SharedProfile
@@ -82,6 +77,12 @@ export default function CreatedList(props) {
               />
             );
           })}
+          {props.listShared && (
+            <SharedProfile
+              ownerId={props.ownerId}
+              listShared={props.listShared}
+            />
+          )}
         </div>
       )}
       {showShareBox && (
