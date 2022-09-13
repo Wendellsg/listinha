@@ -8,6 +8,7 @@ import { toastifyConfig } from "../../utils";
 import { useQuery } from "@tanstack/react-query";
 import SugestionsList from "../../components/SugestionsList";
 import Loading from "../../components/Loading";
+import { useNavigate } from "react-router-dom";
 import {
   AddNewItem,
   removeItem,
@@ -26,13 +27,34 @@ export default function List() {
   const [itemsList, setItemsList] = useState(null);
   const [showSugestionModal, setShowSugestionModal] = useState(false);
   const { id } = useParams();
-  const {userData} = useUserData()
+  const { userData } = useUserData();
+  const navigate = useNavigate();
   const { isLoading, data, refetch } = useQuery(["listsItems"], () =>
-    GetList(id)
+    GetList(id, userData.email)
   );
 
   useEffect(() => {
-    setItemsList(data);
+    if (!data) {
+      return;
+    }
+
+    if (data.notAutorized) {
+      toast.warn("Você não pode acessar esta lista", {
+        ...toastifyConfig,
+        isLoading: false,
+      });
+      return navigate("/listas");
+    }
+
+    if (data.notNotFound) {
+      toast.warn("Lista não encontrada", {
+        ...toastifyConfig,
+        isLoading: false,
+      });
+      return navigate("/listas");
+    }
+
+    setItemsList(data.items);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
@@ -43,8 +65,13 @@ export default function List() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [itemName]);
 
+  useEffect(() => {
+    return () => setItemsList(null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   function selectSugestion(name, category) {
-    HandleAdditem(name,category, )
+    HandleAdditem(name, category);
     setShowSugestionModal(false);
   }
 
@@ -66,9 +93,9 @@ export default function List() {
     const newSugestion = {
       name,
       category,
-      creator: userData?.email
-    }
-    await createSugestion(newSugestion)
+      creator: userData?.email,
+    };
+    await createSugestion(newSugestion);
 
     setItemName("");
     refetch();
@@ -77,7 +104,7 @@ export default function List() {
   const HandleRemoveItem = async (itemId) => {
     let itemToRemove = {
       _id: itemsList._id,
-      itemId: itemId,
+      itemid: itemId,
     };
 
     setItemsList((oldList) => ({
@@ -134,7 +161,7 @@ export default function List() {
       <div className="NewItemContainer">
         <div className="NewItemForm">
           <div style={{ flexDirection: "column", marginRight: "20px" }}>
-            <div style={{positon: 'relative'}}>
+            <div style={{ positon: "relative" }}>
               <h2>Nome do item</h2>
               <input
                 value={itemName}
@@ -165,7 +192,10 @@ export default function List() {
             </div>
           </div>
         </div>
-        <div onClick={() => HandleAdditem(itemName, itemCategory)} className="NewItemplusicon">
+        <div
+          onClick={() => HandleAdditem(itemName, itemCategory)}
+          className="NewItemplusicon"
+        >
           <img src={Plus} alt="adicionar" />
         </div>
       </div>
