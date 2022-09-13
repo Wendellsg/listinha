@@ -12,12 +12,117 @@ export async function createList(list) {
   let body = JSON.stringify(list);
 
   try {
-    const createdList = await axios.post(
-      `${apiUrl}/create-list`,
+   await axios.post(
+      `${apiUrl}/lists`,
       body,
       headers
     );
-    console.log(createdList);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
+export async function GetLists(ownerId, email) {
+  try {
+    const userLists = await axios.get(
+      `${apiUrl}/lists?ownerId=${ownerId}&email=${email}`
+    );
+    return userLists.data;
+  } catch (error) {
+    console.log(error);
+    return null
+    
+  }
+}
+
+export async function GetList(listId) {
+  try {
+    const list = await axios.get(`${apiUrl}/lists?listId=${listId}`);
+    return list.data[0];
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function RemoveList(listId) {
+  try {
+    await axios.delete(`${apiUrl}/lists?listId=${listId}`);
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+
+export async function shareList(listtoShare) {
+  let headers = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  let body = JSON.stringify(listtoShare);
+
+  try {
+    await axios.post(`${apiUrl}/lists/share`, body, headers);
+    return;
+  } catch (error) {
+    console.log(error);
+    return;
+  }
+}
+
+
+export async function removeShare(share) {
+  let headers = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data: share
+  };
+
+  try {
+    await axios.delete(`${apiUrl}/lists/share`, headers);
+    return true;
+  } catch (error) {
+    return null;
+  }
+}
+
+export async function CreateUser(credencials) {
+  let headers = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  let body = JSON.stringify(credencials);
+  try {
+    const userData = await axios.post(`${apiUrl}/users`, body, headers);
+
+    if (!userData?.data) return null;
+    return {
+      success: true,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message:
+        error.response?.data?.message ||
+        "Problema na requisição, tente novamente mais tarde",
+    };
+  }
+}
+
+
+export async function GetUserProfile({email, id}) {
+  try {
+    const userProfile = await axios.get(
+      `${apiUrl}/users?&email=${email}&id=${id}`
+    );
+    return userProfile.data;
   } catch (error) {
     console.log(error);
   }
@@ -31,10 +136,9 @@ export async function CreateGoogleUser(credencials) {
   };
 
   let body = JSON.stringify(credencials);
-  console.log(apiUrl);
   try {
     const userDataResponse = await axios.post(
-      `${apiUrl}/create-google-user`,
+      `${apiUrl}/users/google`,
       body,
       headers
     );
@@ -53,64 +157,9 @@ export async function CreateGoogleUser(credencials) {
   }
 }
 
-export async function shareList(listtoShare) {
-  let headers = {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
 
-  let body = JSON.stringify(listtoShare);
 
-  try {
-    await axios.post(`${apiUrl}/share-list`, body, headers);
-  } catch (error) {
-    console.log(error);
-  }
-}
 
-export async function GetLists(ownerId, email) {
-  try {
-    const userLists = await axios.get(
-      `${apiUrl}/get-lists?ownerId=${ownerId}&email=${email}`
-    );
-    return userLists.data;
-  } catch (error) {
-    console.log(error);
-    return null
-    
-  }
-}
-
-export async function GetUserProfile({email, id}) {
-  try {
-    const userProfile = await axios.get(
-      `${apiUrl}/get-user-profile?&email=${email}&id=${id}`
-    );
-    return userProfile.data;
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-export async function GetList(listId) {
-  try {
-    const list = await axios.get(`${apiUrl}/get-lists?listId=${listId}`);
-    return list.data[0];
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-export async function RemoveList(listId) {
-  try {
-    await axios.get(`${apiUrl}/remove-list?listId=${listId}`);
-    return true;
-  } catch (error) {
-    console.log(error);
-    return false;
-  }
-}
 
 export async function AddNewItem(item) {
   let headers = {
@@ -121,7 +170,7 @@ export async function AddNewItem(item) {
 
   let body = JSON.stringify(item);
   try {
-    await axios.post(`${apiUrl}/add-item`, body, headers);
+    await axios.post(`${apiUrl}/lists/items`, body, headers);
     return true;
   } catch (error) {
     console.log(error);
@@ -130,15 +179,17 @@ export async function AddNewItem(item) {
 }
 
 export async function removeItem(item) {
+  let body = item
   let headers = {
     headers: {
       "Content-Type": "application/json",
     },
+    data: body
   };
-
-  let body = JSON.stringify(item);
+ 
+  
   try {
-    await axios.post(`${apiUrl}/remove-item`, body, headers);
+    await axios.delete(`${apiUrl}/lists/items`, headers);
     return true;
   } catch (error) {
     console.log(error);
@@ -146,22 +197,7 @@ export async function removeItem(item) {
   }
 }
 
-export async function removeShare(share) {
-  let headers = {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
 
-  let body = JSON.stringify(share);
-  try {
-    await axios.post(`${apiUrl}/remove-share`, body, headers);
-    return true;
-  } catch (error) {
-    console.log(error);
-    return null;
-  }
-}
 
 export async function UpdateItemBuyed(item) {
   let headers = {
@@ -172,7 +208,7 @@ export async function UpdateItemBuyed(item) {
 
   let body = JSON.stringify(item);
   try {
-    await axios.post(`${apiUrl}/update-item-buyed`, body, headers);
+    await axios.put(`${apiUrl}/lists/items/buyed`, body, headers);
     return true;
   } catch (error) {
     console.log(error);
@@ -186,10 +222,11 @@ export async function setItemQuantity(item) {
       "Content-Type": "application/json",
     },
   };
-
+ 
   let body = JSON.stringify(item);
+
   try {
-    await axios.post(`${apiUrl}/set-item-quantity`, body, headers);
+    await axios.put(`${apiUrl}/lists/items/quantity`, body, headers);
     return true;
   } catch (error) {
     console.log(error);
@@ -206,7 +243,7 @@ export async function Login(credencials) {
 
   let body = JSON.stringify(credencials);
   try {
-    const userData = await axios.post(`${apiUrl}/login`, body, headers);
+    const userData = await axios.post(`${apiUrl}/auth/login`, body, headers);
 
     if (!userData?.data.token)
       return {
@@ -228,52 +265,6 @@ export async function Login(credencials) {
   }
 }
 
-export async function CreateUser(credencials) {
-  let headers = {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
-
-  let body = JSON.stringify(credencials);
-  try {
-    const userData = await axios.post(`${apiUrl}/create-user`, body, headers);
-
-    if (!userData?.data) return null;
-    return {
-      success: true,
-    };
-  } catch (error) {
-    return {
-      success: false,
-      message:
-        error.response?.data?.message ||
-        "Problema na requisição, tente novamente mais tarde",
-    };
-  }
-}
-
-export async function sendResetPassword(credencials) {
-  let headers = {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
-
-  let body = JSON.stringify(credencials);
-  try {
-    await axios.post(`${apiUrl}/reset-password`, body, headers);
-    return { success: true };
-  } catch (error) {
-    return {
-      success: false,
-      message:
-        error.response?.data?.message ||
-        "Problema na requisição, tente novamente mais tarde",
-    };
-  }
-}
-
 export async function sendChangePassword(credencials) {
   let headers = {
     headers: {
@@ -284,9 +275,7 @@ export async function sendChangePassword(credencials) {
   let body = JSON.stringify(credencials);
   try {
     await axios
-      .post(`${apiUrl}/change-password`, body, headers)
-      .then((res) => console.log(res.data?.message));
-
+      .put(`${apiUrl}/auth/change-password`, body, headers)
     return {
       success: true,
     };
@@ -300,41 +289,26 @@ export async function sendChangePassword(credencials) {
   }
 }
 
-export async function getSugestions(search) {
-  if (search.length < 3) {
-    return null;
-  }
 
-  try {
-    const sugestions = await axios.get(
-      `${apiUrl}/get-sugestions?search=${search}`
-    );
-    return sugestions.data;
-  } catch (error) {
-    console.log(error);
-    return null;
-  }
-}
 
-export async function createSugestion(sugestion) {
+export async function sendResetPassword(credencials) {
   let headers = {
     headers: {
       "Content-Type": "application/json",
     },
   };
 
-  let body = JSON.stringify(sugestion);
-
+  let body = JSON.stringify(credencials);
   try {
-    const sugestions = await axios.post(
-      `${apiUrl}/create-sugestion`,
-      body,
-      headers
-    );
-    return sugestions.data;
+    await axios.post(`${apiUrl}/auth/reset-password`, body, headers);
+    return { success: true };
   } catch (error) {
-    console.log(error);
-    return null;
+    return {
+      success: false,
+      message:
+        error.response?.data?.message ||
+        "Problema na requisição, tente novamente mais tarde",
+    };
   }
 }
 
@@ -349,7 +323,7 @@ export async function sendEmailConfirmation(email) {
 
   try {
     const sentResponse = await axios.post(
-      `${apiUrl}/send-email-confirmation`,
+      `${apiUrl}/auth/send-email-confirmation`,
       body,
       headers
     );
@@ -377,7 +351,7 @@ export async function emailConfirmation(credencials) {
 
   let body = JSON.stringify(credencials);
   try {
-    await axios.post(`${apiUrl}/email-confirmation`, body, headers);
+    await axios.post(`${apiUrl}/auth/email-confirmation`, body, headers);
     return {
       success: true,
     };
@@ -390,3 +364,47 @@ export async function emailConfirmation(credencials) {
     };
   }
 }
+
+
+
+export async function getSugestions(search) {
+  if (search.length < 3) {
+    return null;
+  }
+
+  try {
+    const sugestions = await axios.get(
+      `${apiUrl}/sugestions?search=${search}`
+    );
+    return sugestions.data;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
+
+export async function createSugestion(sugestion) {
+  let headers = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  let body = JSON.stringify(sugestion);
+
+  try {
+    const sugestions = await axios.post(
+      `${apiUrl}/sugestions`,
+      body,
+      headers
+    );
+    return sugestions.data;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
+
+
+
+

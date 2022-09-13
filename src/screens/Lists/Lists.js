@@ -40,12 +40,12 @@ export default function Lists() {
       <div
         style={
           showList === "mylist"
-            ? { display: "flex", flexDirection: "column" }
+            ? { display: "flex", flexDirection: "column", }
             : { display: "none" }
         }
       >
         <h2 className="subtitle">Minhas listas</h2>
-        <div>
+        <div style={{display:'flex',flexDirection: "column-reverse", justifyContent: 'flex-end' }}>
           {isLoading? <Loading/>: !data?.myLists?.length ? (
             <h2 className="subtitle">Você ainda não criou nenhuma lista</h2>
           ) : (
@@ -73,12 +73,12 @@ export default function Lists() {
       <div
         style={
           showList === "sharedlist"
-            ? { display: "flex", flexDirection: "column" }
+            ? { display: "flex", flexDirection: "column",}
             : { display: "none" }
         }
       >
         <h2 className="subtitle">Lista compartilhadas</h2>
-        <div>
+        <div style={{display:'flex',flexDirection: "column-reverse", justifyContent: 'flex-end' }}>
           {isLoading? <Loading/>: !data?.sharedLists?.length ? (
             <h2 className="subtitle">
               Ninguem compartilhou nenhuma lista com você ainda

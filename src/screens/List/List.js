@@ -77,7 +77,7 @@ export default function List() {
   const HandleRemoveItem = async (itemId) => {
     let itemToRemove = {
       _id: itemsList._id,
-      itemId: itemId,
+      itemid: itemId,
     };
 
     setItemsList((oldList) => ({
