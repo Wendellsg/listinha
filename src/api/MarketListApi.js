@@ -44,7 +44,6 @@ export async function GetLists(ownerId, email) {
 
 export async function GetList(listId, SharedEmail) {
   try {
-    console.log(token)
     const list = await axios.get(`${apiUrl}/lists?listId=${listId}`, {
       headers: {
         Authorization: token,
@@ -67,7 +66,6 @@ export async function GetList(listId, SharedEmail) {
         notNotFound: true
       }
     }
-    console.log(error);
   }
 }
 

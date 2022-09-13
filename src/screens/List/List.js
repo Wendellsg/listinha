@@ -27,39 +27,34 @@ export default function List() {
   const [itemsList, setItemsList] = useState(null);
   const [showSugestionModal, setShowSugestionModal] = useState(false);
   const { id } = useParams();
-  const {userData} = useUserData()
-  const navigate = useNavigate()
+  const { userData } = useUserData();
+  const navigate = useNavigate();
   const { isLoading, data, refetch } = useQuery(["listsItems"], () =>
     GetList(id, userData.email)
   );
 
   useEffect(() => {
-    console.log(data)
-    if(!data){
-      return
+    if (!data) {
+      return;
     }
 
-
-    if(data.notAutorized){
-    
+    if (data.notAutorized) {
       toast.warn("Você não pode acessar esta lista", {
         ...toastifyConfig,
         isLoading: false,
       });
-      return navigate('/listas')
+      return navigate("/listas");
     }
 
-    if(data.notNotFound){
-    
+    if (data.notNotFound) {
       toast.warn("Lista não encontrada", {
         ...toastifyConfig,
         isLoading: false,
       });
-      return navigate('/listas')
+      return navigate("/listas");
     }
 
     setItemsList(data.items);
-    console.log(data)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
@@ -70,15 +65,13 @@ export default function List() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [itemName]);
 
-
   useEffect(() => {
-    return () => setItemsList(null)
+    return () => setItemsList(null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[]
-  );
+  }, []);
 
   function selectSugestion(name, category) {
-    HandleAdditem(name,category, )
+    HandleAdditem(name, category);
     setShowSugestionModal(false);
   }
 
@@ -100,9 +93,9 @@ export default function List() {
     const newSugestion = {
       name,
       category,
-      creator: userData?.email
-    }
-    await createSugestion(newSugestion)
+      creator: userData?.email,
+    };
+    await createSugestion(newSugestion);
 
     setItemName("");
     refetch();
@@ -168,7 +161,7 @@ export default function List() {
       <div className="NewItemContainer">
         <div className="NewItemForm">
           <div style={{ flexDirection: "column", marginRight: "20px" }}>
-            <div style={{positon: 'relative'}}>
+            <div style={{ positon: "relative" }}>
               <h2>Nome do item</h2>
               <input
                 value={itemName}
@@ -199,7 +192,10 @@ export default function List() {
             </div>
           </div>
         </div>
-        <div onClick={() => HandleAdditem(itemName, itemCategory)} className="NewItemplusicon">
+        <div
+          onClick={() => HandleAdditem(itemName, itemCategory)}
+          className="NewItemplusicon"
+        >
           <img src={Plus} alt="adicionar" />
         </div>
       </div>
