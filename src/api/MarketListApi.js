@@ -2,6 +2,8 @@ import axios from "axios";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
+const token = localStorage.getItem('@ListinhaToken')
+
 export async function createList(list) {
   let headers = {
     headers: {
@@ -26,7 +28,11 @@ export async function createList(list) {
 export async function GetLists(ownerId, email) {
   try {
     const userLists = await axios.get(
-      `${apiUrl}/lists?ownerId=${ownerId}&email=${email}`
+      `${apiUrl}/lists?ownerId=${ownerId}&email=${email}`, {
+        headers: {
+          Authorization: token
+        }
+      }
     );
     return userLists.data;
   } catch (error) {
@@ -36,18 +42,42 @@ export async function GetLists(ownerId, email) {
   }
 }
 
-export async function GetList(listId) {
+export async function GetList(listId, SharedEmail) {
   try {
-    const list = await axios.get(`${apiUrl}/lists?listId=${listId}`);
-    return list.data[0];
+    console.log(token)
+    const list = await axios.get(`${apiUrl}/lists?listId=${listId}`, {
+      headers: {
+        Authorization: token,
+        sharedemail: SharedEmail,
+      }
+    });
+    return {
+      notAutorized: false,
+      items: list.data
+    };
   } catch (error) {
+    if(error.response.status === 401){
+      return {
+        notAutorized: true
+      }
+    }
+
+    if(error.response.status === 404){
+      return {
+        notNotFound: true
+      }
+    }
     console.log(error);
   }
 }
 
 export async function RemoveList(listId) {
   try {
-    await axios.delete(`${apiUrl}/lists?listId=${listId}`);
+    await axios.delete(`${apiUrl}/lists?listId=${listId}`,{
+      headers: {
+        Authorization: token
+      }
+    });
     return true;
   } catch (error) {
     console.log(error);
