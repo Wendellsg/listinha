@@ -2,8 +2,6 @@ import axios from "axios";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
-const token = localStorage.getItem('@ListinhaToken')
-
 export async function createList(list) {
   let headers = {
     headers: {
@@ -26,6 +24,8 @@ export async function createList(list) {
 
 
 export async function GetLists(ownerId, email) {
+  console.log('Outra chamada')
+  const token = localStorage.getItem('@ListinhaToken')
   try {
     const userLists = await axios.get(
       `${apiUrl}/lists?ownerId=${ownerId}&email=${email}`, {
@@ -43,6 +43,7 @@ export async function GetLists(ownerId, email) {
 }
 
 export async function GetList(listId, SharedEmail) {
+  const token = localStorage.getItem('@ListinhaToken')
   try {
     const list = await axios.get(`${apiUrl}/lists?listId=${listId}`, {
       headers: {
@@ -70,6 +71,7 @@ export async function GetList(listId, SharedEmail) {
 }
 
 export async function RemoveList(listId) {
+  const token = localStorage.getItem('@ListinhaToken')
   try {
     await axios.delete(`${apiUrl}/lists?listId=${listId}`,{
       headers: {

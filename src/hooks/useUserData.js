@@ -1,15 +1,7 @@
-import { useEffect, useState } from "react"
+import {  useMemo,  } from "react"
 
-const savedUserData = JSON.parse(localStorage.getItem("@ListinhaUserData"));
 export function useUserData(){
-    const [userData, setUserData] = useState(savedUserData)
-
-    useEffect(()=>{
-        const savedUserData = JSON.parse(localStorage.getItem("@ListinhaUserData"));
-
-        if(!savedUserData)return
-        setUserData(savedUserData)
-    },[])
+   const userData = useMemo(() =>JSON.parse(localStorage.getItem("@ListinhaUserData")), []);
     return {
         userData
     }

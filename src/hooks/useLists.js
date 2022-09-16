@@ -1,16 +1,12 @@
 import { GetLists, RemoveList, shareList, createList } from "../api/MarketListApi";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { toastifyConfig } from "../utils";
-import { toast } from "react-toastify";
 import { useUserData } from "./useUserData";
 
 export function useLists(){
     const {userData} = useUserData()
     const { isLoading, data, refetch } = useQuery(["listsData"], () =>
-    GetLists(userData?.userid, userData?.email), {
-      retry: true
-    }
+    GetLists(userData?.userid, userData?.email)
   );
 
   const HandleRemoveList = async (listID) => {
@@ -35,10 +31,13 @@ export function useLists(){
     refetch();
   }
 
-  useEffect(() => {
-      refetch();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userData]);
+
+  useEffect(()=>{
+    if(data|| !userData) return;
+    refetch()
+  },[userData])
+
+
   return{
     HandleShareList,
     refetch,
