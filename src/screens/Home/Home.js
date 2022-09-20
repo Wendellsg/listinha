@@ -43,11 +43,14 @@ export default function Home() {
         JSON.stringify(createResponse?.userData)
       );
 
-      localStorage.setItem("@ListinhaToken", response.accessToken);
+      localStorage.setItem("@ListinhaToken", createResponse?.token);
       toast.success(`Logado como ${response.profileObj.email}`, {
         ...toastifyConfig,
       });
-      navigate("/listas");
+
+      setTimeout(() => {
+        navigate("/listas");
+      }, 1000);
     }
   };
 
@@ -158,7 +161,6 @@ export default function Home() {
         <h2>Entrar</h2>
       </div>
 
-
       <div onClick={() => navigate(`/reset-password`)}>
         <p
           className="LoginLabel"
@@ -176,8 +178,6 @@ export default function Home() {
           cookiePolicy={"single_host_origin"}
         />
       </div>
-
-    
 
       <div onClick={() => navigate(`/create-account`)}>
         <p

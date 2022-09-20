@@ -12,71 +12,76 @@ export async function createList(list) {
   let body = JSON.stringify(list);
 
   try {
-   await axios.post(
-      `${apiUrl}/lists`,
-      body,
-      headers
-    );
+    await axios.post(`${apiUrl}/lists`, body, headers);
   } catch (error) {
     console.log(error);
   }
 }
 
-
 export async function GetLists(ownerId, email) {
-  console.log('Outra chamada')
-  const token = localStorage.getItem('@ListinhaToken')
+  const token = localStorage.getItem("@ListinhaToken");
   try {
     const userLists = await axios.get(
-      `${apiUrl}/lists?ownerId=${ownerId}&email=${email}`, {
+      `${apiUrl}/lists?ownerId=${ownerId}&email=${email}`,
+      {
         headers: {
-          Authorization: token
-        }
+          Authorization: token,
+        },
       }
     );
-    return userLists.data;
-  } catch (error) {
-    console.log(error);
-    return null
+    return {
+      notAutorized: false,
+      lists:  userLists.data,
+    };
     
+    
+
+  } catch (error) {
+    if (error.response.status === 401) {
+      return {
+        notAutorized: true,
+      };
+    } else {
+      return null;
+    }
   }
 }
 
 export async function GetList(listId, SharedEmail) {
-  const token = localStorage.getItem('@ListinhaToken')
+  const token = localStorage.getItem("@ListinhaToken");
   try {
     const list = await axios.get(`${apiUrl}/lists?listId=${listId}`, {
       headers: {
         Authorization: token,
         sharedemail: SharedEmail,
-      }
+      },
     });
     return {
       notAutorized: false,
-      items: list.data
+      items: list.data,
     };
   } catch (error) {
-    if(error.response.status === 401){
+    if (error.response.status === 401) {
       return {
-        notAutorized: true
-      }
+        notAutorized: true,
+      };
     }
 
-    if(error.response.status === 404){
+    if (error.response.status === 404) {
       return {
-        notNotFound: true
-      }
+        notNotFound: true,
+      };
     }
   }
 }
 
 export async function RemoveList(listId) {
-  const token = localStorage.getItem('@ListinhaToken')
+  const token = localStorage.getItem("@ListinhaToken");
   try {
-    await axios.delete(`${apiUrl}/lists?listId=${listId}`,{
+    await axios.delete(`${apiUrl}/lists?listId=${listId}`, {
       headers: {
-        Authorization: token
-      }
+        Authorization: token,
+      },
     });
     return true;
   } catch (error) {
@@ -84,7 +89,6 @@ export async function RemoveList(listId) {
     return false;
   }
 }
-
 
 export async function shareList(listtoShare) {
   let headers = {
@@ -104,13 +108,12 @@ export async function shareList(listtoShare) {
   }
 }
 
-
 export async function removeShare(share) {
   let headers = {
     headers: {
       "Content-Type": "application/json",
     },
-    data: share
+    data: share,
   };
 
   try {
@@ -146,8 +149,7 @@ export async function CreateUser(credencials) {
   }
 }
 
-
-export async function GetUserProfile({email, id}) {
+export async function GetUserProfile({ email, id }) {
   try {
     const userProfile = await axios.get(
       `${apiUrl}/users?&email=${email}&id=${id}`
@@ -187,10 +189,6 @@ export async function CreateGoogleUser(credencials) {
   }
 }
 
-
-
-
-
 export async function AddNewItem(item) {
   let headers = {
     headers: {
@@ -209,15 +207,14 @@ export async function AddNewItem(item) {
 }
 
 export async function removeItem(item) {
-  let body = item
+  let body = item;
   let headers = {
     headers: {
       "Content-Type": "application/json",
     },
-    data: body
+    data: body,
   };
- 
-  
+
   try {
     await axios.delete(`${apiUrl}/lists/items`, headers);
     return true;
@@ -226,8 +223,6 @@ export async function removeItem(item) {
     return null;
   }
 }
-
-
 
 export async function UpdateItemBuyed(item) {
   let headers = {
@@ -252,7 +247,7 @@ export async function setItemQuantity(item) {
       "Content-Type": "application/json",
     },
   };
- 
+
   let body = JSON.stringify(item);
 
   try {
@@ -304,8 +299,7 @@ export async function sendChangePassword(credencials) {
 
   let body = JSON.stringify(credencials);
   try {
-    await axios
-      .put(`${apiUrl}/auth/change-password`, body, headers)
+    await axios.put(`${apiUrl}/auth/change-password`, body, headers);
     return {
       success: true,
     };
@@ -318,8 +312,6 @@ export async function sendChangePassword(credencials) {
     };
   }
 }
-
-
 
 export async function sendResetPassword(credencials) {
   let headers = {
@@ -359,7 +351,9 @@ export async function sendEmailConfirmation(email) {
     );
     return {
       success: true,
-      message: sentResponse.data.message || "E-mail enviado com sucesso. Pode levar alguns minutos até você recebe-lo",
+      message:
+        sentResponse.data.message ||
+        "E-mail enviado com sucesso. Pode levar alguns minutos até você recebe-lo",
     };
   } catch (error) {
     console.log(error);
@@ -395,17 +389,13 @@ export async function emailConfirmation(credencials) {
   }
 }
 
-
-
 export async function getSugestions(search) {
   if (search.length < 3) {
     return null;
   }
 
   try {
-    const sugestions = await axios.get(
-      `${apiUrl}/sugestions?search=${search}`
-    );
+    const sugestions = await axios.get(`${apiUrl}/sugestions?search=${search}`);
     return sugestions.data;
   } catch (error) {
     console.log(error);
@@ -423,18 +413,10 @@ export async function createSugestion(sugestion) {
   let body = JSON.stringify(sugestion);
 
   try {
-    const sugestions = await axios.post(
-      `${apiUrl}/sugestions`,
-      body,
-      headers
-    );
+    const sugestions = await axios.post(`${apiUrl}/sugestions`, body, headers);
     return sugestions.data;
   } catch (error) {
     console.log(error);
     return null;
   }
 }
-
-
-
-

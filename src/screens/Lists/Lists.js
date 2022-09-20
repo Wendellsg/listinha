@@ -46,10 +46,10 @@ export default function Lists() {
       >
         <h2 className="subtitle">Minhas listas</h2>
         <div style={{display:'flex',flexDirection: "column-reverse", justifyContent: 'flex-end' }}>
-          {isLoading? <Loading/>: !data?.myLists?.length ? (
+          {isLoading? <Loading/>: !data?.lists?.myLists?.length ? (
             <h2 className="subtitle">Você ainda não criou nenhuma lista</h2>
           ) : (
-            data?.myLists?.map((list, index) => {
+            data?.lists?.myLists?.map((list, index) => {
               return (
                 <CreatedList
                   key={'myList'+list._id.toString()}
@@ -79,12 +79,12 @@ export default function Lists() {
       >
         <h2 className="subtitle">Lista compartilhadas</h2>
         <div style={{display:'flex',flexDirection: "column-reverse", justifyContent: 'flex-end' }}>
-          {isLoading? <Loading/>: !data?.sharedLists?.length ? (
+          {isLoading? <Loading/>: !data?.lists?.sharedLists?.length ? (
             <h2 className="subtitle">
               Ninguem compartilhou nenhuma lista com você ainda
             </h2>
           ) : (
-            data?.sharedLists?.map((list, index) => {
+            data?.lists?.sharedLists?.map((list, index) => {
               return (
                 <CreatedList
                   key={`${list._id}Shared`}
