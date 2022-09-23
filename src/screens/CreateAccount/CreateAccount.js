@@ -5,6 +5,9 @@ import { CreateUser } from "../../api/MarketListApi";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { toast } from "react-toastify";
 import { toastifyConfig } from "../../utils";
+import Brand from "../../components/Brand";
+import NewAccountIllustration from '../../assets/new-account.jpg'
+
 export default function CreateAccount() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -45,6 +48,8 @@ export default function CreateAccount() {
 
   return (
     <div className="CreateAccountContainer">
+       <Brand/>
+      <img src={NewAccountIllustration}alt='' style={{height: '300px'}}/>
       <div style={{marginBottom: '2rem'}}>
         <h1>Crie sua conta</h1>
       </div>
