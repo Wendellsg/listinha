@@ -39,8 +39,9 @@ export default function List() {
     }
 
     if (data.notAutorized) {
-      toast.warn("Você não pode acessar esta lista", {
+      toast.warn("Você não pode acessar esta lista. Se a lista for sua, tente fazer login novamente.", {
         ...toastifyConfig,
+        autoClose: 8000,
         isLoading: false,
       });
       return navigate("/listas");
