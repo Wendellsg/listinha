@@ -14,7 +14,6 @@ function Header(props) {
           className="logo"
           onClick={() => navigate("/listas")}
         />
-        <h1>{props.name}</h1>
       </div>
       <ProfileMenu />
     </div>

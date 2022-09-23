@@ -16,7 +16,7 @@ export default function Lists() {
   return (
     <div className="ListsContainer">
        {userData && (!userData.emailConfirmed && !userData.googleUser) ? <EmailConfirmationModal email={userData.email}/>:''}
-      <Header name="Listinhas" />
+      <Header/>
       <NewList/>
       <br />
       <div className="ListSelect">

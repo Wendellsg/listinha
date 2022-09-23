@@ -70,6 +70,16 @@
 .ListItemsContainer{
     max-height: 600px;
     overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.ListHeader{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+    margin: 2rem auto;
+    gap: 1rem;
 }
 
 .CategoryHeader{

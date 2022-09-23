@@ -39,11 +39,14 @@ export default function List() {
     }
 
     if (data.notAutorized) {
-      toast.warn("Você não pode acessar esta lista. Se a lista for sua, tente fazer login novamente.", {
-        ...toastifyConfig,
-        autoClose: 8000,
-        isLoading: false,
-      });
+      toast.warn(
+        "Você não pode acessar esta lista. Se a lista for sua, tente fazer login novamente.",
+        {
+          ...toastifyConfig,
+          autoClose: 8000,
+          isLoading: false,
+        }
+      );
       return navigate("/listas");
     }
 
@@ -158,7 +161,7 @@ export default function List() {
   ));
   return (
     <div>
-      <Header name={itemsList?.name} />
+      <Header />
       <div className="NewItemContainer">
         <div className="NewItemForm">
           <div style={{ flexDirection: "column", marginRight: "20px" }}>
@@ -200,7 +203,13 @@ export default function List() {
           <img src={Plus} alt="adicionar" />
         </div>
       </div>
-      <h1 style={{ fontSize: "24px", margin: "15px" }}>Itens</h1>
+      <div className="ListHeader">
+        <h1 style={{ fontSize: "18px" }}>{itemsList?.name}</h1>
+        <h1>
+          {itemsList?.items?.length}{" "}
+          {itemsList?.items?.length > 1 ? "itens" : "item"}
+        </h1>
+      </div>
       <div className="ListItemsContainer">
         {isLoading ? (
           <Loading />

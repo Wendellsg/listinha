@@ -29,13 +29,13 @@ export default function CreatedItens({
 
       <div className="ItemTools">
         <div onClick={() => HandleChangeQuantity(item._id, item.quantity -1)} className="ItemIcons">
-          <IoRemoveSharp color="#333" />
+          <IoRemoveSharp color="#333"/>
         </div>
 
         <h1 className="ItemName">{item.quantity}</h1>
         <div className="ItemTools" style={{ marginRight: "2rem" }}>
           <div onClick={() => HandleChangeQuantity(item._id, item.quantity +1)} className="ItemIcons">
-            <IoAddSharp color="#333" />
+            <IoAddSharp color="#333"  />
           </div>
         </div>
 
@@ -45,14 +45,14 @@ export default function CreatedItens({
               onClick={() => HandleSetBuyedItem(item._id, false)}
               className="ItemIcons"
             >
-              <MdRemoveShoppingCart color="#333" />
+              <MdRemoveShoppingCart color="#333"  size={20}/>
             </div>
 
             <div
               onClick={() => HandleRemoveItem(item._id)}
               className="ItemIcons"
             >
-              <IoCloseCircleOutline color="#AB3030" />
+              <IoCloseCircleOutline color="#AB3030"  size={20} />
             </div>
           </div>
         ) : (
@@ -60,14 +60,14 @@ export default function CreatedItens({
             <div
               onClick={() => HandleRemoveItem(item._id)}
               className="ItemIcons"
-            >
-              <IoCloseCircleOutline color="#AB3030" />
+            > 
+              <IoCloseCircleOutline color="#AB3030"  size={20}/>
             </div>
             <div
               onClick={() => HandleSetBuyedItem(item._id, true)}
               className="ItemIcons"
             >
-              <MdCheckCircleOutline color="#59D640" />
+              <MdCheckCircleOutline color="#59D640"  size={20}/>
             </div>
           </div>
         )}
