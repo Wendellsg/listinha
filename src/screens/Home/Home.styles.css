@@ -85,6 +85,7 @@
   color: #000000;
 }
 
+
 .HomeIllustration {
   height: 250px;
   width: auto;
@@ -115,6 +116,31 @@
 }
 
 .LoginWithGoogle{
-  margin-top: 2rem;
-  width: 256px;
+  transition: 300ms;
+  width: 262px;
+  height: 45px;
+  border-radius: 21px;
+  text-decoration: none;
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 42px;
+  text-align: center;
+  color: #000;
+  border: 1px solid rgba(0, 0, 0, 0.082);
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  margin-top: 1rem;
+  padding: 0 1rem;
+  gap: 1rem;
+
+}
+
+.LoginWithGoogle:hover {
+  transition: 300ms;
+  background-color: #EEEeee50;
+  
 }

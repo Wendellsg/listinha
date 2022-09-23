@@ -4,6 +4,8 @@ import { sendResetPassword } from "../../api/MarketListApi";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { toastifyConfig } from "../../utils";
+import Brand from "../../components/Brand";
+import ResetPassWordIllustration from '../../assets/reset-password.jpg'
 export default function ResetPassword() {
   const [email, setEmail] = useState("");
   const [showSendedMessage, setShowSendedMessage] = useState(false);
@@ -49,6 +51,8 @@ export default function ResetPassword() {
 
   return (
     <div className="homeContainer">
+      <Brand/>
+      <img src={ResetPassWordIllustration}alt='' style={{height: '300px'}}/>
       <div>
         <h1 style={{ fontSize: "18px" }}>Redefinição de senha</h1>
         <p

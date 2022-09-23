@@ -5,6 +5,8 @@ import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { sendChangePassword } from "../../api/MarketListApi";
 import { toast } from "react-toastify";
 import { toastifyConfig } from "../../utils";
+import ChangePassWordIllustration from '../../assets/change-password.jpg'
+import Brand from "../../components/Brand";
 
 export default function ChangePassword() {
   const [password, setPassword] = useState("");
@@ -70,14 +72,10 @@ export default function ChangePassword() {
 
   return (
     <div className="homeContainer">
+       <Brand/>
+      <img src={ChangePassWordIllustration}alt='' style={{height: '300px'}}/>
       <div>
-        <h1>Reset sua senha</h1>
-        <p
-          className="LoginLabel"
-          style={{ marginLeft: "0", marginTop: "1rem", marginBottom: "2rem" }}
-        >
-          Informe o e-mail para enviarmos o link de reset de senha.
-        </p>
+        <h1  style={{ fontSize: "18px" }}>Crie uma senha nova</h1>
       </div>
 
       <div
@@ -108,8 +106,6 @@ export default function ChangePassword() {
             />
           )}
         </div>
-        <label className="LoginLabel">repita sua senha</label>
-
         <div style={{ position: "relative" }}>
           <input
             value={passwordVerify}
@@ -142,7 +138,7 @@ export default function ChangePassword() {
           handleChanePassWord();
         }}
       >
-        <h2>Enviar</h2>
+        <h2>Criar</h2>
       </div>
     </div>
   );

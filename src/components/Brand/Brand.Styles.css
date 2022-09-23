@@ -1,0 +1,18 @@
+.BrandContainer{
+    display: flex;
+    width: 100%;
+    margin-top: 2rem;
+    align-items: center;
+    gap: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.BrandContainer img{
+    height: 25px;
+}
+
+.BrandContainer span{
+    margin-top: 5px;
+    font-size: 10px;
+}

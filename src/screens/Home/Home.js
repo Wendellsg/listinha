@@ -9,6 +9,8 @@ import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { toastifyConfig } from "../../utils";
 import { CreateGoogleUser } from "../../api/MarketListApi";
 import GoogleLogin from "react-google-login";
+import { FcGoogle } from "react-icons/fc";
+import Brand from "../../components/Brand";
 
 export default function Home() {
   const { HandleLogin } = useContext(AuthContext);
@@ -110,7 +112,7 @@ export default function Home() {
   return (
     <div className="homeContainer">
       <div>
-        <h1>Listinhas</h1>
+        <Brand/>
         <img src={illustation} className="HomeIllustration" alt="illustaton" />
         <p
           className="LoginLabel"
@@ -160,29 +162,33 @@ export default function Home() {
       <div className="btnHome" onClick={login}>
         <h2>Entrar</h2>
       </div>
+      <div>
+        <GoogleLogin
+          clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID || ""}
+          onSuccess={responseGoogle}
+          onFailure={responseGoogle}
+          cookiePolicy={"single_host_origin"}
+          render={(renderProps) => (
+            <div className="LoginWithGoogle " onClick={renderProps.onClick}>
+              <FcGoogle size={25} /> <div>Logar com o google</div>
+            </div>
+          )}
+        />
+      </div>
 
       <div onClick={() => navigate(`/reset-password`)}>
         <p
           className="LoginLabel"
-          style={{ cursor: "pointer", marginLeft: "0", marginTop: "1rem" }}
+          style={{ cursor: "pointer", marginLeft: "0", marginTop: "1rem", fontSize: '12px' }}
         >
           Esqueci minha senha
         </p>
-      </div>
-      <div className="LoginWithGoogle">
-        <GoogleLogin
-          clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID || ""}
-          buttonText="Logar com o google"
-          onSuccess={responseGoogle}
-          onFailure={responseGoogle}
-          cookiePolicy={"single_host_origin"}
-        />
       </div>
 
       <div onClick={() => navigate(`/create-account`)}>
         <p
           className="LoginLabel"
-          style={{ cursor: "pointer", marginLeft: "0", marginTop: "1rem" }}
+          style={{ cursor: "pointer", marginLeft: "0", marginTop: "0.3rem", fontSize: '12px' }}
         >
           Ainda não tem uma conta?
         </p>
