@@ -36,14 +36,20 @@ function SharedProfile({ email, listid, listShared, ownerId }) {
         onDoubleClick={handleHemoveShare}
       >
         <img
-          src={ownerData?.image || placeholder}
+          src={
+            ownerData?.image ||
+            `https://ui-avatars.com/api/?background=random&name=${ownerData?.name}`
+          }
           alt={""}
           className="SharedProfileImage OwnerProfile"
         />
         {ShowToolTip && (
           <div className="SharedProfileToolTip">
             <img
-              src={ownerData?.image || placeholder}
+              src={
+                ownerData?.image ||
+                `https://ui-avatars.com/api/?background=random&name=${ownerData?.name}`
+              }
               alt={""}
               className="SharedProfileImage OwnerProfile ToolTipImage"
             />
@@ -65,11 +71,11 @@ function SharedProfile({ email, listid, listShared, ownerId }) {
       onClick={() => setShowToolTip(!ShowToolTip)}
       onDoubleClick={handleHemoveShare}
     >
-      <img src={image || placeholder} alt={""} className="SharedProfileImage" />
+      <img src={image ||  `https://ui-avatars.com/api/?background=random&name=${email}`} alt={""} className="SharedProfileImage" />
       {ShowToolTip && (
         <div className="SharedProfileToolTip">
           <img
-            src={image || placeholder}
+            src={image ||  `https://ui-avatars.com/api/?background=random&name=${email}`}
             alt={""}
             className="SharedProfileImage ToolTipImage"
           />

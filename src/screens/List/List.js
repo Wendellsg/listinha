@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
 import Header from "../../components/header/header";
 import Plus from "../../assets/plus.png";
@@ -5,7 +6,6 @@ import "./List.styles.css";
 import Categories from "../../data/categories";
 import CreatedItens from "../../components/CreatedItens/Createditens";
 import { toastifyConfig } from "../../utils";
-import { useQuery } from "@tanstack/react-query";
 import SugestionsList from "../../components/SugestionsList";
 import Loading from "../../components/Loading";
 import { useNavigate } from "react-router-dom";
@@ -14,31 +14,28 @@ import {
   removeItem,
   UpdateItemBuyed,
   setItemQuantity,
-  GetList,
   createSugestion,
 } from "../../api/MarketListApi";
 import { useUserData } from "../../hooks/useUserData";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useLists } from "../../hooks/useLists";
 
 export default function List() {
   const [itemName, setItemName] = useState("");
   const [itemCategory, setItemCategory] = useState(Categories[0].name);
   const [itemsList, setItemsList] = useState(null);
   const [showSugestionModal, setShowSugestionModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const { id } = useParams();
   const { userData } = useUserData();
+  const { fetchList } = useLists();
   const navigate = useNavigate();
-  const { isLoading, data, refetch } = useQuery(["listsItems"], () =>
-    GetList(id, userData.email)
-  );
 
-  useEffect(() => {
-    if (!data) {
-      return;
-    }
-
-    if (data.notAutorized) {
+  const fetchPageList = async (id) => {
+    setIsLoading(true);
+    const response = await fetchList(id);
+    if (response.notAutorized) {
       toast.warn(
         "Você não pode acessar esta lista. Se a lista for sua, tente fazer login novamente.",
         {
@@ -47,20 +44,26 @@ export default function List() {
           isLoading: false,
         }
       );
+      setIsLoading(false);
       return navigate("/listas");
     }
 
-    if (data.notNotFound) {
+    if (response.notNotFound) {
       toast.warn("Lista não encontrada", {
         ...toastifyConfig,
         isLoading: false,
       });
+      setIsLoading(false);
       return navigate("/listas");
     }
+    setIsLoading(false);
+    setItemsList(response.items);
+  };
 
-    setItemsList(data.items);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);
+  useEffect(() => {
+    if (!id) return;
+    fetchPageList(id);
+  }, [id]);
 
   useEffect(() => {
     if (itemName.length > 3) {
@@ -102,7 +105,7 @@ export default function List() {
     await createSugestion(newSugestion);
 
     setItemName("");
-    refetch();
+    fetchPageList(id);
   }
 
   const HandleRemoveItem = async (itemId) => {
@@ -219,7 +222,7 @@ export default function List() {
         {itemsList &&
           // eslint-disable-next-line array-callback-return
           Categories.map((category, i) => {
-            const itensByCategory = itemsList.items.filter(
+            const itensByCategory = itemsList?.items?.filter(
               (item) => item.category === category.name
             );
             if (itensByCategory?.length > 0) {

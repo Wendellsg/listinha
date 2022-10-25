@@ -9,12 +9,19 @@ export default function UserProfileModal({ setShowProfileModal, userData }) {
           <AiOutlineCloseCircle
             size={25}
             onClick={() => setShowProfileModal(false)}
-            color={'#AB3030'}
-            className='ProfileMenuCloseButton'
+            color={"#AB3030"}
+            className="ProfileMenuCloseButton"
           />
         </div>
         <div className="ProfileModalBody">
-          <img src={userData.image} alt=""  className="ProfileModalImage"/>
+          <img
+            src={
+              userData.image ||
+              `https://ui-avatars.com/api/?background=random&name=${userData?.name}`
+            }
+            alt=""
+            className="ProfileModalImage"
+          />
           <h3 className="ProfileModalName">{userData.name}</h3>
           <h3 className="ProfileModalEmail">{userData.email}</h3>
         </div>

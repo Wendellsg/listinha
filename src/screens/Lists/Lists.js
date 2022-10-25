@@ -5,19 +5,24 @@ import { useState } from "react";
 import "./Lists.styles.css";
 import { BsFillPersonFill, BsFillPeopleFill } from "react-icons/bs";
 import Loading from "../../components/Loading";
-import {useLists} from '../../hooks'
-import EmailConfirmationModal from '../../components/EmailConfirmationModal/EmailConfirmationModal.'
+import { useLists } from "../../hooks";
+import EmailConfirmationModal from "../../components/EmailConfirmationModal/EmailConfirmationModal.";
 import { useUserData } from "../../hooks/useUserData";
 
 export default function Lists() {
-  const {userData} = useUserData()
+  const { userData } = useUserData();
   const [showList, setShowList] = useState("mylist");
-  const {data,isLoading,HandleRemoveList,HandleShareList} = useLists()
+  const { userLists, isLoading, HandleRemoveList, HandleShareList } =
+    useLists();
   return (
     <div className="ListsContainer">
-       {userData && (!userData.emailConfirmed && !userData.googleUser) ? <EmailConfirmationModal email={userData.email}/>:''}
-      <Header/>
-      <NewList/>
+      {userData && !userData.emailConfirmed && !userData.googleUser ? (
+        <EmailConfirmationModal email={userData.email} />
+      ) : (
+        ""
+      )}
+      <Header />
+      <NewList />
       <br />
       <div className="ListSelect">
         <div className="ListSelectItem" onClick={() => setShowList("mylist")}>
@@ -40,19 +45,27 @@ export default function Lists() {
       <div
         style={
           showList === "mylist"
-            ? { display: "flex", flexDirection: "column", }
+            ? { display: "flex", flexDirection: "column" }
             : { display: "none" }
         }
       >
         <h2 className="subtitle">Minhas listas</h2>
-        <div style={{display:'flex',flexDirection: "column-reverse", justifyContent: 'flex-end' }}>
-          {isLoading? <Loading/>: !data?.lists?.myLists?.length ? (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column-reverse",
+            justifyContent: "flex-end",
+          }}
+        >
+          {isLoading ? (
+            <Loading />
+          ) : !userLists?.lists?.myLists?.length ? (
             <h2 className="subtitle">Você ainda não criou nenhuma lista</h2>
           ) : (
-            data?.lists?.myLists?.map((list, index) => {
+            userLists?.lists?.myLists?.map((list, index) => {
               return (
                 <CreatedList
-                  key={'myList'+list._id.toString()}
+                  key={"myList" + list._id.toString()}
                   removefunction={HandleRemoveList}
                   HandleShareList={HandleShareList}
                   listname={list.name}
@@ -73,18 +86,26 @@ export default function Lists() {
       <div
         style={
           showList === "sharedlist"
-            ? { display: "flex", flexDirection: "column",}
+            ? { display: "flex", flexDirection: "column" }
             : { display: "none" }
         }
       >
         <h2 className="subtitle">Lista compartilhadas</h2>
-        <div style={{display:'flex',flexDirection: "column-reverse", justifyContent: 'flex-end' }}>
-          {isLoading? <Loading/>: !data?.lists?.sharedLists?.length ? (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column-reverse",
+            justifyContent: "flex-end",
+          }}
+        >
+          {isLoading ? (
+            <Loading />
+          ) : !userLists?.lists?.sharedLists?.length ? (
             <h2 className="subtitle">
               Ninguem compartilhou nenhuma lista com você ainda
             </h2>
           ) : (
-            data?.lists?.sharedLists?.map((list, index) => {
+            userLists?.lists?.sharedLists?.map((list, index) => {
               return (
                 <CreatedList
                   key={`${list._id}Shared`}
