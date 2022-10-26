@@ -2,9 +2,10 @@ import axios from "axios";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
-export async function createList(list) {
+export async function createList(list, token) {
   let headers = {
     headers: {
+      Authorization: token,
       "Content-Type": "application/json",
     },
   };
@@ -41,13 +42,12 @@ export async function GetLists(token) {
   }
 }
 
-export async function GetList(listId, SharedEmail) {
+export async function GetList(listId) {
   const token = localStorage.getItem("@ListinhaToken");
   try {
     const list = await axios.get(`${apiUrl}/lists?listId=${listId}`, {
       headers: {
         Authorization: token,
-        sharedemail: SharedEmail,
       },
     });
     return {

@@ -5,7 +5,6 @@ import {
   createList,
   GetList,
 } from "../api/MarketListApi";
-import { useState } from "react";
 import { useAuth } from "./useAuth";
 import { isLoadingAtom, userListsAtom } from "./states";
 import { useAtom } from "jotai";
@@ -40,15 +39,13 @@ export function useLists() {
   async function handleCreateList(listName) {
     const Lista = {
       name: listName,
-      token,
     };
-    await createList(Lista);
+    await createList(Lista, token);
     fectchUserLists();
   }
 
   async function fetchList(listId) {
     const list = await GetList(listId, token);
-    console.log(list);
     if (list) return list;
   }
 

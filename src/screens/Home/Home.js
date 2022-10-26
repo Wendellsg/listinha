@@ -67,7 +67,7 @@ export default function Home() {
     const initClient = () => {
       gapi.client.init({
         clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID,
-        scope: "",
+        scope: "profile email",
       });
     };
     gapi.load("client:auth2", initClient);

@@ -5,9 +5,14 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import SharedProfile from "../../components/SharedProfile";
 import { toastifyConfig } from "../../utils";
+import { removeShare } from "../../api/MarketListApi";
+import { useUserData } from "../../hooks";
+import { useLists } from "../../hooks";
 
 export default function CreatedList(props) {
   const [showShareBox, setShowShateBox] = useState(false);
+  const { userData } = useUserData();
+  const { fectchUserLists } = useLists();
   const [email, setEmail] = useState("");
   const Quantity = props.listitens.length;
   const Plural = () => {
@@ -17,6 +22,14 @@ export default function CreatedList(props) {
       return "Itens";
     }
   };
+  async function handleHemoveShare() {
+    let removePayload = {
+      _id: props.id,
+      email: userData.email,
+    };
+    await removeShare(removePayload);
+    fectchUserLists();
+  }
 
   function getColor() {
     if (props.index < 4) return props.index;
@@ -48,13 +61,16 @@ export default function CreatedList(props) {
           <h3>{`${Quantity} ${Plural()}`}</h3>
         </div>
 
-        <div
-          className="bin"
-          style={props.listShared ? { display: "none" } : {}}
-        >
+        <div className="bin">
           <IoTrashSharp
             size={25}
-            onClick={() => props.removefunction(props.id)}
+            onClick={() => {
+              if (props.listShared) {
+                handleHemoveShare();
+              } else {
+                props.removefunction(props.id);
+              }
+            }}
           />
         </div>
         <div className="bin">
@@ -66,7 +82,6 @@ export default function CreatedList(props) {
       </div>
       {props.sharedWith && (
         <div className="SharedList">
-          
           {props.sharedWith.map((profile) => {
             return (
               <SharedProfile

@@ -2,14 +2,15 @@ import "./ProfileMenu.styles.css";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { GoogleLogout } from "react-google-login";
-import userPlaceHolder from "../../assets/Portrait_Placeholder.png";
 import { gapi } from "gapi-script";
 import UserProfileModal from "../UserProfileModal";
 import { useUserData } from "../../hooks/useUserData";
+import { useAuth } from "../../hooks";
 
 export default function ProfileMenu() {
   const navigate = useNavigate();
   const { userData } = useUserData();
+  const { logOut } = useAuth();
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
 
@@ -18,7 +19,7 @@ export default function ProfileMenu() {
     const initClient = () => {
       gapi.client.init({
         clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID,
-        scope: "",
+        scope: "profile email",
       });
     };
     gapi.load("client:auth2", initClient);
@@ -27,7 +28,7 @@ export default function ProfileMenu() {
 
   function handleLogout() {
     setShowMenu(false);
-    localStorage.removeItem("@ListinhaToken");
+    logOut();
     navigate("/");
   }
 
@@ -55,11 +56,11 @@ export default function ProfileMenu() {
             <p onClick={() => [setShowProfileModal(true), setShowMenu(false)]}>
               Perfil
             </p>
-            <p>Assinatura</p>
+            {/* <p>Assinatura</p> */}
             <GoogleLogout
               clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID || ""}
               render={(renderProps) => (
-                <p onClick={renderProps.onClick}>sair</p>
+                <p onClick={renderProps.onClick}>Sair</p>
               )}
               onLogoutSuccess={handleLogout}
             ></GoogleLogout>

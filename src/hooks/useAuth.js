@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Login } from "../api/MarketListApi";
 import { tokenAtom } from "./states";
 import { useAtom } from "jotai";
@@ -25,8 +25,14 @@ export const useAuth = () => {
     }
   }, []);
 
+  function logOut() {
+    localStorage.removeItem("@ListinhaToken");
+    setToken(null);
+  }
+
   return {
     token,
     HandleLogin,
+    logOut,
   };
 };

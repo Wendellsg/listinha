@@ -1,6 +1,5 @@
 import { useState } from "react";
 import "./SharedProfile.styles.css";
-import placeholder from "../../assets/Portrait_Placeholder.png";
 import { removeShare, GetUserProfile } from "../../api/MarketListApi";
 import { useLists } from "../../hooks";
 
@@ -8,7 +7,7 @@ function SharedProfile({ email, listid, listShared, ownerId }) {
   const [ShowToolTip, setShowToolTip] = useState(false);
   const [image, setImage] = useState(null);
   const [ownerData, setOwnerData] = useState(null);
-  const { refetch } = useLists();
+  const { fectchUserLists } = useLists();
 
   async function handleHemoveShare() {
     if (listShared) return;
@@ -17,7 +16,7 @@ function SharedProfile({ email, listid, listShared, ownerId }) {
       email: email,
     };
     await removeShare(removePayload);
-    refetch();
+    fectchUserLists();
   }
 
   useState(() => {
