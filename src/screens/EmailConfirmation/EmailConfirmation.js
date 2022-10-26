@@ -22,25 +22,21 @@ export default function EmailConfirmation() {
       email: emailConfirmationEmail,
       token: emailConfirmationToken,
     };
-
     const confirmationResponse = await emailConfirmation(confirmationPayLoad);
 
-
-    localStorage.removeItem("@ListinhaToken")
-    localStorage.removeItem("@ListinhaUserData")
+    localStorage.removeItem("@ListinhaToken");
 
     if (confirmationResponse.success) {
       setConfirmationResult(true);
       setTimeout(() => {
         navigate("/");
       }, 1500);
-    }else{
+    } else {
       setConfirmationResult(false);
       setTimeout(() => {
         navigate("/");
       }, 1500);
     }
-    
   }
 
   useEffect(() => {

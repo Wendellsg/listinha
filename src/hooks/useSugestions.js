@@ -1,25 +1,17 @@
 import { getSugestions } from "../api/MarketListApi";
-import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { sugestionsAtom } from "./states";
+import { useAtom } from "jotai";
 
-export function useSugestions(search){
-    const {data, refetch } = useQuery(["SugestionData"], () =>
-    getSugestions(search)
-  );
+export function useSugestions() {
+  const [sugestions, setSugestions] = useAtom(sugestionsAtom);
 
-  const [sugestions, setSugestions] = useState(null); 
-
-  useEffect(()=>{
-    refetch()
-  },[search, refetch])
-
-  useEffect(()=>{
-    setSugestions(data)
-  },[data])
-
-  
-  return{
-    sugestions,
-    refetch,
+  async function fetchSugestions(search) {
+    const { data } = await getSugestions(search);
+    setSugestions(data);
   }
+
+  return {
+    sugestions,
+    fetchSugestions,
+  };
 }

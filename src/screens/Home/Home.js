@@ -1,7 +1,5 @@
 import "./Home.styles.css";
-import { useContext, useRef } from "react";
-import { AuthContext } from "../../contexts/AuthContext";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import illustation from "../../assets/homeimage.jpg";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -11,9 +9,10 @@ import { CreateGoogleUser } from "../../api/MarketListApi";
 import GoogleLogin from "react-google-login";
 import { FcGoogle } from "react-icons/fc";
 import Brand from "../../components/Brand";
+import { useAuth } from "../../hooks/useAuth";
 
 export default function Home() {
-  const { HandleLogin } = useContext(AuthContext);
+  const { HandleLogin } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -40,19 +39,19 @@ export default function Home() {
 
       const createResponse = await CreateGoogleUser(googleUserPayload);
 
-      localStorage.setItem(
-        "@ListinhaUserData",
-        JSON.stringify(createResponse?.userData)
-      );
-
-      localStorage.setItem("@ListinhaToken", createResponse?.token);
-      toast.success(`Logado como ${response.profileObj.email}`, {
-        ...toastifyConfig,
-      });
-
-      setTimeout(() => {
-        navigate("/listas");
-      }, 1000);
+      if (createResponse.success) {
+        localStorage.setItem("@ListinhaToken", createResponse?.token);
+        toast.success(`Logado como ${response.profileObj.email}`, {
+          ...toastifyConfig,
+        });
+        setTimeout(() => {
+          navigate("/listas");
+        }, 2000);
+      } else {
+        toast.error("Erro ao fazer login", {
+          ...toastifyConfig,
+        });
+      }
     }
   };
 
@@ -68,7 +67,7 @@ export default function Home() {
     const initClient = () => {
       gapi.client.init({
         clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID,
-        scope: "",
+        scope: "profile email",
       });
     };
     gapi.load("client:auth2", initClient);
@@ -112,7 +111,7 @@ export default function Home() {
   return (
     <div className="homeContainer">
       <div>
-        <Brand/>
+        <Brand />
         <img src={illustation} className="HomeIllustration" alt="illustaton" />
         <p
           className="LoginLabel"
@@ -179,7 +178,12 @@ export default function Home() {
       <div onClick={() => navigate(`/reset-password`)}>
         <p
           className="LoginLabel"
-          style={{ cursor: "pointer", marginLeft: "0", marginTop: "1rem", fontSize: '12px' }}
+          style={{
+            cursor: "pointer",
+            marginLeft: "0",
+            marginTop: "1rem",
+            fontSize: "12px",
+          }}
         >
           Esqueci minha senha
         </p>
@@ -188,7 +192,12 @@ export default function Home() {
       <div onClick={() => navigate(`/create-account`)}>
         <p
           className="LoginLabel"
-          style={{ cursor: "pointer", marginLeft: "0", marginTop: "0.3rem", fontSize: '12px' }}
+          style={{
+            cursor: "pointer",
+            marginLeft: "0",
+            marginTop: "0.3rem",
+            fontSize: "12px",
+          }}
         >
           Ainda não tem uma conta?
         </p>

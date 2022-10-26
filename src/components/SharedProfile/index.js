@@ -1,6 +1,5 @@
 import { useState } from "react";
 import "./SharedProfile.styles.css";
-import placeholder from "../../assets/Portrait_Placeholder.png";
 import { removeShare, GetUserProfile } from "../../api/MarketListApi";
 import { useLists } from "../../hooks";
 
@@ -8,7 +7,7 @@ function SharedProfile({ email, listid, listShared, ownerId }) {
   const [ShowToolTip, setShowToolTip] = useState(false);
   const [image, setImage] = useState(null);
   const [ownerData, setOwnerData] = useState(null);
-  const { refetch } = useLists();
+  const { fectchUserLists } = useLists();
 
   async function handleHemoveShare() {
     if (listShared) return;
@@ -17,7 +16,7 @@ function SharedProfile({ email, listid, listShared, ownerId }) {
       email: email,
     };
     await removeShare(removePayload);
-    refetch();
+    fectchUserLists();
   }
 
   useState(() => {
@@ -36,14 +35,20 @@ function SharedProfile({ email, listid, listShared, ownerId }) {
         onDoubleClick={handleHemoveShare}
       >
         <img
-          src={ownerData?.image || placeholder}
+          src={
+            ownerData?.image ||
+            `https://ui-avatars.com/api/?background=random&name=${ownerData?.name}`
+          }
           alt={""}
           className="SharedProfileImage OwnerProfile"
         />
         {ShowToolTip && (
           <div className="SharedProfileToolTip">
             <img
-              src={ownerData?.image || placeholder}
+              src={
+                ownerData?.image ||
+                `https://ui-avatars.com/api/?background=random&name=${ownerData?.name}`
+              }
               alt={""}
               className="SharedProfileImage OwnerProfile ToolTipImage"
             />
@@ -65,11 +70,11 @@ function SharedProfile({ email, listid, listShared, ownerId }) {
       onClick={() => setShowToolTip(!ShowToolTip)}
       onDoubleClick={handleHemoveShare}
     >
-      <img src={image || placeholder} alt={""} className="SharedProfileImage" />
+      <img src={image ||  `https://ui-avatars.com/api/?background=random&name=${email}`} alt={""} className="SharedProfileImage" />
       {ShowToolTip && (
         <div className="SharedProfileToolTip">
           <img
-            src={image || placeholder}
+            src={image ||  `https://ui-avatars.com/api/?background=random&name=${email}`}
             alt={""}
             className="SharedProfileImage ToolTipImage"
           />

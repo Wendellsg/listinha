@@ -3,63 +3,59 @@ import {
   RemoveList,
   shareList,
   createList,
+  GetList,
 } from "../api/MarketListApi";
-import { useQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
-import { useUserData } from "./useUserData";
-import { toast } from "react-toastify";
-import { toastifyConfig } from "../utils";
-import { useNavigate } from "react-router-dom";
+import { useAuth } from "./useAuth";
+import { isLoadingAtom, userListsAtom } from "./states";
+import { useAtom } from "jotai";
 
 export function useLists() {
-  const { userData } = useUserData();
-  const { isLoading, data, refetch } = useQuery(["listsData"], () =>
-    GetLists(userData?.userid, userData?.email)
-  );
-  const navigate = useNavigate();
+  const { token } = useAuth();
+  const [isLoading, setIsLoading] = useAtom(isLoadingAtom);
+  const [userLists, seUserLists] = useAtom(userListsAtom);
 
-  function logout() {
-    localStorage.removeItem("@ListinhaToken");
-    localStorage.removeItem("@ListinhaUserData");
-    navigate("/");
+  async function fectchUserLists() {
+    setIsLoading(true);
+    const lists = await GetLists(token);
+    seUserLists(lists);
+    setIsLoading(false);
+    return;
   }
 
   const HandleRemoveList = async (listID) => {
-    await RemoveList(listID);
-    refetch();
+    await RemoveList(listID, token);
+    fectchUserLists();
   };
 
   const HandleShareList = async (listID, email) => {
     let sharePayload = {
       listid: listID,
       email: email,
+      token: token,
     };
     await shareList(sharePayload);
-    refetch();
+    fectchUserLists();
   };
   async function handleCreateList(listName) {
     const Lista = {
       name: listName,
-      ownerId: userData?.userid,
     };
-    await createList(Lista);
-    refetch();
+    await createList(Lista, token);
+    fectchUserLists();
   }
 
-
-
-  useEffect(() => {
-    if (data || !userData) return;
-    refetch();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userData]);
+  async function fetchList(listId) {
+    const list = await GetList(listId, token);
+    if (list) return list;
+  }
 
   return {
     HandleShareList,
-    refetch,
+    fectchUserLists,
     HandleRemoveList,
     isLoading,
-    data,
+    userLists,
     handleCreateList,
+    fetchList,
   };
 }

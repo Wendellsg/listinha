@@ -2,9 +2,10 @@ import axios from "axios";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
-export async function createList(list) {
+export async function createList(list, token) {
   let headers = {
     headers: {
+      Authorization: token,
       "Content-Type": "application/json",
     },
   };
@@ -18,24 +19,18 @@ export async function createList(list) {
   }
 }
 
-export async function GetLists(ownerId, email) {
-  const token = localStorage.getItem("@ListinhaToken");
+export async function GetLists(token) {
+  if (!token) return;
   try {
-    const userLists = await axios.get(
-      `${apiUrl}/lists?ownerId=${ownerId}&email=${email}`,
-      {
-        headers: {
-          Authorization: token,
-        },
-      }
-    );
+    const userLists = await axios.get(`${apiUrl}/lists`, {
+      headers: {
+        Authorization: token,
+      },
+    });
     return {
       notAutorized: false,
-      lists:  userLists.data,
+      lists: userLists.data,
     };
-    
-    
-
   } catch (error) {
     if (error.response.status === 401) {
       return {
@@ -47,13 +42,12 @@ export async function GetLists(ownerId, email) {
   }
 }
 
-export async function GetList(listId, SharedEmail) {
+export async function GetList(listId) {
   const token = localStorage.getItem("@ListinhaToken");
   try {
     const list = await axios.get(`${apiUrl}/lists?listId=${listId}`, {
       headers: {
         Authorization: token,
-        sharedemail: SharedEmail,
       },
     });
     return {
@@ -149,10 +143,23 @@ export async function CreateUser(credencials) {
   }
 }
 
+export async function GetUserData(token) {
+  try {
+    const userData = await axios.get(`${apiUrl}/users`, {
+      headers: {
+        Authorization: token,
+      },
+    });
+    return userData.data;
+  } catch (error) {
+    return null;
+  }
+}
+
 export async function GetUserProfile({ email, id }) {
   try {
     const userProfile = await axios.get(
-      `${apiUrl}/users?&email=${email}&id=${id}`
+      `${apiUrl}/users/profile?&email=${email}&id=${id}`
     );
     return userProfile.data;
   } catch (error) {
