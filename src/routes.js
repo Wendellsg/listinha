@@ -6,6 +6,7 @@ import CreateAccount from "./screens/CreateAccount/CreateAccount";
 import ResetPassword from "./screens/ResetPassword/ResetPassword";
 import ChangePassword from "./screens/ChangePassword/ChangePassword";
 import EmailConfirmation from "./screens/EmailConfirmation/EmailConfirmation";
+import { PrivacyPage, TermsPage } from "./screens/Privacy";
 import { useEffect } from "react";
 import { useAuth } from "./hooks/useAuth";
 import { useUserData } from "./hooks/useUserData";
@@ -16,6 +17,8 @@ const publicPathsNames = [
   "/reset-password",
   "/change-password",
   "/email-confirmation",
+  "/privacy",
+  "/terms",
   "/",
 ];
 
@@ -61,6 +64,9 @@ export default function Router() {
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/change-password" element={<ChangePassword />} />
         <Route path="/email-confirmation" element={<EmailConfirmation />} />
+
+        <Route path="/privacy" element={<PrivacyPage />} />
+        <Route path="/terms" element={<TermsPage />} />
       </Routes>
     </BrowserRouter>
   );

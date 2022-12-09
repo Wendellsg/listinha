@@ -1,0 +1,30 @@
+.PrivacyContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background-color: #fff;
+  padding: 0 20px;
+  gap: 20px;
+  margin: 0 auto;
+}
+
+.PrivacyContainer span {
+  font-size: 12px;
+  font-weight: 600;
+  color: #000;
+  width: 900px;
+}
+
+.PrivacyContainer li {
+  list-style: none;
+}
+
+.PrivacyContainer > h2,
+.PrivacyContainer > h3,
+.PrivacyContainer > h2 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #000;
+}
