@@ -21,9 +21,26 @@ const publicPathsNames = [
 
 // import your route components too
 export default function Router() {
-  const { token } = useAuth();
+  const { token, setToken } = useAuth();
   const { fetchUserData } = useUserData();
   const { fectchUserLists } = useLists();
+
+  useEffect(() => {
+    const localToken = localStorage.getItem("@ListinhaToken");
+    const pathname = window.location.pathname;
+    if (
+      (!localToken || localToken === "null") &&
+      !publicPathsNames.includes(pathname)
+    ) {
+      window.location.href = "/";
+      return;
+    } else if (localToken && localToken !== "null") {
+      setToken(localToken);
+      if (pathname === "/") {
+        window.location.href = "/listas";
+      }
+    }
+  }, []);
 
   useEffect(() => {
     if (!token) return;
@@ -31,13 +48,6 @@ export default function Router() {
     fectchUserLists();
     fetchUserData();
 
-    const pathname = window.location.pathname;
-    if (pathname === "/") {
-      return (window.location.href = "/listas");
-    }
-    if ((!token || token === "null") && !publicPathsNames.includes(pathname)) {
-      window.location.href = "/";
-    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 

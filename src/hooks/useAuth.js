@@ -18,13 +18,6 @@ export const useAuth = () => {
     }
   }
 
-  useEffect(() => {
-    const localToken = localStorage.getItem("@ListinhaToken");
-    if (localToken) {
-      setToken(localToken);
-    }
-  }, []);
-
   function logOut() {
     localStorage.removeItem("@ListinhaToken");
     setToken(null);
@@ -34,5 +27,6 @@ export const useAuth = () => {
     token,
     HandleLogin,
     logOut,
+    setToken,
   };
 };

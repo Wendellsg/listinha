@@ -152,6 +152,11 @@ export async function GetUserData(token) {
     });
     return userData.data;
   } catch (error) {
+    if (error.response.status === 401) {
+      return {
+        notAutorized: true,
+      };
+    }
     return null;
   }
 }
