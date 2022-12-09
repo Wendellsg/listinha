@@ -1,8 +1,13 @@
 import { useSugestions } from "../../hooks/useSugestions";
 import "./SugestionsList.Styles.css";
 import Categories from "../../data/categories";
+import { useEffect } from "react";
 export default function SugestionsList({ search, selectSugestion }) {
-  const { sugestions } = useSugestions(search);
+  const { sugestions, fetchSugestions } = useSugestions();
+  useEffect(() => {
+    if (search.length < 3) return;
+    fetchSugestions(search);
+  }, [search]);
   function findCategoryId(name) {
     const findCategory = Categories.find((category) => category.name === name);
     return findCategory.id;

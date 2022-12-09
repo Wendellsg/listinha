@@ -6,8 +6,8 @@ export function useSugestions() {
   const [sugestions, setSugestions] = useAtom(sugestionsAtom);
 
   async function fetchSugestions(search) {
-    const { data } = await getSugestions(search);
-    setSugestions(data);
+    const response = await getSugestions(search);
+    setSugestions(response);
   }
 
   return {

@@ -397,10 +397,6 @@ export async function emailConfirmation(credencials) {
 }
 
 export async function getSugestions(search) {
-  if (search.length < 3) {
-    return null;
-  }
-
   try {
     const sugestions = await axios.get(`${apiUrl}/sugestions?search=${search}`);
     return sugestions.data;
